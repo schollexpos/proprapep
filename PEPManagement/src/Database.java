@@ -34,9 +34,66 @@ public class Database {
         }
 	}
 	
+	public void registerUser(String email, String password) throws SQLException {
+		//TODO: Make sure each email can only be registered once
+		
+		byte[] hashedPassword = Crypt.hashPassword(password, email);
+		password = "";
+		for(int i = 0;i < hashedPassword.length;i++) {
+			password += hashedPassword[i];
+		}
+		
+		executeUpdate("INSERT INTO `nutzer` (`id`, `email`, `passwort`) VALUES (NULL, '" + email + "', '" + password +  "');");
+	}
+	
+	public boolean loginUser(String email, String password) throws SQLException {
+		/* Checks if the password is is correct */
+		ResultSet result = executeQuery("SELECT passwort FROM nutzer WHERE email = '" + email + "'");
+		String hashedPassword = "";
+		while (result.next())  { 
+			hashedPassword = result.getString(1);
+    	}
+		
+		return Crypt.validatePassword(hashedPassword, email, password);
+	}
+	
+	public boolean emailExists(String email) throws SQLException {
+		ResultSet result = executeQuery("SELECT passwort FROM nutzer WHERE email = '" + email + "'");
+		int rows = 0;
+		while (result.next())  { 
+			rows++;
+    	}
+		return rows > 0;
+	}
+	
+	public void addSession(String email, String sessionID) throws SQLException {
+		executeUpdate("INSERT INTO `sessions` (`email`, `session`) VALUES ( '" + email + "', '" + sessionID +  "');");
+	}
+	
+	public boolean verifySession(String email, String sessionID) throws SQLException {
+		ResultSet result = executeQuery("SELECT * FROM sessions WHERE email='" + email + "' AND session='" + sessionID + "'");
+	
+		int rows = 0;
+		while (result.next())  rows++;
+		return rows > 0;
+	}
+	
 	public ResultSet executeQuery(String query) throws SQLException {
     	Statement select = connection.createStatement();
     	ResultSet result = select.executeQuery(query);
     	return result;
+	}
+	
+	public void executeUpdate(String query) throws SQLException {
+		System.out.println(">>" + query + "<<");
+		Statement select = connection.createStatement();
+		select.executeUpdate(query);
+	}
+
+	public void deleteSession(String email) throws SQLException {
+		/*
+		 * Deletes all the session with e-mail email from the database.
+		 */
+		executeUpdate("DELETE FROM sessions WHERE email='" + email);
 	}
 }

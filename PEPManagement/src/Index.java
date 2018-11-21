@@ -23,12 +23,21 @@ public class Index extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			ResultSet result = database.executeQuery("SELECT vorname, nachname FROM student LIMIT 10;");
+			Session session = new Session(database, request);
 			
+			ResultSet result = database.executeQuery("SELECT vorname, nachname FROM student LIMIT 10;");
 			String message = "";
 			while (result.next())  { 
 				message = result.getString(1) + " " + result.getString(2);
 	    	}
+			
+			if(session.restore(request)) {
+				message += "<br />You're logged in as " + session.getEmail();
+				request.setAttribute("loggedin", new Boolean(true));
+			} else {
+				message += "<br />You're not logged in!";
+				request.setAttribute("loggedin", new Boolean(false));
+			}
 			
 			 request.setAttribute("message", message); // This will be available as ${message}
 		     request.getRequestDispatcher("/index.jsp").forward(request, response);
