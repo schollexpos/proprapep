@@ -96,4 +96,30 @@ public class Database {
 		 */
 		executeUpdate("DELETE FROM sessions WHERE email='" + email);
 	}
+	
+	public void addKriterium(String hauptkriterium, String teilkriterium, int maxpunkte) throws SQLException {
+		executeUpdate("INSERT INTO `bewertungskriterium` (`hauptkriterium`, `teilkriterium`, `maxpunkte`) VALUES ( '" + hauptkriterium + "', '" + teilkriterium + "', '" + maxpunkte  + "');");		
+	}
+	
+	public void deleteTeilkriterium(String teilkriterium) throws SQLException {		
+		executeUpdate("DELETE FROM bewertungskriterium WHERE teilkriterium='" + teilkriterium);
+	}
+	
+	public void deleteHauptkriterium(String hauptkriterium) throws SQLException {		
+		executeUpdate("DELETE FROM bewertungskriterium WHERE hauptkriterium='" + hauptkriterium);
+	}
+	
+	public boolean kriteriumExists(String teilkriterium) throws SQLException {
+		ResultSet result = executeQuery("SELECT id FROM bewertungskriterium WHERE teilkriterium = '" + teilkriterium + "'");
+		int rows = 0;
+		while (result.next())  { 
+			rows++;
+    	}
+		return rows > 0;
+	}
+	
+	public void createBewertung(int teamID, int jurorID, int punkte) throws SQLException {		
+		executeUpdate("INSERT INTO `bewertung` (`teamID`, `jurorID`, `punkte`) VALUES ( '" + teamID + "', '" + jurorID + "', '" + punkte  + "');");		
+	}	
+	
 }
