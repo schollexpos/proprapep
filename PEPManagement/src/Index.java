@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import pepmanagement.Database;
+import pepmanagement.Session;
+
 @WebServlet("/index")
 public class Index extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,17 +28,16 @@ public class Index extends HttpServlet {
 		try {
 			Session session = new Session(database, request);
 			
-			ResultSet result = database.executeQuery("SELECT vorname, nachname FROM student LIMIT 10;");
 			String message = "";
-			while (result.next())  { 
-				message = result.getString(1) + " " + result.getString(2);
-	    	}
-			
 			if(session.restore(request)) {
-				message += "<br />You're logged in as " + session.getEmail();
+				message = "You're logged in as\n" + session.getEmail();
+				int uID = database.getUserID(session.getEmail());
+				if(database.userIsAdmin(uID)) message += " [A]";
+				else if(database.userIsJuror(uID)) message += " [J]";
+				
 				request.setAttribute("loggedin", new Boolean(true));
 			} else {
-				message += "<br />You're not logged in!";
+				message += "You're not logged in!";
 				request.setAttribute("loggedin", new Boolean(false));
 			}
 			

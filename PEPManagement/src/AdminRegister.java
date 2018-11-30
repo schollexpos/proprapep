@@ -1,4 +1,4 @@
-
+//TODO: Admin & Juror zugangscodes
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/RegisterServlet")
-public class RegisterServlet extends HttpServlet {
+import pepmanagement.Database;
+import pepmanagement.Session;
+
+@WebServlet("/AdminRegister")
+public class AdminRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Database db; 
  
-    public RegisterServlet() {
+    public AdminRegister() {
         super();
         
         db = new Database();
@@ -22,36 +25,42 @@ public class RegisterServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect("admin_register.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		String zugangscode = request.getParameter("zugangscode");
 		String page = "";
 		Session session = new Session(db, request);
 		
 		//TODO: Clean up inputs
 		
-		if(email == null || password == null) {
-			page = "register.jsp?error=1";
+		if(email == null || password == null || null == zugangscode) {
+			page = "admin_register.jsp?error=1";
 		} else if(password.length() < 8) {
-			page = "register.jsp?error=5";
+			page = "admin_register.jsp?error=5";
 		} else if(!email.endsWith("uni-siegen.de") || !email.contains("@")) {
-			page = "register.jsp?error=3";
+			page = "admin_register.jsp?error=3";
 		} else {
 			//TODO: email verification
 			try {
+				String adminCode = db.getAdminZugangscode();
+				String jurorCode = db.getJurorZugangscode();
+				
 				if(db.emailExists(email)) {
-					page = "register.jsp?error=4";
-				} else { 
-					db.registerUser(email, password);
+					page = "admin_register.jsp?error=4";
+				} else if(!zugangscode.equals(adminCode) && !zugangscode.equals(jurorCode)){
+					page = "admin_register.jsp?error=6";
+				} else {		
+					db.registerUser(email, password, (zugangscode.equals(adminCode) ? 2 : 1));
 					session.create(email); 
 					page = "index";
 				}
 			} catch (SQLException e) {
 				System.out.println("SQLError in RegisterServlet.java: " + e.getMessage());
-				page = "register.jsp?error=2";
+				page = "admin_register.jsp?error=2";
 			}
 		}
 		response.sendRedirect(page);

@@ -23,19 +23,24 @@
 			errorMessage = "Diese E-Mail Adresse existiert bereits";
 		} else if(str.equals("5")) {
 			errorMessage = "Ihr Passwort muss mindestens 8 Zeichen haben.";
+		} else if(str.equals("6")) {
+			errorMessage = "Falscher Zugangscode!";
 		}
 		
 		out.println("<div style=\"border: 1px solid darkred;background-color: red;margin: 10px;\"><p>" + errorMessage + "</p></div>");
 	}
 %>
 
-<form action="RegisterServlet" method="post">
+<form action="AdminRegister" method="post">
 
-Username: <input type="email" name="email">
+E-Mail: <input type="email" name="email">
 <br>
-Password: <input type="password" name="password">
+Passwort: <input type="password" name="password">
 <br>
-<input type="submit" value="Login">
+Zugangscode:
+<input type="text" name="zugangscode">
+<br>
+<input type="submit" value="Registrieren">
 </form>
 
 </body>

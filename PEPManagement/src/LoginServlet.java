@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import pepmanagement.Database;
+import pepmanagement.Session;
+
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -23,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect("login.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,6 +44,8 @@ public class LoginServlet extends HttpServlet {
 		Session session = new Session(db, request);
 		
 		//TODO: Clean up inputs
+		
+		//TODO: login.jsp can recieve a "returnto" parameter via get!
 		
 		if(email == null || password == null) {
 			page = "login.jsp?error=1";
