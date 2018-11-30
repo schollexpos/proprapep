@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/BewertungskriteriumServlet")
-public class BewertungskriteriumServlet extends HttpServlet {
+import pepmanagement.Database;
+
+@WebServlet("/Admin_Bewertungskriterien")
+public class Admin_Bewertungskriterien extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Database db; 
  
-    public BewertungskriteriumServlet() {
+    public Admin_Bewertungskriterien() {
         super();
         
         db = new Database();
@@ -33,15 +35,15 @@ public class BewertungskriteriumServlet extends HttpServlet {
 		
 		
 		if(hauptkriterium == null || teilkriterium == null || maxpunkte == null) {
-			page = "bewertungskriterium.jsp?error=1";			
+			page = "admin_bewertungskriterien.jsp?error=1";			
 		} else {			
 			try {				
 				db.addKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte));
-				page = "bewertungskriterium.jsp";
+				page = "admin_bewertungskriterien.jsp";
 			
 			} catch (SQLException e) {
 				System.out.println("SQLError in BewertungskriteriumServlet.java: " + e.getMessage());
-				page = "bewertungskriterium.jsp?error=1";
+				page = "admin_bewertungskriterien.jsp?error=1";
 			}
 		}
 		response.sendRedirect(page);	

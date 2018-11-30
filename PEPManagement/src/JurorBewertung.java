@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/BewertungServlet")
-public class BewertungServlet extends HttpServlet {
+import pepmanagement.Bewertungskriterium;
+import pepmanagement.Database;
+
+@WebServlet("/JurorBewertung")
+public class JurorBewertung extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Database db;
 	
-    public BewertungServlet() {
+    public JurorBewertung() {
         super();
         
         db = new Database();
@@ -41,10 +44,10 @@ public class BewertungServlet extends HttpServlet {
             }
             
             request.setAttribute("kriterien", kriterien); // Will be available as ${kriterien} in JSP
-            request.getRequestDispatcher("bewertung.jsp").forward(request, response);
+            request.getRequestDispatcher("juror_bewertung.jsp").forward(request, response);
             
         } catch (SQLException e) {
-			System.out.println("SQLError in BewertungServlet.java: " + e.getMessage());		
+			System.out.println("SQLError in JurorBewertung.java: " + e.getMessage());		
         }
 	}
 
@@ -59,16 +62,16 @@ public class BewertungServlet extends HttpServlet {
 //		TODO: Fehlerbehandlung in der JSP 
 		if(hauptkriterium == null || teilkriterium == null || maxpunkte == null) {
 			System.out.println("Error null");
-			page = "bewertung.jsp?error=1";			
+			page = "juror_bewertung.jsp?error=1";			
 		} else {			
 			try {
 				db.addKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte));
-				page = "BewertungServlet";
+				page = "JurorBewertung";
 				System.out.println("geschafft");
 				
 			} catch (SQLException e) {
 				System.out.println("SQLError in BewertungskriteriumServlet.java: " + e.getMessage());
-				page = "bewertung.jsp?error=1";
+				page = "juror_bewertung.jsp?error=1";
 			}
 		}
 		doGet(request, response);

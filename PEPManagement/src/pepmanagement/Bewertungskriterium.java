@@ -1,3 +1,4 @@
+package pepmanagement;
 
 public class Bewertungskriterium {
 	private String hauptkriterium;

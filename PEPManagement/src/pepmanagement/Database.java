@@ -231,9 +231,20 @@ public class Database {
 		return rows > 0;
 	}
 	
-	public void createBewertung(int teamID, int jurorID, int punkte) throws SQLException {		
+	public void createBewertung(int teamID, int jurorID, int punkte) throws SQLException {	
+		//TODO: update der Bewertung
 		executeUpdate("INSERT INTO `bewertung` (`teamID`, `jurorID`, `punkte`) VALUES ( '" + teamID + "', '" + jurorID + "', '" + punkte  + "');");		
-	}	
+	}
+	
+	public ResultSet listTeams() throws SQLException {		
+		ResultSet teams = executeQuery("SELECT * FROM team");		
+		return teams;
+	}
+
+	public ResultSet listKriterien() throws SQLException {
+		ResultSet kriterien = executeQuery("SELECT * FROM bewertungskriterium");		
+		return kriterien;
+	}
 	
 	
 	public ArrayList<String> getStudiengaenge() throws SQLException {
