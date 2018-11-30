@@ -37,7 +37,14 @@
 									out.println("<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownAdmin\">");
 									out.println("<a class=\"dropdown-item\" href=\"AdminLehrstuhlStudiengang\">Admin: Lehrstuhl/Studiengangliste</a>");
 									out.println("<a class=\"dropdown-item\" href=\"AdminTeamUebersicht\">Admin: Teamübersicht</a>");
+									out.println("<a class=\"dropdown-item\" href=\"AdminBewertungskriterien\">Admin: Bewertungskriterien</a>");
 							        out.println("</li>");
+							        
+							        out.println("<li class=\"nav-item dropdown\">");
+									out.println("<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownJuror\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Juror</a>");
+									out.println("<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownJuror\">");
+									out.println("<a class=\"dropdown-item\" href=\"JurorBewertung\">Juror: Bewertung</a>");
+									out.println("</li>");
 							        
 							        out.println("<li class=\"nav-item dropdown\">");
 									out.println("<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownStudent\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Student</a>");

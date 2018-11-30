@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import pepmanagement.Database;
 
-@WebServlet("/Admin_Bewertungskriterien")
-public class Admin_Bewertungskriterien extends HttpServlet {
+@WebServlet("/AdminBewertungskriterien")
+public class AdminBewertungskriterien extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Database db; 
  
-    public Admin_Bewertungskriterien() {
+    public AdminBewertungskriterien() {
         super();
         
         db = new Database();
@@ -24,7 +24,7 @@ public class Admin_Bewertungskriterien extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect("admin_bewertungskriterien.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -94,7 +94,7 @@ public class Database {
 	}
 	
 	public boolean userIsJuror(int userID) throws SQLException {
-		return getUserRights(userID) == 1;
+		return getUserRights(userID) > 0;
 	}
 	
 	
