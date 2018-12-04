@@ -65,6 +65,175 @@ public class Database {
 		return id;
 	}
 	
+	public class User {
+		int userID;
+		String email, passwort;
+		int berechtigungen;
+		
+		User(int tUserID, String temail, String tpasswort, int tberechtigungen) {
+			userID = tUserID;
+			email = temail;
+			passwort = tpasswort;
+			berechtigungen = tberechtigungen;
+		}
+		
+		int getID() { return userID; }
+		String getEmail() { return email; }
+		String getPasswort() { return passwort; }
+		int getBerechtigungen() { return berechtigungen; }
+		boolean isAdmin() { return berechtigungen >= 2; }
+		boolean isJuror() { return berechtigungen >= 1; }
+		boolean isStudent() { return berechtigungen == 0; }
+	}
+	
+	public User getUser(int userID) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM nutzer WHERE id = ?");
+		statement.setInt(1, userID);
+		ResultSet result = statement.executeQuery();
+		
+		User user = null;
+		
+		while (result.next())  { 
+			user = new User(result.getInt(1), result.getString(2), result.getString(3), result.getInt(4));
+    	}
+		
+		return user;
+	}
+	
+	
+	
+	public class Student {
+		int matrikelnummer, nutzerID;
+		String vorname, nachname, studiengang;
+		int teamID;
+		boolean vorsitz;
+		
+		Student(int mNo, int userID, String tvorname, String tnachname, String tstudiengang, int tteamID, boolean tvorsitz) {
+			matrikelnummer = mNo;
+			nutzerID = userID;
+			vorname = tvorname;
+			nachname = tnachname;
+			studiengang = tstudiengang;
+			teamID  = tteamID;
+			vorsitz = tvorsitz;
+		}
+		
+		public int getMatrikelnummer() {
+			return matrikelnummer;
+		}
+
+		public int getNutzerID() {
+			return nutzerID;
+		}
+
+		public String getVorname() {
+			return vorname;
+		}
+
+		public String getNachname() {
+			return nachname;
+		}
+
+		public String getStudiengang() {
+			return studiengang;
+		}
+
+		public int getTeamID() {
+			return teamID;
+		}
+
+		public boolean isVorsitz() {
+			return vorsitz;
+		}
+	}
+	
+	public Student getStudent(int userID) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM nutzer WHERE nutzerid = ?");
+		statement.setInt(1, userID);
+		ResultSet result = statement.executeQuery();
+		
+		Student studi = null;
+		
+		while (result.next())  { 
+			studi = new Student(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5), result.getInt(6), result.getBoolean(7));
+    	}
+		
+		return studi;
+	}
+	
+	
+	public class Team {
+		int id;
+		String vorsitzmail;
+		int betreuer1;
+		String betreuer2, titel;
+		int kennnummer;
+		int note;
+		
+		Team(int tid, String tvorsitzmail, int bet1, String bet2, String tit, int kennno, int tnote) {
+			id = tid;
+			vorsitzmail = tvorsitzmail;
+			betreuer1 = bet1;
+			betreuer2 = bet2;
+			titel = tit;
+			kennnummer = kennno;
+			note = tnote;
+		}
+		
+		public int getID() {
+			return id;
+		}
+		public String getVorsitzmail() {
+			return vorsitzmail;
+		}
+		public int getBetreuer1() {
+			return betreuer1;
+		}
+		public String getBetreuer2() {
+			return betreuer2;
+		}
+		public String getTitel() {
+			return titel;
+		}
+		public int getKennnummer() {
+			return kennnummer;
+		}
+		public int getNote() {
+			return note;
+		}
+	}
+	
+	public Team getTeam(int teamID) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM team WHERE id = ?");
+		statement.setInt(1, teamID);
+		ResultSet result = statement.executeQuery();
+		
+		Team team = null;
+		
+		while (result.next())  { 
+			team = new Team(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4), result.getString(5), result.getInt(6), result.getInt(7));
+    	}
+		
+		return team;
+	}
+	
+	public ArrayList<Team> getTeams(int group) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM team WHERE betreuer1 IN (SELECT id FROM betreuer WHERE gruppe = ?)");
+		statement.setInt(1, group);
+		ResultSet result = statement.executeQuery();
+		
+		ArrayList<Team> teams = new ArrayList<Team>();
+		
+		while (result.next())  { 
+			Team team = new Team(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4), result.getString(5), result.getInt(6), result.getInt(7));
+			teams.add(team);
+		}
+		
+		return teams;
+	}
+	
+	
+	
 	public int getUserID(int matrikelno) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement("SELECT id FROM nutzer WHERE matrikelno = ?");
 		statement.setInt(1, matrikelno);
@@ -143,6 +312,58 @@ public class Database {
 		return res;
 	}
 	
+	public int getStudentMatrikelnummer(int userID) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT matrikelno FROM student WHERE nutzerid = ?");
+		statement.setInt(1, userID);
+		ResultSet result = statement.executeQuery();
+		
+		int res = -1;
+		while(result.next()) {
+			res = result.getInt(1);
+		}
+		
+		return res;
+	}
+	
+	public String getStudentVorname(int userID) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT vorname FROM student WHERE nutzerid = ?");
+		statement.setInt(1, userID);
+		ResultSet result = statement.executeQuery();
+		
+		String res = "";
+		while(result.next()) {
+			res = result.getString(1);
+		}
+		
+		return res;
+	}
+	
+	public String getStudentNachname(int userID) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT nachname FROM student WHERE nutzerid = ?");
+		statement.setInt(1, userID);
+		ResultSet result = statement.executeQuery();
+		
+		String res = "";
+		while(result.next()) {
+			res = result.getString(1);
+		}
+		
+		return res;
+	}
+	
+	public String getStudentStudiengang(int userID) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT studiengang FROM student WHERE nutzerid = ?");
+		statement.setInt(1, userID);
+		ResultSet result = statement.executeQuery();
+		
+		String res = "";
+		while(result.next()) {
+			res = result.getString(1);
+		}
+		
+		return res;
+	}
+	
 	public boolean loginUser(String email, String password) throws SQLException {
 		/* Checks if the password is is correct */
 		ResultSet result = executeQuery("SELECT passwort FROM nutzer WHERE email = '" + email + "'");
@@ -189,6 +410,20 @@ public class Database {
 	
 	public void addStudentToTeam(int userID, int teamID)  throws SQLException {
 		executeUpdate("UPDATE student SET teamid = " + teamID + " WHERE nutzerid = '" +  userID + "'");
+	}
+	
+	public ArrayList<Integer> getStudentenFromTeam(int teamID) throws SQLException {
+		ArrayList<Integer> aList = new ArrayList<Integer>();
+		
+		ResultSet result = executeQuery("SELECT nutzerid FROM student WHERE teamid = " + teamID + " ORDER BY vorsitz DESC");
+		
+		while (result.next())  {
+			int id = result.getInt(1);
+			
+			aList.add(new Integer(id));
+		}
+		
+		return aList;
 	}
 	
 	public ResultSet executeQuery(String query) throws SQLException {
@@ -255,22 +490,6 @@ public class Database {
 		return aList;
 	}
 	
-	public ArrayList<Pair<Integer, String>> getTeams() throws SQLException {
-		ArrayList<Pair<Integer, String>> aList = new ArrayList<Pair<Integer, String>>();
-		
-		ResultSet result = executeQuery("SELECT id,projekttitel FROM team");
-		
-		while (result.next())  {
-			int id = result.getInt(1);
-			String name = result.getString(2);
-			
-			Pair<Integer, String> npair = new Pair<Integer, String>(new Integer(id), name);
-			aList.add(npair);
-		}
-		
-		return aList;
-	}
-	
 	public String getTeamVorsitzenderName(int teamID) throws SQLException {
 		ResultSet result = executeQuery("SELECT vorname,nachname FROM student WHERE teamid = " + teamID + " AND vorsitz = 1");
 	
@@ -293,8 +512,19 @@ public class Database {
 		return res;
 	}
 	
-	public String getTeamKennnummer(int teamID) throws SQLException {
+	public int getTeamKennnummer(int teamID) throws SQLException {
 		ResultSet result = executeQuery("SELECT kennnummer FROM team WHERE id = " + teamID);
+		
+		int kennnummer = -1;
+		while(result.next()) {
+			kennnummer = result.getInt(1);
+		}
+		
+		return kennnummer;
+	}
+	
+	public String getTeamTitel(int teamID) throws SQLException {
+		ResultSet result = executeQuery("SELECT projekttitel FROM team WHERE id = " + teamID);
 		
 		String kennnummer = "";
 		while(result.next()) {

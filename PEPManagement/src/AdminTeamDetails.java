@@ -10,17 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 import pepmanagement.Database;
 import pepmanagement.Session;
 
-@WebServlet("/AdminLehrstuhlStudiengang")
-public class AdminLehrstuhlStudiengang extends HttpServlet {
+@WebServlet("/AdminTeamDetails")
+public class AdminTeamDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Database db;
+       
     
-    public AdminLehrstuhlStudiengang() {
+    public AdminTeamDetails() {
         super();
         db = new Database();
         db.connect();
-    }
-
+    } 
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String page = "";
 		boolean success = false;
@@ -29,7 +30,7 @@ public class AdminLehrstuhlStudiengang extends HttpServlet {
 			Session session = new Session(db, request);
 			
 			if(!session.restore(request)) {
-				page = "login.jsp?returnto=AdminLehrstuhlStudiengang";
+				page = "login.jsp?returnto=AdminTeamDetails";
 			} else {
 				int userID = db.getUserID(session.getEmail());
 				
@@ -49,39 +50,14 @@ public class AdminLehrstuhlStudiengang extends HttpServlet {
         }
 		
 		if(success) {
-			request.getRequestDispatcher("/admin_ls_sg.jsp").forward(request, response);
+			request.getRequestDispatcher("/admin_team_details.jsp").forward(request, response);
 		} else {
 			if(page.length() != 0) response.sendRedirect(page);
 		}
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String lehrstuhl = request.getParameter("lehrstuhl");
-		String inhaber = request.getParameter("inhaber");
-		String gruppe = request.getParameter("gruppe");
-		String studiengang = request.getParameter("studiengang");
-		String page = "";
 		
-		try {
-			if(lehrstuhl != null && inhaber != null && gruppe != null) {
-				int g = Integer.parseInt(gruppe);
-				
-				db.addBetreuer(inhaber, lehrstuhl, g);
-				
-				page = "AdminLehrstuhlStudiengang";
-			} else if(studiengang != null) {
-				db.addStudiengang(studiengang);
-				page = "admin_ls_sg.jsp";
-			} else {
-				page = "admin_ls_sg.jsp?error=1";
-			}
-		} catch(SQLException e) {
-			page = "admin_ls_sg.jsp?error=2";
-		} catch(NumberFormatException e) {
-			page = "admin_ls_sg.jsp?error=3";
-		}
-		
-		response.sendRedirect(page);
 	}
 
 }

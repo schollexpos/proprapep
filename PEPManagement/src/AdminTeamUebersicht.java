@@ -40,6 +40,7 @@ public class AdminTeamUebersicht extends HttpServlet {
 					page = "401.html";
 				} else {
 					request.setAttribute("hasAccess", new Boolean(true));
+					if(request.getParameter("group") != null) request.setAttribute("group", new String(request.getParameter("group")));
 					success = true;
 				}
 			}

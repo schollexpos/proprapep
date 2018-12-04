@@ -85,37 +85,40 @@
 					<h1>Debug-‹bersicht:</h1>
 					
 					<p>Kleinere Infos zum Gebrauch der Seiten:</p>
-					
-					<div class="row">
-						<div class="col-6">
-							<h2>Zugangscodes</h2>
-						</div>
-						<div class="col-6">
-							<table class="table table-dark">
-							  <thead>
-							    <tr>
-							      <th scope="col">Typ</th>
-							      <th scope="col">Code</th>
-							    </tr>
-							  </thead>
-							  <tbody>
-							    <tr>
-							      <th scope="row">Student</th>
-							      <td>pep2018</td>
-							    </tr>
-							    <tr>
-							      <th scope="row">Juror</th>
-							      <td>jp18_usi</td>
-							    </tr>
-							    <tr>
-							      <th scope="row">3</th>
-							      <td>acpepmb</td>
-							    </tr>
-							  </tbody>
-							</table>
-						</div>
-					</div>
-					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-md-6">
+					<h2>Zugangscodes</h2>
+				</div>
+				<div class="col-12 col-md-6">
+					<table class="table table-dark">
+					  <thead>
+					    <tr>
+					      <th scope="col">Typ</th>
+					      <th scope="col">Code</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">Student</th>
+					      <td>pep2018</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">Juror</th>
+					      <td>jp18_usi</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">3</th>
+					      <td>acpepmb</td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+						
 					<h2>Info: Dateinamen</h2>
 					<p>
 						Jetzt als bleibendes Schema: Das Servlet sollte so heiﬂen wie die JSP (nur mit CamelCase statt_mit_strichen),
