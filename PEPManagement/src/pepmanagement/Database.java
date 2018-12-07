@@ -445,16 +445,45 @@ public class Database {
 		executeUpdate("DELETE FROM sessions WHERE email='" + email);
 	}
 	
+	public String getJurorGruppe(int jurorID) throws SQLException {		
+		ResultSet result = executeQuery("SELECT gruppe FROM juror WHERE id = '" + jurorID + "'");
+		
+		String res ="";
+		while (result.next())  {
+			res = result.getString(1);
+		}
+		return res;
+		
+	}
+	
+	public ArrayList<Integer> getTeamsGruppe(String gruppenID) throws SQLException {
+		ResultSet result = listTeams();
+		ArrayList<Integer> teamIDs = new ArrayList<Integer>();
+		while (result.next()) {
+			String kennnummer = result.getString("kennnummer");
+			int teamID = result.getInt("id");
+			String gruppenIDTeam = kennnummer.substring(0, 1);
+			
+			if(gruppenID.equals(gruppenIDTeam)) {
+				teamIDs.add(teamID);
+			}
+			else {
+				continue;
+			}			
+		}		
+		return teamIDs;
+	}
+	
 	public void addKriterium(String hauptkriterium, String teilkriterium, int maxpunkte) throws SQLException {
 		executeUpdate("INSERT INTO `bewertungskriterium` (`hauptkriterium`, `teilkriterium`, `maxpunkte`) VALUES ( '" + hauptkriterium + "', '" + teilkriterium + "', '" + maxpunkte  + "');");		
 	}
 	
 	public void deleteTeilkriterium(String teilkriterium) throws SQLException {		
-		executeUpdate("DELETE FROM bewertungskriterium WHERE teilkriterium='" + teilkriterium);
+		executeUpdate("DELETE FROM bewertungskriterium WHERE teilkriterium='" + teilkriterium + "'");
 	}
 	
 	public void deleteHauptkriterium(String hauptkriterium) throws SQLException {		
-		executeUpdate("DELETE FROM bewertungskriterium WHERE hauptkriterium='" + hauptkriterium);
+		executeUpdate("DELETE FROM bewertungskriterium WHERE hauptkriterium='" + hauptkriterium + "'");
 	}
 	
 	public boolean kriteriumExists(String teilkriterium) throws SQLException {
