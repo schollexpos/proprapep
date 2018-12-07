@@ -7,6 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+//Hello
+
+
 public class AccountControl {
 	
 	/* TODO: nicht mehr statisch, session undso mit dem servlet teilen,
