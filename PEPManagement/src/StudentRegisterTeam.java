@@ -1,4 +1,6 @@
 
+//Hello
+
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -46,7 +48,13 @@ public class StudentRegisterTeam extends HttpServlet {
         }
 		
 		if(success) {
-			request.getRequestDispatcher("/student_register_team.jsp").forward(request, response);
+			String add = "";
+			try {
+				if(System.currentTimeMillis() >= db.getDeadlineRegistrierung().getTime()) add = "?error=4";
+			} catch (SQLException e) {}
+			
+
+			request.getRequestDispatcher("/student_register_team.jsp" + add).forward(request, response);
 		} else {
 			if(page.length() != 0) response.sendRedirect(page);
 		}
@@ -68,12 +76,17 @@ public class StudentRegisterTeam extends HttpServlet {
 			page = "student_register_team.jsp?error=1";
 		} else {
 			try {
-				int betreuer1 = Integer.parseInt(betreuer1ID);
 				
-				db.createTeam(session.getEmail(), betreuer1, betreuer2, teamname);
-				db.addStudentToTeam(db.getUserID(session.getEmail()), db.getTeamID(session.getEmail()));
-				
-				page = "index";
+				if(System.currentTimeMillis() >= db.getDeadlineRegistrierung().getTime()) {
+					page = "student_register_team.jsp?error=4";
+				} else {
+					int betreuer1 = Integer.parseInt(betreuer1ID);
+					
+					db.createTeam(session.getEmail(), betreuer1, betreuer2, teamname);
+					db.addStudentToTeam(db.getUserID(session.getEmail()), db.getTeamID(session.getEmail()));
+					
+					page = "index";
+				}
 			} catch(SQLException e) {
 				page = "student_register_team.jsp?error=2";
 				System.out.println(e.getMessage());

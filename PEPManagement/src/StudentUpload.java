@@ -1,6 +1,7 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -22,10 +23,15 @@ import org.eclipse.jdt.internal.compiler.ast.Literal;
 
 import com.mysql.cj.conf.ConnectionUrlParser.Pair;
 
+import pepmanagement.AccountControl;
 import pepmanagement.ContextGlue;
 import pepmanagement.Database;
 import pepmanagement.FileManager;
 import pepmanagement.Session;
+
+
+//Hello
+
 
 @WebServlet("/StudentUpload")
 public class StudentUpload extends HttpServlet {
@@ -41,46 +47,47 @@ public class StudentUpload extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page = "";
-		try {
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.VORSITZ, db, request, response);
+
+		
+		if(res == AccountControl.Result.SUCCESS) {
+			long deadline = -1;
+			
+			// List of all the existing files
+			ArrayList<pepmanagement.Pair<String,String>> list = new ArrayList<pepmanagement.Pair<String,String>>();
+			
 			Session session = new Session(db, request);
-	    	 
-	    	 if(!session.restore(request)) {
-	    		 page = "login.jsp?returnto=StudentUpload";
-	    	 } else if(!db.studentIsVorsitzender(db.getUserID(session.getEmail()))) {
-	    		 page = "401.html";
-	    	 } else {
-	    		 int teamID = db.getTeamID(session.getEmail());
-	    		 
-	    		 ArrayList<pepmanagement.Pair<String,String>> list = new ArrayList<pepmanagement.Pair<String,String>>();
+			session.restore(request);
+			
+			int teamID = -1;
+			try {
+				teamID = db.getTeamID(session.getEmail());
 	    			
-    			for(int i = 0;i < FileManager.getFileCount();i++) {
-    				String date = "";
-    				
-    				if(FileManager.fileExists(filePath, teamID, FileManager.getFileIdentifier(i))) {
-    					SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-    					long lastMod = FileManager.fileDate(filePath, teamID, FileManager.getFileIdentifier(i));
-        				
-        				date = sdf.format(lastMod);
-    				} else {
-    					date = "-";
-    				}
-    				
-    				list.add(new pepmanagement.Pair<String, String>(FileManager.getFileIdentifier(i), date));
-    			}
-    			
-    			request.setAttribute("list", list);
-	    	 }
-		} catch(Exception e) {
-			page = "student_upload.jsp?error=1";
+				for(int i = 0;i < FileManager.getFileCount();i++) {
+					String date = "";
+					
+					if(FileManager.fileExists(filePath, teamID, FileManager.getFileIdentifier(i))) {
+						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+						long lastMod = FileManager.fileDate(filePath, teamID, FileManager.getFileIdentifier(i));
+	    				
+	    				date = sdf.format(lastMod);
+					} else {
+						date = "-";
+					}
+					
+					deadline = db.getDeadlineUpload().getTime();
+					list.add(new pepmanagement.Pair<String, String>(FileManager.getFileIdentifier(i), date));
+				}
+			} catch (SQLException e) {
+				res = AccountControl.Result.ERROR;
+			}
+			
+			
+			request.setAttribute("list", list);
+			request.setAttribute("deadline", new Long(deadline));
 		}
 		
-		if(!page.equals("")) {
-			response.sendRedirect(page);
-		} else {
-			request.getRequestDispatcher("/student_upload.jsp").forward(request, response);
-		}
-		
+		AccountControl.processResult(res, request, response, "StudentUpload", "student_upload.jsp", true);
 	}
 
 	

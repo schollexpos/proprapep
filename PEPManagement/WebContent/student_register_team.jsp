@@ -36,8 +36,8 @@ if(request.getAttribute("hasAccess") == null) {
     <div class="container-fluid">
     	<div class="myrow">
     		<%
-			if(request.getParameter("error") != null) {
-				String str = request.getParameter("error");
+    		if(request.getParameter("error") != null || request.getAttribute("error") != null) {
+    			String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
 				String errorMessage = "???";
 				if(str.equals("1") || str.equals("7")) {
 					errorMessage = "Bitte f&uuml;llen Sie alle Felder aus!";
@@ -45,9 +45,11 @@ if(request.getAttribute("hasAccess") == null) {
 					errorMessage = "Datenbankfehler!";
 				} else if(str.equals("3")) {
 					errorMessage = "Bitte &uuml;berpr&uuml;fen Sie Ihre Eingaben auf Korrektheit!";
-				} 
+				} else if(str.equals("4")) {
+					errorMessage = "Die Registrierung ist geschlossen!";
+				}
 				
-				out.println("<div class=\"errormessage\"><p>" + errorMessage + "</p></div>");
+				out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
 			}
 		%>
     	</div>
@@ -71,12 +73,11 @@ if(request.getAttribute("hasAccess") == null) {
 	                    <%
 	                    	pepmanagement.Database db = new pepmanagement.Database();
 	                       	db.connect();
-	                       	ArrayList<pepmanagement.Pair<Integer, String>> list = db.getBetreuer();
+	                       	ArrayList<Database.Betreuer> list = db.getBetreuer();
 	                       	for(int i = 0;i < list.size();i++) {
-	                       		pepmanagement.Pair<Integer, String> p =  list.get(i);
-	                       		String lehrstuhl = db.getBetreuerLehrstuhl(p.x);
+	                       		Database.Betreuer b =  list.get(i);
 	                       		
-	                       		out.print("<option value=\"" + p.x + "\">" + p.y + " " + lehrstuhl + "</option>");
+	                       		out.print("<option value=\"" + b.getID() + "\">" + b.getName() + " " + b.getLehrstuhl() + "</option>");
 	                 
 	                       	}
 	                    %>
@@ -137,5 +138,4 @@ if(request.getAttribute("hasAccess") == null) {
               </form>
     </div>
 </div>
-  </body>
-  </html>
+  </body></html>

@@ -1,7 +1,7 @@
-<%@ page import="pepmanagement.Database, pepmanagement.Pair, java.util.ArrayList" %>
+<%@ page import="pepmanagement.Database, pepmanagement.Menu, pepmanagement.AccountControl, pepmanagement.Pair, java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="UTF-8"%>
 <% 
 if(request.getAttribute("hasAccess") == null) {
 	response.sendRedirect("AdminTeamUebersicht");
@@ -20,6 +20,8 @@ try {
 	
 }
 
+System.out.println("Req: " + request.getAttribute("group") + " Group: " + group);
+
 %>
 <!DOCTYPE html>
 <html>
@@ -28,13 +30,14 @@ try {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="theme.css" type="text/css">
-    <title>Main PEP</title>
+    <title>Team√ºbersicht PEP</title>
 </head>
 
 <body class="flex-grow-1">
+
 <%
-	if(request.getParameter("error") != null) {
-		String str = request.getParameter("error");
+if(request.getParameter("error") != null || request.getAttribute("error") != null) {
+	String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
 		String errorMessage = "???";
 		if(str.equals("1")) {
 			errorMessage = "Bitte f&uuml;llen Sie alle Felder aus!";
@@ -43,9 +46,11 @@ try {
 		} else if(str.equals("3")) {
 			errorMessage = "Bitte &uuml;berpr&uuml;fen Sie Ihre Eingaben auf Korrektheit!";
 		}
-		out.println("<div class=\"errormessage\"><p>" + errorMessage + "</p></div>");
+		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
 	}
 %>
+
+
 
     <div class="py-2 px-2 mb-0">
         <div class="container-fluid logo border border-dark">
@@ -55,93 +60,75 @@ try {
                 </a>
                 <h1 class="nav-item m-auto "><b>Planungs- und Entwicklungsprojekt</b></h1>
 
-                <div class="dropdown show ml-auto mr-4">
-                    <a style="text-decoration:none;" class=" dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="" src="Bilder/Men¸.png" width="60">
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="index.html">Planungs- und Entwicklungsprojekt</a>
-                        <a class="dropdown-item" href="team.html">Team</a>
-                        <a class="dropdown-item" href="#">Upload</a>
-                        <a class="dropdown-item" href="zuordnung.html">Zuordnung Gruppen</a>
-                        <a class="dropdown-item" href="teamuebersicht.html">Team ‹bersicht</a>
-                        <a class="dropdown-item " href="zuojuror.html">Bewertung</a>
-                        <a class="dropdown-item" href="siegerehrung.html">Siegerehrung</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
-                    </div>
-
-                </div>
+                     
+				<%
+					String str = Menu.getMenu(AccountControl.UserRank.ADMIN);
+					out.println(str);
+				%>
             </nav>
         </div>
     </div>
-
+    
+    
+    	<%
+			int min = db.getMinTeamSize();
+			int max = db.getMaxTeamSize();
+		%>
 
     <div class="container-fluid myrow mt-2 p-2">
-        <div class="p-2 w-25 col-4" style="">
-
-            <div class="myrow">
-                <p class="" style="height:16px; text-align: left; padding-left: 10px;">
-                    Teilnehmeranzahl
-                </p>
-            </div>
-            
-            
-			<%
-	    		
-				int min = db.getMinTeamSize();
-				int max = db.getMaxTeamSize();
-			
-			%>
-			<form action="AdminTeamUebersicht" method="post">
-	            <div class="myrow m-0 p-0">
-	                <div class="relem1 w-25 m-0 pt-1">
-	                    <h5 class="text-left">Minimum</h5>
-	                </div>
-	                <input id="matrikh"  name="min" value="<%=min %>" type="text" class="inputl border border-dark w-50 ">
-	
-	
-	            </div>
-	
+        <div class="col-sm m-auto">
+        	<form action="AdminTeamUebersicht" method="post">
 	            <div class="myrow">
-	                <div class="srow">
-	                    <div class="relem1 w-25 pt-1">
-	                        <h5 class="inlabel">Maximum</h5>
-	                    </div>
-	                    <input id="matrikh"  name="max" value="<%=max %>" type="text" class="inputl border border-dark w-50   ">
+	                <div class="col-sm m-auto">
+	                    <h4 class="inlabel text-left">Teilnehmeranzahl</h4>
 	                </div>
 	            </div>
 	
-	            <div class="myrow mt-1">
-	                <div class="relem2 w-100">
-	                    <input type="submit" formid="teilnehmer" class="addi p-1 w-75 border border-dark" style="max-height:50px; "
-	                        value="ƒndern">
+	            <div class="myrow p-1">
+	                <div class="col-sm m-auto">
+	                    <h5 class="inlabel text-left">Minimum</h5>
+	                </div>
+	                <div class="col-sm">
+	                    <input type="text" name="min" value="<%=min %>" class ="iputl p-1 w-100">
+	                </div>
+	            </div>
+	
+	            <div class="myrow p-1">
+	                <div class="col-sm m-auto">
+	                    <h5 class="inlabel text-left">Maximum</h5>
+	                </div>
+	                <div class="col-sm">
+	                    <input type ="text" name="max" value="<%=max %>" class ="iputl p-1 w-100">
+	                </div>
+	            </div>
+	            <div class="myrow p-1">
+	                <div class="col-sm">
+	                    <input type ="submit" class="wichtigUp w-100 mr-auto ml-0 uploadbtn border border-dark" value ="√Ñndern" >
 	                </div>
 	            </div>
             </form>
         </div>
 
-        <div class="p-2 m-auto col-4">
+        <div class="col-sm m-auto">
             <div class="myrow ">
-                <h1 class="m-auto">Team ‹bersicht</h1>
+                <h1 class="m-auto">Team √úbersicht</h1>
             </div>
             <div class="myrow mt-3">
-                <select id="groupselect" class="custom-select inputl w-50 m-auto p-1 border border-dark" onchange="updateTable();">
-             		<%
+                <select class="custom-select inputl w-50 m-auto p-1 border border-dark" id="groupselect" onchange="updateTable();">
+                	<%
              			out.print("<option value=\"1\" " + (group == 1 ? "selected" : "") + ">Gruppe 1</option>");
              			out.print("<option value=\"2\" " + (group == 2 ? "selected" : "") + ">Gruppe 2</option>");
              		%>
+
                 </select>
             </div>
             <div class="myrow mt-2">
-                <input type="search" placeholder="Projkettitel suchen..." class=" p-1 suchen m-auto border border-dark">
+                <input type="text" id="searchinput" onkeyup="searchtable()" placeholder="Projekttitel suchen..." class=" p-1 mw-200 suchen m-auto w-50 border border-dark">
 
             </div>
         </div>
 
-        <div class="col-4 p-2 pr-2 ml-auto" style="">
+        <div class="col-sm m-auto">
             <div class="myrow mt-2">
                 <div class="relem2 w-100">
                     <h2><input type="submit" onclick="window.print();" class="addi ml-auto p-1 border border-dark"
@@ -156,36 +143,46 @@ try {
         <div class="row mb-4">
             <div class="table-wrapper-scroll-y m-auto" style="max-height:500px; width:95% ">
 
-                <table class="table table-hover " id="myTable">
+                <table class="table table-hover " id="teamtable">
                     <thead>
                         <tr>
                             <th class="sortable" scope="col">Projekttitel</th>
                             <th class="sortable" scope="col">Vorsitzender</th>
                             <th class="sortable" scope="col">Dokumentation Vorhanden</th>
-                            <th class="sortable" scope="col">Best‰tigt</th>
+                            <th class="sortable" scope="col">Best√§tigt</th>
                             <th class="sortable" scope="col">Kennummer</th>
+                            <th class="sortable" scope="col">Details</th>
                         </tr>
                     </thead>
                     <tbody>
-                    	<%
-                    		//TODO: via get: group stuff
-                    			
-                    		ArrayList<Database.Team> teamListe = db.getTeams(group);
-                    		
-                    		for(int i = 0;i < teamListe.size();i++) {
-                    			Database.Team team = teamListe.get(i);
-                    			
-                    			out.print("<tr>");
-                    			out.print("<th scope=\"row\"><a href=\"admin_teamdetails.jsp?teamid=" + team.getID() + "\">" + team.getTitel() + "</a></th>");
-                    			out.print("<td>" + db.getTeamVorsitzenderName(team.getID()) + "</td>");
-                    			out.print("<td>Ja</td>");
-                    			out.print("<td>Best&auml;tigt</td>");
-                    			out.print("<td>" + team.getKennnummer() + "</td>");
-                    			
-                    			out.print("</tr>");
-                    		}
-                    		
-                    	%>
+                       
+                       <%
+                       ArrayList<Database.Team> teamListe = db.getTeams(group);
+               		
+	               		for(int i = 0;i < teamListe.size();i++) {
+	               			Database.Team team = teamListe.get(i);
+	               			
+	               			out.print("<tr>");
+	               			out.print("<th scope=\"row\">" + team.getTitel() + "</th>");
+	               			out.print("<td>" + db.getTeamVorsitzenderName(team.getID()) + "</td>");
+	               			out.print("<td>Ja</td>");
+	               			if(!team.getKennnummer().equals("-1")) {
+		               			out.print("<td>Best&auml;tigt</td>");
+		               			out.print("<td>" + team.getKennnummer() + "</td>");
+	               			} else {
+		               			out.print("<td><a href=\"AdminTeamUebersicht?team=" + team.getID() + "\">Best&auml;tigen</a></td>");
+		               			out.print("<td> - </td>");
+	               			}
+	               			
+	               			out.print("<td><a href=\"AdminTeamDetails?teamid=" + team.getID() + "\">Details</a></td>");
+	               			
+	               			out.print("</tr>");
+	               		}
+               		
+                       %>
+                       <tr id="noresults" style="display: none;">
+                       		<th colspan="6" style="text-align: center;">Keine Ergebnisse</th> 
+                       </tr>
 
                     </tbody>
                 </table>
@@ -193,8 +190,35 @@ try {
             </div>
         </div>
     </div>
-
-	<script>
+    <script>
+		function searchtable() {
+			var input, filter, table, tr, td, i, txtValue;
+			input = document.getElementById("searchinput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("teamtable");
+			tr = table.getElementsByTagName("tr");
+			 
+			var results = false;
+			for (i = 1; i < tr.length-1; i++) {
+				td = tr[i].getElementsByTagName("th")[0];
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+						results = true;
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+			
+			if(!results) {
+				document.getElementById("noresults").style.display = "";
+			} else {
+				document.getElementById("noresults").style.display = "none";
+			}
+		}
+            
 		function updateTable() {
 			e = document.getElementById("groupselect");
 			var strUser = e.options[e.selectedIndex].value;
@@ -210,3 +234,5 @@ try {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 </body>
+
+</html>

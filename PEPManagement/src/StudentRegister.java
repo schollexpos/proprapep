@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import pepmanagement.Database;
 import pepmanagement.Session;
 
+//Hello
+
 
 @WebServlet("/StudentRegister")
 public class StudentRegister extends HttpServlet {
@@ -25,6 +27,14 @@ public class StudentRegister extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getParameter("error") != null) {
+			request.setAttribute("error", request.getParameter("error"));
+		}
+		
+		try {
+			if(System.currentTimeMillis() >= db.getDeadlineRegistrierung().getTime()) request.setAttribute("error", 10);
+		} catch (SQLException e) {}
+		
 		response.sendRedirect("student_register.jsp");
 	}
 
@@ -44,9 +54,9 @@ public class StudentRegister extends HttpServlet {
 		String page = "";
 		Session session = new Session(db, request);
 		
-		//TODO: Clean up inputs
-		
-		if(vorname == null || studiengang == null || nachname == null || zugangscode == null || matrikelNo == null || passwordWdh == null || vorsitz == null || email == null || password == null) {
+		if(session.restore(request)) {
+			page = "index";
+		} else if(vorname == null || studiengang == null || nachname == null || zugangscode == null || matrikelNo == null || passwordWdh == null || vorsitz == null || email == null || password == null) {
 			page = "student_register.jsp?error=1";
 		} else if(password.length() < 8) {
 			page = "student_register.jsp?error=5";
@@ -66,6 +76,8 @@ public class StudentRegister extends HttpServlet {
 				
 				if(db.emailExists(email)) {
 					page = "student_register.jsp?error=4";
+				} else if(System.currentTimeMillis() >= db.getDeadlineRegistrierung().getTime()) {
+					page = "student_register.jsp?error=10";
 				} else { 
 					db.registerUser(email, password);
 					int userID = db.getUserID(email);

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -38,8 +38,8 @@
   <div class="py-1" >
     <div class="container-fluid">
     	<%
-			if(request.getParameter("error") != null) {
-				String str = request.getParameter("error");
+    	if(request.getParameter("error") != null || request.getAttribute("error") != null) {
+    		String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
 				String errorMessage = "???";
 				if(str.equals("1") || str.equals("7")) {
 					errorMessage = "Bitte f&uuml;llen Sie alle Felder aus!";
@@ -59,7 +59,7 @@
 					errorMessage = "Bitte kontrollieren sie Ihre Eingaben auf Korrektheit.";
 				}
 				
-				out.println("<div style=\"border: 1px solid darkred;background-color: red;margin: 10px;\"><p>" + errorMessage + "</p></div>");
+				out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
 			}
 		%>
 		    
@@ -99,7 +99,7 @@
 		      <div class="myrow">
 		        <div class="srow" >
 		          <p class="" style="height:16px; text-align: left; padding-left: 10px;">
-		            Registrierung muss über die Mail-Adresse der Universität erfolgen!</p>
+		            Registrierung muss ï¿½ber die Mail-Adresse der Universitï¿½t erfolgen!</p>
 		        </div>
 		      </div>
 		      <div class="myrow" >
@@ -175,10 +175,10 @@
 		        </div>
 		        <input type="hidden" value="0" name="vorsitz" id="vorsitzfeld">
 		        <div class="relem1" style="	width: 30%;">
-		          <input type="button" value="Ja" class="standard border border-dark" onclick="document.getElementById('vorsitzfeld').value = '1';">
+		          <input type="button" value="Ja" class="vorsitz border border-dark" onclick="document.getElementById('vorsitzfeld').value = '1';">
 		        </div>
 		        <div class="relem1" style="	width: 30%;">
-		          <input type="button" class="standard border border-dark" value="Nein" onclick="document.getElementById('vorsitzfeld').value = '0';" >
+		          <input type="button" value="Nein" class="vorsitz border border-dark" value="Nein" onclick="document.getElementById('vorsitzfeld').value = '0';" >
 		        </div>
 		      </div>
 		    </div>

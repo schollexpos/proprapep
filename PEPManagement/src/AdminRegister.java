@@ -1,5 +1,10 @@
 //TODO: Admin & Juror zugangscodes
 
+//Hello
+
+//Hello
+
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -25,12 +30,18 @@ public class AdminRegister extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getParameter("error") != null) {
+			request.setAttribute("error", request.getParameter("error"));
+		}
+
+		
 		response.sendRedirect("admin_register.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		String passwordw = request.getParameter("password2");
 		String zugangscode = request.getParameter("zugangscode");
 		String page = "";
 		Session session = new Session(db, request);
@@ -39,6 +50,8 @@ public class AdminRegister extends HttpServlet {
 		
 		if(email == null || password == null || null == zugangscode) {
 			page = "admin_register.jsp?error=1";
+		} else if(!password.equals(passwordw)) {
+			page = "admin_register.jsp?error=7";
 		} else if(password.length() < 8) {
 			page = "admin_register.jsp?error=5";
 		} else if(!email.endsWith("uni-siegen.de") || !email.contains("@")) {
@@ -55,7 +68,13 @@ public class AdminRegister extends HttpServlet {
 					page = "admin_register.jsp?error=6";
 				} else {		
 					db.registerUser(email, password, (zugangscode.equals(adminCode) ? 2 : 1));
+					
 					session.create(email); 
+					
+					if(zugangscode.equals(jurorCode)) {
+						db.setJurorGruppe(db.getUserID(email), 1);
+					}
+		
 					page = "index";
 				}
 			} catch (SQLException e) {

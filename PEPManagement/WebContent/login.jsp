@@ -10,8 +10,8 @@
 <body class="flex-grow-1">
 
 <%
-	if(request.getParameter("error") != null) {
-		String str = request.getParameter("error");
+	if(request.getParameter("error") != null || request.getAttribute("error") != null) {
+		String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
 		String errorMessage = "???";
 		if(str.equals("1")) {
 			errorMessage = "Bitte f&uuml;llen Sie alle Felder aus!";
@@ -20,7 +20,7 @@
 		} else if(str.equals("3")) {
 			errorMessage = "E-Mail/Passwort falsch!";
 		}
-		out.println("<div class=\"errormessage\"><p>" + errorMessage + "</p></div>");
+		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
 	}
 %>
 
@@ -75,6 +75,11 @@
 	       <div class="myrow">
 	         <div class="srow">
 	           <div class = "relem1" style="width:60%">
+	           		<%
+	           			if(request.getParameter("returnto") != null) {
+	           				out.println("<input type=\"hidden\" name=\"returnto\" value=\"" + request.getParameter("returnto") + "\" />");
+	           			}
+	           		%>
 	           		<input class ="standard border border-dark" type="submit" value="Anmelden">
 	           </div>
 	           <div class = "relem1" style="width:35%">
@@ -100,8 +105,5 @@
         </div>
       </div>
 </div>
-  
-  
 </body>
-
 </html>

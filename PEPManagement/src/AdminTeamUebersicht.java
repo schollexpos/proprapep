@@ -1,4 +1,4 @@
-
+//Hallo hilfe
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import pepmanagement.AccountControl;
 import pepmanagement.Database;
 import pepmanagement.Session;
 
@@ -25,74 +26,57 @@ public class AdminTeamUebersicht extends HttpServlet {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page = "";
-		boolean success = false;
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
 		
+		String team = request.getParameter("team");
+		
+		System.out.println(team);
 		try {
-			Session session = new Session(db, request);
-			
-			if(!session.restore(request)) {
-				page = "login.jsp?returnto=AdminTeamUebersicht";
-			} else {
-				int userID = db.getUserID(session.getEmail());
-				
-				if(!db.userIsAdmin(userID)) {
-					page = "401.html";
-				} else {
-					request.setAttribute("hasAccess", new Boolean(true));
-					if(request.getParameter("group") != null) request.setAttribute("group", new String(request.getParameter("group")));
-					success = true;
-				}
+			if(team != null) {
+				int teamID = Integer.parseInt(team);
+
+				db.teamSetKennnummer(teamID);
 			}
-        } catch (SQLException e) {
-        	//Can't show him the page since it's access-restricted
-        	response.getWriter().append("Encountered an database-error while serving your request.").append(request.getContextPath());
-        	System.out.println(e.getMessage());
-        } catch(Exception e) {
-        	response.getWriter().append("Encountered an error while serving your request.").append(request.getContextPath());
-        }
-		
-		if(success) {
-			request.getRequestDispatcher("/admin_teamuebersicht.jsp").forward(request, response);
-		} else {
-			if(page.length() != 0) response.sendRedirect(page);
+		} catch(SQLException e) {
+			res = AccountControl.Result.DBERROR;
+			System.out.println(e.getMessage());
+		} catch(NumberFormatException e) {
+			res = AccountControl.Result.ERROR;
+
+			System.out.println(e.getMessage());
 		}
+		
+		String group = request.getParameter("group");
+		request.setAttribute("group", group);
+		
+		if(request.getParameter("error") != null) {
+			request.setAttribute("error", request.getParameter("error"));
+		}
+		
+		AccountControl.processResult(res, request, response, "AdminTeamUebersicht", "admin_teamuebersicht.jsp");
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
+		   
 		String min = request.getParameter("min");
 		String max = request.getParameter("max");
 		
-		String page = "";
-		
-		if(min == null || max == null) {
-			page = "admin_teamuebersicht.jsp?error=1";
-		} else {
-			try {
-				Session session = new Session(db, request);
-				if(!session.restore(request)) {
-					page = "login.jsp";
-				} else {
-					int userID = db.getUserID(session.getEmail());
-					if(!db.userIsAdmin(userID)) {
-						page = "403.html";
-					} else {
-						int minInt = Integer.parseInt(min);
-						int maxInt = Integer.parseInt(max);
-						
-						db.setMinMaxTeamSize(minInt, maxInt);
-						page = "admin_teamuebersicht.jsp";
-					}
-				}
-			} catch(SQLException e) {
-				page = "admin_teamuebersicht.jsp?error=2";
-			} catch(NumberFormatException e) {
-				page = "admin_teamuebersicht.jsp?error=3";
+		try {
+			if(min != null && max != null) {
+				int minInt = Integer.parseInt(min);
+				int maxInt = Integer.parseInt(max);
+
+				db.setMinMaxTeamSize(minInt, maxInt);
 			}
+		} catch(SQLException e) {
+			res = AccountControl.Result.DBERROR;
+		} catch(NumberFormatException e) {
+			res = AccountControl.Result.ERROR;
 		}
 		
-		response.sendRedirect(page);
+		AccountControl.processResult(res, request, response, "AdminTeamUebersicht", "admin_teamuebersicht.jsp", true);
 	}
 
 }

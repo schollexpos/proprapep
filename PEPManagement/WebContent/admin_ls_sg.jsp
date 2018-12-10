@@ -13,14 +13,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="theme.css" type="text/css">
-    <title>Main PEP</title>
+    <title>Lehrstuhl/Studiengangübersicht PEP</title>
 </head>
 
 <body class="flex-grow-1">
 
 <%
-	if(request.getParameter("error") != null) {
-		String str = request.getParameter("error");
+if(request.getParameter("error") != null || request.getAttribute("error") != null) {
+	String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
 		String errorMessage = "???";
 		if(str.equals("1")) {
 			errorMessage = "Bitte f&uuml;llen Sie alle Felder aus!";
@@ -29,7 +29,7 @@
 		} else if(str.equals("3")) {
 			errorMessage = "Bitte &uuml;berpr&uuml;fen Sie Ihre Eingaben auf Korrektheit!";
 		}
-		out.println("<div class=\"errormessage\"><p>" + errorMessage + "</p></div>");
+		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
 	}
 %>
 
@@ -40,33 +40,19 @@
 
 
     <div class="py-2 px-2 mb-0">
-        <div class="container-fluid logo border border-dark">
-            <nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
-                <a class="navbar-brand mr-auto" href="https://www.uni-siegen.de/start/">
-                    <img class="log" src="logo_u_s.png" width="180">
-                            </a>
-                <h1 class="nav-item m-auto "><b>Planungs- und Entwicklungsprojekt</b></h1>
+            <div class="container-fluid logo border border-dark">
+      <nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
+        <a class="navbar-brand mr-auto" href="https://www.uni-siegen.de/start/">
+          <img class="log" src="logo_u_s.png" width="180">
+        </a>
+        <h1 class="nav-item m-auto "><b>Planungs- und Entwicklungsprojekt</b></h1>
 
-               <div class="dropdown show ml-auto mr-4">
-                        <a style="text-decoration:none;" class=" dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="" src="Bilder/Menü.png" width="60">
-                        </a>
-                      
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                          <a class="dropdown-item" href="index.html">Planungs- und Entwicklungsprojekt</a>
-                          <a class="dropdown-item" href="team.html">Team</a>
-                          <a class="dropdown-item" href="#">Upload</a>
-                          <a class="dropdown-item" href="zuordnung.html">Zuordnung Gruppen</a>
-                          <a class="dropdown-item" href="teamuebersicht.html">Team Übersicht</a>
-                          <a class="dropdown-item " href="zuojuror.html">Bewertung</a>
-                          <a class="dropdown-item" href="siegerehrung.html">Siegerehrung</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Logout</a>
-                        </div>
-                      
-                </div>
-            </nav>
-        </div>
+        	<%
+					String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.ADMIN);
+					out.println(str);
+				%>
+      </nav>
+    </div>
     </div>
 
     <div class="p-3 mb-5 container-fluid h-50">
@@ -77,7 +63,8 @@
                     <thead>
                         <tr>
                             <th class="sortable" scope="col">#</th>
-                            <th class="sortable" scope="col">Lehrstuhl</th>
+                            <th class="sortable" scope="col">Kürzel</th>
+                            <th class="sortable" scope="col">Lehrstuhl</th>    
                             <th class="sortable" scope="col">Lehrstuhlinhaber</th>
                             <th class="sortable" scope="col">Gruppe</th>
                         </tr>
@@ -85,13 +72,14 @@
                       <tbody>
                     
                     	<%
-                    		ArrayList<Pair<Integer, String>> betreuerList = db.getBetreuer();
+                    		ArrayList<Database.Betreuer> betreuerList = db.getBetreuer();
                     		for(int i = 0;i < betreuerList.size();i++) {
                     			out.print("<tr>");
                     			out.print("<th scope=\"row\">" + (i+1) + "</th>");
-                    			out.print("<td>" + db.getBetreuerLehrstuhl(betreuerList.get(i).x) + "</td>");
-                    			out.print("<td>" + betreuerList.get(i).y + "</td>");
-                    			out.print("<td>Gruppe " + db.getBetreuerGruppe(betreuerList.get(i).x) + "</td>");
+                    			out.print("<td>" + betreuerList.get(i).getKuerzel() + "</td>");
+                    			out.print("<td>" + betreuerList.get(i).getLehrstuhl() + "</td>");
+                    			out.print("<td>" + betreuerList.get(i).getName() + "</td>");
+                    			out.print("<td>Gruppe " + betreuerList.get(i).getGruppe() + "</td>");
                     			out.print("</tr>");
                     		}
                     	
@@ -144,16 +132,26 @@
 	
 	                    </div>
 	
-	                    <div class="row mt-2">
+	                    <div class="row mt-1">
 	                        <div class="col-4 p-1">
 	                            <h5 class="inlabel text-left ">Lehrstuhlinhaber</h5>
 	                        </div>
 	                        <div class="col-7 pr-4">
 	                            <input id="lehrstuhlh" name="inhaber" type="text" class="mw-200 w-100 border border-dark  p-1 ">
 	                        </div>
-	
 	                    </div>
-	                    <div class="row mt-2">
+	                    
+	                    <div class="row mt-1">
+		                    <div class="col-4 p-1">
+		                        <h5 class="inlabel text-left ">Lehrstuhlkürzel</h5>
+		                    </div>
+		                    <div class="col-7 pr-4">
+		                        <input id="lehrstuhlh" name="kuerzel" type="text" class="w-100 border border-dark  p-1 " maxlength="2">
+		                    </div>
+		                </div>
+	                    
+	                    
+	                    <div class="row mt-1">
 	                        <div class="col-4 p-1">
 	                            <h4 class="inlabel text-left" text-center>Gruppe</h4>
 	                        </div>
@@ -165,6 +163,7 @@
 	                            </select>
 	                        </div>
 	                    </div>
+	                    
 	            </div>
             
 
@@ -215,3 +214,5 @@
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 </body>
+
+</html>

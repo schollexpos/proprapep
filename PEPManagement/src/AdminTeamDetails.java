@@ -7,8 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import pepmanagement.AccountControl;
 import pepmanagement.Database;
 import pepmanagement.Session;
+
+
+//Hello
+
 
 @WebServlet("/AdminTeamDetails")
 public class AdminTeamDetails extends HttpServlet {
@@ -21,39 +26,23 @@ public class AdminTeamDetails extends HttpServlet {
         db = new Database();
         db.connect();
     } 
-    
+     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page = "";
-		boolean success = false;
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
 		
-		try {
-			Session session = new Session(db, request);
-			
-			if(!session.restore(request)) {
-				page = "login.jsp?returnto=AdminTeamDetails";
-			} else {
-				int userID = db.getUserID(session.getEmail());
-				
-				if(!db.userIsAdmin(userID)) {
-					page = "401.html";
-				} else {
-					request.setAttribute("hasAccess", new Boolean(true));
-					success = true;
-				}
+		String add = "";
+		if(res == AccountControl.Result.SUCCESS) {
+			if(request.getParameter("teamid") != null) {
+				add = "?teamid=" + request.getParameter("teamid");
 			}
-        } catch (SQLException e) {
-        	//Can't show him the page since it's access-restricted
-        	response.getWriter().append("Encountered an database-error while serving your request.").append(request.getContextPath());
-        	System.out.println(e.getMessage());
-        } catch(Exception e) {
-        	response.getWriter().append("Encountered an error while serving your request.").append(request.getContextPath());
-        }
-		
-		if(success) {
-			request.getRequestDispatcher("/admin_team_details.jsp").forward(request, response);
-		} else {
-			if(page.length() != 0) response.sendRedirect(page);
+			   
 		}
+		
+		if(request.getParameter("error") != null) {
+			request.setAttribute("error", request.getParameter("error"));
+		}
+
+		AccountControl.processResult(res, request, response, "AdminTeamDetails", "admin_teamdetails.jsp" + add);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

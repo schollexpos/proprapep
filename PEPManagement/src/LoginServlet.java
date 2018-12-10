@@ -1,4 +1,6 @@
 
+//Hello
+
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,6 +28,14 @@ public class LoginServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getParameter("error") != null) {
+			request.setAttribute("error", request.getParameter("error"));
+		}
+		
+		if(request.getParameter("returnto") != null) {
+			request.setAttribute("returnto", request.getParameter("returnto"));
+		}
+		
 		response.sendRedirect("login.jsp");
 	}
 
@@ -41,6 +51,7 @@ public class LoginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String page = "";
+		String returnto = request.getParameter("returnto");
 		Session session = new Session(db, request);
 		
 		//TODO: Clean up inputs
@@ -54,6 +65,7 @@ public class LoginServlet extends HttpServlet {
 				if(db.loginUser(email, password)) {
 					session.create(email);
 					page = "index";
+					if(returnto != null) page = returnto;
 				} else {
 					page = "login.jsp?error=3";
 				}
