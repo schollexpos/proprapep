@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 import java.sql.Date;
 
@@ -465,7 +467,7 @@ public class Database {
 	}
 	
 	private String generateTeamKennnummer(int id) throws SQLException {
-		/* Zur Kennnummerfeststellung wird die Anzahl der Teams aus dem Lehrstuhl benötigt,
+		/* Zur Kennnummerfeststellung wird die Anzahl der Teams aus dem Lehrstuhl benï¿½tigt,
 		 * die bereits eine Kennnummer haben (fortlaufende Nummer) */
 		if(id < 0) return "";
 		
@@ -553,53 +555,173 @@ public class Database {
 	
 	/* BEWERTUNG */
 	
-	public void addKriterium(String hauptkriterium, String teilkriterium, int maxpunkte) throws SQLException {
-		executeUpdate("INSERT INTO `bewertungskriterium` (`hauptkriterium`, `teilkriterium`, `maxpunkte`) VALUES ( '" + hauptkriterium + "', '" + teilkriterium + "', '" + maxpunkte  + "');");		
+	public void setJurorGruppe(int jurorid, int gruppe) throws SQLException {
+		if (!jurorGruppeExists(jurorid)){
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO juror (nutzerID, gruppe) VALUES (?,?)");
+			statement.setInt(1, jurorid);
+			statement.setInt(2, gruppe);
+			statement.executeUpdate();
+		} else {
+			PreparedStatement statement = connection.prepareStatement("UPDATE juror SET gruppe = ? WHERE nutzerID = ?");
+			statement.setInt(1, gruppe);
+			statement.setInt(2, jurorid);
+			statement.executeUpdate();
+		}
+	}
+	
+	public boolean jurorGruppeExists(int jurorid) throws SQLException {
+		ResultSet result = executeQuery("SELECT * FROM juror WHERE nutzerid = '" + jurorid + "'");
+		boolean hasResults = false;
+		while(result.next()) {
+			hasResults = true;
+		}
+		
+		return hasResults;
+	}
+	
+	
+	public boolean bewertungExists(int teamID, int bewertungID, int jurorID) throws SQLException {
+		ResultSet result = executeQuery("SELECT * FROM bewertung WHERE teamID = " + teamID + " AND bewertungID = " + bewertungID + "AND jurorid = " + jurorID);
+		
+		boolean hasResults = false;
+		while(result.next()) {
+			hasResults = true;
+		}
+		
+		return hasResults;
+	}
+	
+	public void setKriterium(String hauptkriterium, String teilkriterium, int maxpunkte) throws SQLException {
+		int id = -1;
+		if (kriteriumExists(teilkriterium)) {
+			PreparedStatement statement = connection.prepareStatement("UPDATE `bewertungskriterium` SET hauptkriterium = ?, teilkriterium = ?, maxpunkte = ? WHERE teilkriterium = ?;");
+			statement.setString(1,hauptkriterium);
+			statement.setString(2,teilkriterium);
+			statement.setInt(3,maxpunkte);
+			statement.setString(4,teilkriterium);
+			statement.executeQuery();
+			
+		}
+		else {
+			executeUpdate("INSERT INTO `bewertungskriterium` (`hauptkriterium`, `teilkriterium`, `maxpunkte`) VALUES ( '" + hauptkriterium + "', '" + teilkriterium + "', '" + maxpunkte  + "');");	
+		}
 	}
 	
 	public void deleteTeilkriterium(String teilkriterium) throws SQLException {		
-		executeUpdate("DELETE FROM bewertungskriterium WHERE teilkriterium='" + teilkriterium);
+		executeUpdate("DELETE FROM bewertungskriterium WHERE teilkriterium='" + teilkriterium + "'");
 	}
 	
 	public void deleteHauptkriterium(String hauptkriterium) throws SQLException {		
-		executeUpdate("DELETE FROM bewertungskriterium WHERE hauptkriterium='" + hauptkriterium);
+		executeUpdate("DELETE FROM bewertungskriterium WHERE hauptkriterium='" + hauptkriterium + "'");
 	}
 	
 	public boolean kriteriumExists(String teilkriterium) throws SQLException {
 		ResultSet result = executeQuery("SELECT id FROM bewertungskriterium WHERE teilkriterium = '" + teilkriterium + "'");
-		int rows = 0;
-		while (result.next())  { 
-			rows++;
-    	}
-		return rows > 0;
+		boolean hasResults = false;
+		while(result.next()) {
+			hasResults = true;
+		}
+		
+		return hasResults;
 	}
 	
-	public void createBewertung(int teamID, int jurorID, int punkte) throws SQLException {	
-		//TODO: update der Bewertung
-		executeUpdate("INSERT INTO `bewertung` (`teamID`, `jurorID`, `punkte`) VALUES ( '" + teamID + "', '" + jurorID + "', '" + punkte  + "');");		
+	public int getBewertung(int teamID, int bewertungid) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT punkte FROM (SELECT * FROM bewertung WHERE bewertungID = ?) AS X WHERE teamID = ?");
+		statement.setInt(1, bewertungid);
+		statement.setInt(2, teamID);
+		
+		ResultSet result = statement.executeQuery();
+		while(result.next()) {
+			return (result.getInt("punkte"));
+		}
+        return -1;
+	} 
+	
+	public void setBewertung(int teamid, int bewertungid, int punktzahl, int jurorid) throws SQLException {
+		
+		
+		if(!bewertungExists(teamid, bewertungid, jurorid)) {
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO `bewertung` (`teamID`, `jurorID`, `bewertungID`, `punkte`) VALUES (?,?,?,?);");
+			statement.setInt(1, teamid);
+			statement.setInt(2, jurorid);
+			statement.setInt(3, bewertungid);
+			statement.setInt(4, punktzahl);	
+			statement.executeUpdate();
+		}
+		else {
+			PreparedStatement statement = connection.prepareStatement("UPDATE `bewertung` SET punkte = ? WHERE teamID = ? AND bewertungID = ?;");
+			statement.setInt(1, punktzahl);
+			statement.setInt(2, teamid);
+			statement.setInt(3, bewertungid);
+			statement.executeUpdate();
+		}
 	}
+	
 	
 	public ResultSet listTeams() throws SQLException {		
 		ResultSet teams = executeQuery("SELECT * FROM team");		
 		return teams;
 	}
 
-	public ResultSet listKriterien() throws SQLException {
-		ResultSet kriterien = executeQuery("SELECT * FROM bewertungskriterium");		
-		return kriterien;
+	public ArrayList<Bewertungskriterium> getKriterien() throws SQLException {
+		ResultSet result = executeQuery("SELECT * FROM bewertungskriterium");
+		
+	    ArrayList<Bewertungskriterium> kriterien = new ArrayList<Bewertungskriterium>();
+
+        while (result.next()) {
+        	Bewertungskriterium bewertungskriterium = new Bewertungskriterium();
+        	bewertungskriterium.setHauptkriterium(result.getString("hauptkriterium"));
+        	bewertungskriterium.setTeilkriterium(result.getString("teilkriterium"));
+        	bewertungskriterium.setMaxpunkte(result.getInt("maxpunkte"));
+        	bewertungskriterium.setBewertungID(result.getInt("id"));
+        	kriterien.add(bewertungskriterium);
+        }
+        
+        return kriterien;
 	}
 	
-	public String getJurorGruppe(int jurorID) throws SQLException {		
-		ResultSet result = executeQuery("SELECT gruppe FROM juror WHERE id = '" + jurorID + "'");
+	public ArrayList<Integer> getJurorenIDs() throws SQLException {
+		ArrayList<Integer> juroren = new ArrayList<Integer>();
+		ResultSet result = executeQuery("SELECT id FROM nutzer WHERE berechtigungen = 1");
+		while(result.next()) {
+			int id = result.getInt("id");
+			juroren.add(id);
+		}
+		return juroren;
+	}
+	
+	public ArrayList<String> getJuroren() throws SQLException{
+		ArrayList<String> juroren = new ArrayList<String>();
+		ResultSet result = executeQuery("SELECT email FROM nutzer WHERE berechtigungen = 1");
+		while(result.next()) {
+			String email = result.getString("email");
+			int index = email.indexOf('@');
+			email = email.substring(0,index);
+			juroren.add(email);
+		}
+		return juroren;
+	}
+	
+	
+	public int getJurorGruppe(int jurorID) throws SQLException {		
+		ResultSet result = executeQuery("SELECT gruppe FROM juror WHERE nutzerID = '" + jurorID + "'");
 		
-		String res ="";
+		int res =-1;
 		while (result.next())  {
-			res = result.getString(1);
+			res = result.getInt(1);
 		}
 		return res;
 		
 	}
 	
+	public int getTeamIDByTitel(String titel) throws SQLException {
+		int id = -1;
+		ResultSet result = executeQuery("SELECT * FROM team WHERE projekttitel = '" + titel + "'");
+		while(result.next()) {
+			id = result.getInt("id");
+		}
+		return id;
+	}
 	
 	
 	/* 		Studiengaenge		 */

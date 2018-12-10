@@ -1,5 +1,9 @@
+import pepmanagement.AccountControl;
 import pepmanagement.Bewertungskriterium;
 import pepmanagement.Database;
+import pepmanagement.Database.Betreuer;
+import pepmanagement.Database.Team;
+import pepmanagement.Session;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -32,25 +36,19 @@ public class AdminBewertungskriterien extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-        List<Bewertungskriterium> kriterien = new ArrayList<Bewertungskriterium>();
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
+		
+		
 
-        try {          
-            ResultSet resultSet = db.listKriterien();         
-            while (resultSet.next()) {
-            	Bewertungskriterium bewertungskriterium = new Bewertungskriterium();
-            	bewertungskriterium.setHauptkriterium(resultSet.getString("hauptkriterium"));
-            	bewertungskriterium.setTeilkriterium(resultSet.getString("teilkriterium"));
-            	bewertungskriterium.setMaxpunkte(resultSet.getInt("maxpunkte"));
-            	kriterien.add(bewertungskriterium);
-            }
-            
+        try {
+            ArrayList<Bewertungskriterium> kriterien = db.getKriterien();   			
             request.setAttribute("kriterien", kriterien); // Will be available as ${kriterien} in JSP
-            request.getRequestDispatcher("admin_bewertungskriterien.jsp").forward(request, response);
             
         } catch (SQLException e) {
 			System.out.println("SQLError in AdminBewertung.java: " + e.getMessage());		
         }
+		AccountControl.processResult(res, request, response, "AdminBewertungskriterien", "admin_bewertungskriterien.jsp");
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -65,51 +63,65 @@ public class AdminBewertungskriterien extends HttpServlet {
 			try {
 				deleteKriterium(request,response);
 			} catch (SQLException e) {
-				request.setAttribute("datenbankfehler", "datenbankfehler");
+				request.setAttribute("error", "2");
+				e.printStackTrace();
+			}
+		} else if (request.getParameter("zuweisung") != null) {
+			try {
+				jurorZuweisen(request,response);
+			} catch(SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		
 		
 	}
-	
+	protected void jurorZuweisen(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+		int jurorid = -1;
+		int gruppe = -1;
+		ArrayList<String> juroren = db.getJuroren();
+		for (int i=0; i<juroren.size(); i++) {
+			if(request.getParameter("jurorid" + i).equals("")) {
+				continue;
+			}
+			jurorid = Integer.parseInt(request.getParameter("jurorid" + i));
+			gruppe = Integer.parseInt(request.getParameter("gruppe" + i));
+
+			db.setJurorGruppe(jurorid, gruppe);
+		}
+		
+		doGet(request, response);
+
+	}
 	
 	protected void addKriterium(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		String hauptkriterium = request.getParameter("hauptkriterium");
 		String teilkriterium = request.getParameter("teilkriterium");
 		String maxpunkte =request.getParameter("maxpunkte");
-		String page = "";		
-		System.out.println(hauptkriterium + " " + teilkriterium + " " + maxpunkte );
+		System.out.println("");
 		
-//		TODO: Fehlerbehandlung in der JSP 
-		if(hauptkriterium == null || teilkriterium == null || maxpunkte == null) {
+		if(hauptkriterium.equals("") || teilkriterium.equals("") || maxpunkte.equals("")) {
+			request.setAttribute("error", "1");
 			System.out.println("Keine Angaben!");
 		} else {			
-			db.addKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte));
-			page = "AdminBewertungskriterien";
-			System.out.println("geschafft");
+			db.setKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte));
 		}
-		doGet(request, response);
+		doGet(request,response);
+
 	}
 	
 	
 	protected void deleteKriterium(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		String deleteTeilkriterium = request.getParameter("teilkriterium");
 		String deleteHauptkriterium = request.getParameter("hauptkriterium");
-		System.out.println(deleteTeilkriterium + " " + deleteHauptkriterium);
-		if (deleteHauptkriterium == null && deleteTeilkriterium == null) {
-			System.out.println("Felder leer");
-		} else if (deleteHauptkriterium != null && deleteTeilkriterium != null) {			
+		if (deleteHauptkriterium.equals("") && deleteTeilkriterium.equals("")) {
+			request.setAttribute("error", "1");;
+		} else if (deleteHauptkriterium.equals("") && !deleteTeilkriterium.equals("")) {			
 			db.deleteTeilkriterium(deleteTeilkriterium);			
-		} else if (deleteHauptkriterium != null && deleteTeilkriterium == null) {
+		} else if (!deleteHauptkriterium.equals("")) {
 			db.deleteHauptkriterium(deleteHauptkriterium);
 		}
 		doGet(request,response);
 		
-	}
-	
-	
-	
-	
-	
+	}	
 }

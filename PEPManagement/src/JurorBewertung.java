@@ -19,12 +19,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/JurorBewertung")
 public class JurorBewertung extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Database db; 
- 
+	
     public JurorBewertung() {
         super();
         
@@ -35,7 +36,6 @@ public class JurorBewertung extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String page = "";
 		boolean success = false;
-		
 		try {
 			Session session = new Session(db, request);
 			
@@ -47,9 +47,11 @@ public class JurorBewertung extends HttpServlet {
 				if(!db.userIsJuror(userID)) {
 					page = "401.html";
 				} else {
+					request.setAttribute("teamtitel",(request.getParameter("projekttitel")));
 					request.setAttribute("hasAccess", new Boolean(true));
-					request.setAttribute("jurorID", userID);
-					request.setAttribute("kriterien", db.listKriterien());
+					request.setAttribute("jurorID", db.getUserID(session.getEmail()));
+					request.setAttribute("kriterien", db.getKriterien());
+
 					success = true;
 				}
 			}
@@ -58,6 +60,7 @@ public class JurorBewertung extends HttpServlet {
         	response.getWriter().append("Encountered an database-error while serving your request.").append(request.getContextPath());
         	System.out.println(e.getMessage());
         } catch(Exception e) {
+        	System.out.println(e.getMessage());
         	response.getWriter().append("Encountered an error while serving your request.").append(request.getContextPath());
         }
 		
@@ -68,50 +71,61 @@ public class JurorBewertung extends HttpServlet {
 		}   
 	}
 	
-	
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			addBewertung(request, response);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String page = "";
+		if (request.getParameter("bewerten") != null) {
+			try {
+				page = addBewertung(request,response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (request.getParameter("auswaehlen") != null) {
+			try {				
+				page = selectTeam(request,response);
+			} catch (SQLException e) {
+				request.setAttribute("error", "2");
+				e.printStackTrace();
+			}
+		} else if(request.getParameter("team")==null) {
+			page = "JurorBewertung?error=2";
 		}
-		doGet(request, response);
-		
+		response.sendRedirect(page);
+
 	}
 	
 	
-	private void addBewertung(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-		int jurorID = (int) request.getAttribute("jurorID");
+	private String selectTeam(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+		String page = "";	
 		
-		ResultSet kriterienSet = db.listKriterien();
-		List<Bewertungskriterium> kriterien = getKriterien(kriterienSet);
+		page = "JurorBewertung?team=" + request.getParameter("teamid");
+		return page;
+	}
 
-		String jurorGruppe = db.getJurorGruppe(jurorID);
-	    ArrayList<Integer> teams = db.getTeamsGruppe(jurorGruppe);      
+	private String addBewertung(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+		int team = Integer.parseInt(request.getParameter("tt"));
+		String page = "JurorBewertung?team=" + team;
+		ArrayList<Bewertungskriterium> kriterien = db.getKriterien();
 
-		
 		int length = kriterien.size();
 		
-		for (int i=0; i<length; i++) {				
-
+		for (int i=0; i<length; i++) {
+			if(request.getParameter("punktzahl"+ i).equals("")) {
+				continue;
+			}
+			int punktzahl = Integer.parseInt(request.getParameter("punktzahl" + i));
+			int bewertungid = Integer.parseInt(request.getParameter("bewertungid" + i));
+			int jurorid = 1;
+			int teamid = team;
+			
+			db.setBewertung(teamid, bewertungid, punktzahl, jurorid);
+			
 		}
+		return page;
+		
 	}
 	
-	private List<Bewertungskriterium> getKriterien(ResultSet kriterienSet) throws SQLException {
-	    List<Bewertungskriterium> kriterien = new ArrayList<Bewertungskriterium>();
-
-        while (kriterienSet.next()) {
-        	Bewertungskriterium bewertungskriterium = new Bewertungskriterium();
-        	bewertungskriterium.setHauptkriterium(kriterienSet.getString("hauptkriterium"));
-        	bewertungskriterium.setTeilkriterium(kriterienSet.getString("teilkriterium"));
-        	bewertungskriterium.setMaxpunkte(kriterienSet.getInt("maxpunkte"));
-        	kriterien.add(bewertungskriterium);
-        }
-        
-        return kriterien;
-	}	
 
 	
 	

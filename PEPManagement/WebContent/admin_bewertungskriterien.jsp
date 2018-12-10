@@ -2,6 +2,8 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="pepmanagement.Bewertungskriterium,pepmanagement.Database.Team,pepmanagement.Database,java.util.*" %>
+    
 
 <!DOCTYPE html>
 <html>
@@ -13,8 +15,8 @@
     <title>Bewertung Admin</title>
 </head>
     		<%
-			if(request.getParameter("error") != null) {
-				String str = request.getParameter("error");
+			if(request.getAttribute("error") != null) {
+				String str = (String) request.getAttribute("error");
 				String errorMessage = "???";
 				if(str.equals("1") || str.equals("7")) {
 					errorMessage = "Bitte f&uuml;llen Sie alle Felder aus!";
@@ -74,71 +76,34 @@
         <div class="container-fluid w-25 h-75 mt-3 ml-0 mr-auto p-4 border-right border-dark" style="box-shadow: 15px 0 8px -10px rgb(82, 82, 82);">
 
             <h2 class="mt-1 text-center">Juror / Gruppe</h2>
-            <div class="myrow mt-4">
-                <h4 class="w-25 mr-auto ml-0 text-center pt-1">Juror 1</h4>
-
-                <select class="w-50 ml-2 mr-auto custom-select  border border-dark"><span>Gruppe</span>
-                    <option>Gruppe 1</option>
-                    <option>Gruppe 2</option>
-
-                </select>
-
-            </div>
-
-            <div class="myrow mt-1">
-                <h4 class="w-25 mr-auto ml-0 text-center pt-1">Juror 2</h4>
-
-                <select class="w-50 ml-2 mr-auto custom-select  border border-dark"><span>Gruppe</span>
-                    <option>Gruppe 1</option>
-                    <option>Gruppe 2</option>
-
-                </select>
-
-            </div>
-
-            <div class="myrow mt-1">
-                <h4 class="w-25 mr-auto ml-0 text-center pt-1">Juror 3</h4>
-
-                <select class="w-50 ml-2 mr-auto custom-select  border border-dark"><span>Gruppe</span>
-                    <option>Gruppe 1</option>
-                    <option>Gruppe 2</option>
-
-                </select>
-
-            </div>
-
-            <div class="myrow mt-1">
-                <h4 class="w-25 mr-auto ml-0 text-center pt-1">Juror 4</h4>
-
-                <select class="w-50 ml-2 mr-auto custom-select  border border-dark"><span>Gruppe</span>
-                    <option>Gruppe 1</option>
-                    <option>Gruppe 2</option>
-
-                </select>
-
-            </div>
-
-            <div class="myrow mt-1">
-                <h4 class="w-25 mr-auto ml-0 text-center pt-1">Juror 5</h4>
-
-                <select class="w-50 ml-2 mr-auto custom-select  border border-dark"><span>Gruppe</span>
-                    <option>Gruppe 1</option>
-                    <option>Gruppe 2</option>
-
-                </select>
-
-            </div>
-
-            <div class="myrow mt-1">
-                <h4 class="w-25 mr-auto ml-0 text-center pt-1">Juror 6</h4>
-
-                <select class="w-50 ml-2 mr-auto custom-select  border border-dark"><span>Gruppe</span>
-                    <option>Gruppe 1</option>
-                    <option>Gruppe 2</option>
-
-                </select>
-
-            </div>
+             <div class="myrow mt-4">
+             <form action = "AdminBewertungskriterien" method = post>
+	        <%
+	        Database db = new Database();
+	        db.connect();
+	        ArrayList<String> juroren = db.getJuroren(); 
+	        ArrayList<Integer> jurorenIDs = db.getJurorenIDs();
+	        
+	        for (int i = 0; i < juroren.size(); i++){
+	        	int jurorid = jurorenIDs.get(i);
+	        	out.println( "<h4 class=" + "\"w-25 mr-auto ml-0 text-center pt-1\">" + juroren.get(i) + "</h4>");
+	        	out.println("<select class=\"w-50 ml-2 mr-auto custom-select  border border-dark\" name=\"gruppe" + i + "\" ><span>Gruppe</span>");
+	        	out.println("<option>1</option>");
+	        	out.println("<option>2</option>");
+	        	out.println("<input type=\"hidden\" name=\"jurorid" + i  + "\" value=\""  + jurorid + "\"" + ">");
+	        	out.println("</select>");
+	        }
+	        
+	        
+	        %>
+            <input type="submit" class="btn btn-primary m-2" value="Juroren zuweisen" style="width: 200px; min-width:100px; height:40px" name = "zuweisung">
+	         </form> 
+	               
+	
+	          
+	
+	            </div>
+	
 
             <p class="impmsg border border-secondary w-75 mt-2" style="font-size:18px;">Bitte erst nach Ablauf der
                 Abgabefrist zuteilen!</p>
