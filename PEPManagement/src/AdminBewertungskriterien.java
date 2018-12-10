@@ -35,10 +35,11 @@ public class AdminBewertungskriterien extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-
 		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
 		
-		
+		if(request.getParameter("error") != null) {
+			request.setAttribute("error", request.getParameter("error"));
+		} 
 
         try {
             ArrayList<Bewertungskriterium> kriterien = db.getKriterien();   			

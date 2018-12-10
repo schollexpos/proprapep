@@ -7,7 +7,6 @@
 }
 
 Database.User u = (Database.User) request.getAttribute("user");
-Database.Student s = (Database.Student) request.getAttribute("student");
 
 %>
 <!DOCTYPE html>
@@ -46,7 +45,10 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         <h1 class="nav-item m-auto "><b>Planungs- und Entwicklungsprojekt</b></h1>
 
         	<%
-					String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.STUDENT);
+        	pepmanagement.AccountControl.UserRank rank;
+        		if(u.isAdmin()) rank = pepmanagement.AccountControl.UserRank.ADMIN; 
+        		else rank =  pepmanagement.AccountControl.UserRank.JUROR;
+					String str = pepmanagement.Menu.getMenu(rank);
 					out.println(str);
 				%>
       </nav>
@@ -57,26 +59,6 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
           <div class="myrow">
             <div class="srow">
               <div class="relem1">
-                <h4 class="inlabel">Vorname</h4>
-              </div>
-              <div class="relem2">
-                <input id="vornameh" value="<%=s.getVorname() %>" type="text" class="inputl border border-dark p-1 mt-1">
-              </div>
-            </div>
-          </div>
-          <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h4 class="inlabel">Nachname</h4>
-              </div>
-              <div class="relem2">
-                <input id="nachnameh" value="<%=s.getNachname() %>" type="text" class="inputl border border-dark p-1 mt-1">
-              </div>
-            </div>
-          </div>
-          <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
                 <h4 class="inlabel">E-Mail</h4>
               </div>
               <div class="relem2">
@@ -84,16 +66,6 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
               </div>
             </div>
           </div>
-          </div>
-          <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h4 class="inlabel">Matrikel-Nr.</h4>
-              </div>
-              <div class="relem2">
-                <input id="matrikh" value="<%=s.getMatrikelnummer() %>" type="text" class="inputl border border-dark p-1 mt-1">
-              </div>
-            </div>
           </div>
       </div>
       <div class="col-sm m-1">

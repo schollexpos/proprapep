@@ -35,6 +35,11 @@ public class AdminConfig extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
 		
+		if(request.getParameter("error") != null) {
+			request.setAttribute("error", request.getParameter("error"));
+		}
+
+		
 		AccountControl.processResult(res, request, response, "AdminConfig", "admin_config.jsp");
 	}
 	

@@ -18,8 +18,11 @@
 	Database db = new Database();
 	db.connect();
 	
-	if(request.getParameter("error") != null) {
-		String str = (String) request.getParameter("error");
+	 int jurorID = (Integer) request.getAttribute("jurorID");
+     int jurorGruppe = db.getJurorGruppe(jurorID);
+	
+     if(request.getParameter("error") != null || request.getAttribute("error") != null) {
+ 		String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
 		String errorMessage = "???";
 		if(str.equals("1") || str.equals("7")) {
 			errorMessage = "Bitte f&uuml;llen Sie alle Felder aus!";
@@ -29,7 +32,9 @@
 			errorMessage = "Bitte &uuml;berpr&uuml;fen Sie Ihre Eingaben auf Korrektheit!";
 		} 
 		
-		out.println("<div class=\"errormessage\"><p>" + errorMessage + "</p></div>");
+		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
+	} else if(jurorGruppe == -1) {
+		out.println(pepmanagement.Menu.getErrorMessage("<div class=\"errormessage\"><p>Sie wurden bisher keiner Gruppe zugeteilt! Melden sie sich beim Administrator, wenn dies ein Fehler ist.</p></div>"));
 	}
 	
 %>
@@ -37,45 +42,19 @@
 
 <body class="flex-grow-1">
     <div class="py-2 px-2 mb-0">
-        <div class="container-fluid logo border border-dark">
-          <nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand" href="https://www.uni-siegen.de/start/">
-              <img class="log" src="logo_u_s.png" width="180">
-    
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-    
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item mx-2">
-                  <a class="nav-link" href="#">Planungs- und Entwicklungsprojekt</a>
-                </li>
-                <li class="nav-item mx-2">
-                  <a class="nav-link" href="team.html">Team</a>
-                </li>
-                <li class="nav-item active mx-2">
-                  <a class="nav-link" href="upload.html">Upload<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item mx-2">
-                  <a class="nav-link" href="zuordnung.html">Zuordnung Gruppen</a>
-                </li>
-                <li class="nav-item mx-2">
-                  <a class="nav-link" href="teamuebersicht.html">Team Übersicht</a>
-                </li>
-                <li class="nav-item mx-2">
-                  <a class="nav-link" href="zuojuror.html">Bewertung</a>
-                </li>
-              </ul>
-              <form class="form-inline">
-                <a class="nav-link mx-2" href="#">Logout</a>
-              </form>
-    
-            </div>
-          </nav>
-        </div>
+         <div class="container-fluid logo border border-dark">
+      <nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
+        <a class="navbar-brand mr-auto" href="https://www.uni-siegen.de/start/">
+          <img class="log" src="logo_u_s.png" width="180">
+        </a>
+        <h1 class="nav-item m-auto "><b>Planungs- und Entwicklungsprojekt</b></h1>
+
+        	<%
+					String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.JUROR);
+					out.println(str);
+				%>
+      </nav>
+    </div>
     </div>
     <form action="JurorBewertung" method="post">
     
@@ -88,19 +67,26 @@
             </div>
             <div class="myrow m-auto p-2">
             <%
-            int jurorID = (Integer) request.getAttribute("jurorID");
-    		int jurorGruppe = db.getJurorGruppe(jurorID);
+           
+            int team = -1;
+        	if(request.getParameter("team") != null) {
+        		try {
+        			team = Integer.valueOf(request.getParameter("team"));
+        		} catch(Exception e) {
+        			team = -1;
+        		}
+        	}
 
             ArrayList<Team> teamList = (ArrayList<Team>) db.getTeams(jurorGruppe);
             %>
             
             	<form name = "form1" action="JurorBewertung">
 	                <select class="custom-select inputl w-50 m-auto p-1 border border-dark" id = "teamid" name="teamid" onchange="changeTeam();">
-	                  <option selected="">Team auswählen</option>
+	                  <option value="-1"<% if(team==-1) out.print(" selected"); %>>Team auswählen</option>
 	                
 	                <%
 	                	for (int j = 0;j<teamList.size(); j++){
-		                    out.println("<option>" + teamList.get(j).getID() + "</option>");						
+		                    out.println("<option" + (teamList.get(j).getID() == team ? " selected" : "") +" value=" + teamList.get(j).getID() + ">" + teamList.get(j).getKennnummer() + ": " + teamList.get(j).getTitel() + "</option>");						
 	                	}		                    
 		            %>                 
                   
@@ -116,10 +102,7 @@
         <div class="col-sm mr-auto">
         </div>
     </div>
-	<%int team = -1;
-	if(request.getParameter("team") != null) {
-		team = Integer.valueOf(request.getParameter("team"));
-	} %>
+	
     <div class="p-5 container-fluid h-50 m-auto">
         <div class="row mb-4">
             <form action="JurorBewertung" method="post">
@@ -128,7 +111,8 @@
             	<%if (team == -1){
             		out.println("<h1>Noch kein Team ausgewählt!</h1>");            		
             	} else {
-            		out.println("<h1>Ausgewähltes Team:" + db.getTeamTitel(team) + " </h1>");  
+            		Team t = db.getTeam(team);
+            		out.println("<h1>Ausgewähltes Team: " + t.getKennnummer() + " - " + t.getTitel() + " </h1>");  
             	}
             	
             	%>
@@ -186,8 +170,8 @@
 
       function changeTeam(){
     	  var e = document.getElementById("teamid");
-    	  var team = e.options[e.selectedIndex].text;
-    	  window.location.href("http://localhost:8080/PEPManagement/JurorBewertung?team=" + team);
+    	  var team = e.options[e.selectedIndex].value;
+    	  window.location.href = "http://localhost:8080/PEPManagement/JurorBewertung?team=" + team;
       }
 </script>
 

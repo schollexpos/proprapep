@@ -115,13 +115,13 @@ public class AccountControl {
 			break;
 		case DBERROR:
 			if(jspError) {
-				page = addParameter(jsp, "error", "1");
+				request.setAttribute("error", "1");
 			} else {
 				response.getWriter().append("[Encountered an database-error while serving your request.").append(request.getContextPath());
 			}
 		case ERROR:
 	    	if(jspError) {
-				page = addParameter(jsp, "error", "2");
+				request.setAttribute("error", "2");
 			} else {
 		    	response.getWriter().append("Encountered an error while serving your request.").append(request.getContextPath());
 			}

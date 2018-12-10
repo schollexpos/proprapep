@@ -27,35 +27,37 @@ boolean frei = db.bewertungOpen();
 </head>
 
 <body class="flex-grow-1">
-    <<div class="py-2 px-2 mb-0">
-        <div class="container-fluid logo border border-dark">
-            <nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
-                <a class="navbar-brand mr-auto" href="https://www.uni-siegen.de/start/">
-                    <img class="log" src="logo_u_s.png" width="180">
-                </a>
-                <h1 class="nav-item m-auto "><b>Planungs- und Entwicklungsprojekt</b></h1>
 
-                <div class="dropdown show ml-auto mr-3">
-                    <a style="text-decoration:none;" class="menu-dt" href="#" role="button" id="dropdownMenuLink"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <img class="menu-pic" src="Bilder/menu.png" width="60">
-                    </a>
+<% 
+if(request.getParameter("error") != null || request.getAttribute("error") != null) {
+	String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
+		String errorMessage = "???";
+		if(str.equals("1")) {
+			errorMessage = "Datenbankfehler";
+		} else if(str.equals("2")) {
+			errorMessage = "Es gab einen Fehler!";
+		} else {
+			errorMessage = "Unbekannter Fehler!";
+		}
+		
+		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
+	}
+%>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="index.html">Planungs- und Entwicklungsprojekt</a>
-                        <a class="dropdown-item" href="teamuebersicht.html">Teamübersicht</a>
-                        <a class="dropdown-item" href="zuordnung.html">Lehrstuhl Details</a>
-                        <a class="dropdown-item" href="zuojuror.html">Bewertungs Details</a>
-                        <a class="dropdown-item" href="fristen.html">Planungs Details</a>
-                        <a class="dropdown-item" href="siegerehrung.html">Siegerehrung</a>
-                        <a class="dropdown-item" href="persöhnliches_Admin.html">Persöhnliches</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
-                    </div>
+    <div class="py-2 px-2 mb-0">
+            <div class="container-fluid logo border border-dark">
+      <nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
+        <a class="navbar-brand mr-auto" href="https://www.uni-siegen.de/start/">
+          <img class="log" src="logo_u_s.png" width="180">
+        </a>
+        <h1 class="nav-item m-auto "><b>Planungs- und Entwicklungsprojekt</b></h1>
 
-                </div>
-            </nav>
-        </div>
+        	<%
+					String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.ADMIN);
+					out.println(str);
+				%>
+      </nav>
+    </div>
     </div>
 
  
