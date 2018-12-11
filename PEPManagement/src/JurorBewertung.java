@@ -42,10 +42,16 @@ public class JurorBewertung extends HttpServlet {
 		}
 		
 		if(res == AccountControl.Result.SUCCESS) {
-			request.setAttribute("teamtitel",(request.getParameter("projekttitel")));
-			request.setAttribute("hasAccess", new Boolean(true));
-			request.setAttribute("jurorID", db.getUserID(session.getEmail()));
-			request.setAttribute("kriterien", db.getKriterien());
+			try {
+				Session session = new Session(db, request);
+				session.restore(request);
+				request.setAttribute("teamtitel",(request.getParameter("projekttitel")));
+				request.setAttribute("hasAccess", new Boolean(true));
+				request.setAttribute("jurorID", db.getUserID(session.getEmail()));
+				request.setAttribute("kriterien", db.getKriterien());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		AccountControl.processResult(res, request, response, "AdminLehrstuhlStudiengang", "admin_ls_sg.jsp");
