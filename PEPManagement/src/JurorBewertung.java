@@ -66,7 +66,12 @@ public class JurorBewertung extends HttpServlet {
 			page = "login.jsp?returnto=AdminTeamDetails";
 		} else if (request.getParameter("bewerten") != null) {
 			try {
-				page = addBewertung(session, request,response);
+				if(!db.bewertungOpen()) {
+					page = "JurorBewertung?error=10";
+				}
+				else {
+					page = addBewertung(session, request,response);
+				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
