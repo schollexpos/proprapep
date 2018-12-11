@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@page import="pepmanagement.Bewertungskriterium,pepmanagement.Database.Team,pepmanagement.Database,java.util.*" %>
+<%@page import="pepmanagement.Bewertungskriterium,pepmanagement.Database.Team,pepmanagement.Database,java.util.*,pepmanagement.FileManager" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -18,9 +18,10 @@
 	Database db = new Database();
 	db.connect();
 	
-	 int jurorID = (Integer) request.getAttribute("jurorID");
-     int jurorGruppe = db.getJurorGruppe(jurorID);
-	
+	 
+	int jurorID = (Integer) request.getAttribute("jurorID");
+    int jurorGruppe = db.getJurorGruppe(jurorID);
+    
      if(request.getParameter("error") != null || request.getAttribute("error") != null) {
  		String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
 		String errorMessage = "???";
@@ -30,9 +31,13 @@
 			errorMessage = "Sie müssen zunächst ein Team auswählen!";
 		} else if(str.equals("3")) {
 			errorMessage = "Bitte &uuml;berpr&uuml;fen Sie Ihre Eingaben auf Korrektheit!";
-		} 
+		} else if(str.equals("10")){
+			errorMessage = "Die Bewertung ist nicht offen!";
+		}
+		
 		
 		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
+		
 	} else if(jurorGruppe == -1) {
 		out.println(pepmanagement.Menu.getErrorMessage("<div class=\"errormessage\"><p>Sie wurden bisher keiner Gruppe zugeteilt! Melden sie sich beim Administrator, wenn dies ein Fehler ist.</p></div>"));
 	}
@@ -103,8 +108,8 @@
         </div>
     </div>
 	
-    <div class="p-5 container-fluid h-50 m-auto">
-        <div class="row mb-4">
+    <div class="myrow">
+        <div class="col-sm p-4">
             <form action="JurorBewertung" method="post">
         
             <div class="table-wrapper-scroll-y m-auto" style="max-height:500px; width:95% ">
@@ -147,24 +152,42 @@
 
                 			}
                     		                    		
-                    		%>
+                    		%>  
 
 
-   							
+   						 
                         
                     </tbody>
                 </table>
             </div>
             
-            <input type="submit" class="btn btn-primary m-2" value="Bewertung hinzufügen" style="width: 200px; min-width:100px; height:40px" name = "bewerten">
+            <input type="submit" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Bewertung hinzufügen" style="width: 200px; min-width:100px; height:40px" name = "bewerten">
+            
             </form>
             
 
 
         </div>
+        <div class="col-sm-9 col-md-3">
         
+                <h3 class="m-auto p-3 ">Downloads</h3>
+                <a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(0))%>">
+               		 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Dokumentation">
+				</a>
+				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(1))%>">
+                <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Poster">
+				</a>
+				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(2))%>">
+                <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Kurzbeschreibung">
+				</a>
+				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(3))%>">
+               		 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Präsentation">
+				</a>
+        </div>
     </div>
+  
     </form>
+      
 </body>
 <script>
 

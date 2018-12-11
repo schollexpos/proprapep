@@ -47,10 +47,11 @@ public class StudentUpload extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.VORSITZ, db, request, response);
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.STUDENT, db, request, response);
 
 		
 		if(res == AccountControl.Result.SUCCESS) {
+			
 			long deadline = -1;
 			
 			// List of all the existing files
@@ -59,9 +60,13 @@ public class StudentUpload extends HttpServlet {
 			Session session = new Session(db, request);
 			session.restore(request);
 			
+			boolean vorsitz = false;
+			
 			int teamID = -1;
 			try {
-				teamID = db.getTeamID(session.getEmail());
+				Database.Student s = db.getStudent(db.getUserID(session.getEmail()));
+				vorsitz = s.isVorsitz();
+				teamID = s.getTeamID();
 	    			
 				for(int i = 0;i < FileManager.getFileCount();i++) {
 					String date = "";
@@ -84,6 +89,7 @@ public class StudentUpload extends HttpServlet {
 			
 			
 			request.setAttribute("list", list);
+			request.setAttribute("vorsitz", new Boolean(vorsitz));
 			request.setAttribute("deadline", new Long(deadline));
 		}
 		
