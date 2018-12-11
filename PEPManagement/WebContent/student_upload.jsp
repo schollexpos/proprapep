@@ -40,6 +40,7 @@
   
   <%
  	ArrayList<Pair<String,String>> list =  (ArrayList<Pair<String,String>>) request.getAttribute("list");
+  	Boolean vorsitz = (Boolean) request.getAttribute("vorsitz");
   	
   for(int i = 0;list != null && i < list.size();i++) {
 	  
@@ -47,8 +48,11 @@
 	  out.println("<div class=\"col-sm ml-auto\"><h4 class=\"inlabel text-center\">" +  list.get(i).x + "</h4></div>");
 	  out.println("<input type=\"hidden\" name=\"filename\" value=\"" + list.get(i).x + "\" />");
 	  out.println("<div class=\"col-sm input-group\"><label class=\"input-group-btn\"><span class=\"btn btn-default wichtigUp\">Browse...<input type = \"file\" name = \"file\" size = \"50\" style=\"display: none;\" multiple></span></label><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>");
-	  out.println("<div class=\"col-sm\"><input type=\"submit\" class=\"btn btn-default wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark\" value=\"Upload\" style=\"display:block;\"></div>");
-  	  out.println("</form><div class=\"myrow\">");
+	  out.println("<div class=\"col-sm\">");
+	  if(vorsitz.booleanValue())
+		  out.println("<input type=\"submit\" class=\"btn btn-default wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark\" value=\"Upload\" style=\"display:block;\">");
+  	  
+	  out.println("</div></form><div class=\"myrow\">");
   	  out.println("<p class=\"text-center m-auto\" style=\"height:16px; ; padding-left: 1px;\">Letzter Upload: " + list.get(i).y + "</p></div>"); 
 	  out.println("</div>\n");
 	  
