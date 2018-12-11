@@ -99,7 +99,7 @@
         <div class="myrow">
           <div class="srow">
             <div class="relem3">
-            <a class ="wichtig border border-dark" href="register.html">Registrieren</a>
+            <a class ="wichtig border border-dark" href="student_register.jsp">Registrieren</a>
             </div>
           </div>
         </div>
