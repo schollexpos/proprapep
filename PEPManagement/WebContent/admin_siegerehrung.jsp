@@ -9,7 +9,7 @@ if(request.getAttribute("hasAccess") == null) {
 
 Database db = new Database();
 db.connect();
-
+ 
 
 int order = 1;
 int [] teamIDg1 = new int[3];

@@ -641,7 +641,7 @@ public class Database {
 	}
 		
 		
-	 
+	  
 	
 	
 	public void setBewertung(int teamid, int bewertungid, int punktzahl, int jurorid) throws SQLException {
