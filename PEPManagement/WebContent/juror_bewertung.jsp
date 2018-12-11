@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@page import="pepmanagement.Bewertungskriterium,pepmanagement.Database.Team,pepmanagement.Database,java.util.*" %>
+<%@page import="pepmanagement.Bewertungskriterium,pepmanagement.Database.Team,pepmanagement.Database,java.util.*,pepmanagement.FileManager" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -171,16 +171,16 @@
         <div class="col-sm-9 col-md-3">
         
                 <h3 class="m-auto p-3 ">Downloads</h3>
-                <a href=JurorBewertung?down=doku?team=<%=team%>>
+                <a href=<%=FileManager.getFilename(team, FileManager.getFileIdentifier(0))%>>
                		 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Dokumentation">
 				</a>
-				<a href=JurorBewertung?down=poster?team=<%=team%>>
+				<a href=<%=FileManager.getFilename(team, FileManager.getFileIdentifier(1))%>>
                 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Poster">
 				</a>
-				<a href=JurorBewertung?down=kurz?team=<%=team%>>
+				<a href=<%=FileManager.getFilename(team, FileManager.getFileIdentifier(2))%>>
                 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Kurzbeschreibung">
 				</a>
-				<a href=JurorBewertung?down=prae?team=<%=team%>>
+				<a href=<%=FileManager.getFilename(team, FileManager.getFileIdentifier(3))%>>
                		 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Präsentation">
 				</a>
         </div>
