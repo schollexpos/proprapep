@@ -85,8 +85,12 @@ public class AdminBewertungskriterien extends HttpServlet {
 			if(request.getParameter("jurorid" + i).equals("")) {
 				continue;
 			}
+			try {
 			jurorid = Integer.parseInt(request.getParameter("jurorid" + i));
 			gruppe = Integer.parseInt(request.getParameter("gruppe" + i));
+			} catch(NumberFormatException e) {
+				
+			}
 
 			db.setJurorGruppe(jurorid, gruppe);
 		}
@@ -104,8 +108,12 @@ public class AdminBewertungskriterien extends HttpServlet {
 		if(hauptkriterium.equals("") || teilkriterium.equals("") || maxpunkte.equals("")) {
 			request.setAttribute("error", "1");
 			System.out.println("Keine Angaben!");
-		} else {			
-			db.setKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte));
+		} else {
+			try {
+				db.setKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte));
+			} catch(NumberFormatException e) {
+				request.setAttribute("error", "2");
+			}
 		}
 		doGet(request,response);
 

@@ -20,7 +20,7 @@
 				if(str.equals("1") || str.equals("7")) {
 					errorMessage = "Bitte f&uuml;llen Sie alle Felder aus!";
 				} else if(str.equals("2")) {
-					errorMessage = "Datenbankfehler!";
+					errorMessage = "Geben sie eine Zahl als Punktzahl ein!";
 				} else if(str.equals("3")) {
 					errorMessage = "Bitte &uuml;berpr&uuml;fen Sie Ihre Eingaben auf Korrektheit!";
 				} 
