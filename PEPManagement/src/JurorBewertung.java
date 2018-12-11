@@ -35,7 +35,7 @@ public class JurorBewertung extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.JUROR, db, request, response);
 		
 		if(request.getParameter("error") != null) {
 			request.setAttribute("error", request.getParameter("error"));
@@ -54,7 +54,7 @@ public class JurorBewertung extends HttpServlet {
 			}
 		}
 
-		AccountControl.processResult(res, request, response, "AdminLehrstuhlStudiengang", "admin_ls_sg.jsp");
+		AccountControl.processResult(res, request, response, "JurorBewertung", "juror_bewertung.jsp");
 	}
 	
 
