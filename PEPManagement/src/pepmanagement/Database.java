@@ -277,6 +277,20 @@ public class Database {
 		statement.executeUpdate();
 	}
 	
+	public void updateStudent(int userID, String vorname, String name, String email, String studiengang) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("UPDATE student SET vorname = ?, nachname = ?, studiengang = ? WHERE nutzerid = ?");
+		statement.setString(1, vorname);
+		statement.setString(2, name);
+		statement.setString(3, studiengang);
+		statement.setInt(4, userID);
+		statement.executeUpdate();
+		 
+		statement = connection.prepareStatement("UPDATE nutzer SET email = ? WHERE id = ?");
+		statement.setString(1, email);
+		statement.setInt(2, userID);
+		statement.executeUpdate();
+	}
+	
 	
 	
 	public class Student {

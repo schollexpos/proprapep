@@ -1,5 +1,11 @@
+<%@ page import="pepmanagement.Database, pepmanagement.Menu, pepmanagement.AccountControl, pepmanagement.Pair, java.util.ArrayList" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="utf-8"%>
+    <%
+    	Database db = new Database();
+    	db.connect();
+    %>
 <!DOCTYPE html>
 <html>
 
@@ -118,6 +124,16 @@
 		            <h4 class="inlabel">Studiengang</h4>
 		          </div>
 		          <div class="relem2" >
+		          	<select name="studiengang" id="studiengang" class="inputl border border-dark p-1 mt-1">
+		          		<%
+		          			ArrayList<String> sList = db.getStudiengaenge();
+		          		
+		          			for(int i = 0;i < sList.size();i++) {
+		          				out.println("<option>" + sList.get(i) + "</option>");
+		          			}
+		          		%>
+		          	</select>
+		          
 		            <input id="studiengang" name="studiengang" type="text" class="inputl border border-dark p-1 mt-1" >
 		          </div>
 		        </div>

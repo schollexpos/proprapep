@@ -20,9 +20,15 @@
 		String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
 		String errorMessage = "???";
 		if(str.equals("1")) {
-			errorMessage = "Datenbankfehler";
+
+			errorMessage = "Füllen Sie alle Felder aus!";
 		} else if(str.equals("2")) {
-			errorMessage = "Es gab einen Fehler!";
+
+			errorMessage = "Datenbankfehler";
+		} else if(str.equals("3")) {
+			errorMessage = "Bitte geben sie als Matrikelnummer ausschließlich eine Zahl ein";
+		} else if(str.equals("4")) {
+			errorMessage = "Nur studentische E-Mail-Adressen der Universität Siegen sind erlaubt!";
 		} else {
 			errorMessage = "Unbekannter Fehler!";
 		}
@@ -81,7 +87,7 @@
 	        </div>
 	    </div>
 	
-	    <div class="p-5 container-fluid h-75 m-auto">
+	    <div class="p-5 container-fluid h-30 m-auto">
 	        <div class="row mb-4">
 	            <div class="table-wrapper-scroll-y m-auto" style="max-height:500px; width:95% ">
 	
@@ -98,26 +104,31 @@
 	                    </thead>
 	                    <tbody>
 	                    	<%
-	                    		
+	                    		ArrayList<Integer> list;
+	                    		ArrayList<Database.User> users = new ArrayList<Database.User>();
+	                    		ArrayList<Database.Student> studenten = new ArrayList<Database.Student>();
 	                    		try {
-	                    			
-
-		                    		ArrayList<Integer> list = db.getStudentenFromTeam(teamID);
+		                    		list = db.getStudentenFromTeam(teamID);
 		                    		for(int i = 0; i < list.size();i++) {
 		                    			int userID = list.get(i).intValue();
 		                    			Database.User user = db.getUser(userID);
 		                    			Database.Student student = db.getStudent(userID);
+		                    			
 		                    			out.println("<tr>");
-		                    			out.println("<th class=\"sortable\">" + student.getNachname() + "</th>");
-		                    			out.println("<td>" + student.getVorname() + "</td>");
+		                    			out.println("<th class=\"sortable\" id=\"name_" + userID + "\">" + student.getNachname() + "</th>");
+		                    			out.println("<td id=\"vorname_" + userID + "\">" + student.getVorname() + "</td>");
 		                    			out.println("<td>" + (student.isVorsitz() ? "Ja" : "Nein") + "</td>");
-		                    			out.println("<td>" + user.getEmail() + "</td>");
+		                    			out.println("<td id=\"email_" + userID + "\">" + user.getEmail() + "</td>");
 		                    			out.println("<td>" + student.getMatrikelnummer() + "</td>");
-		                    			out.println("<td>" + student.getStudiengang() + "</td>");
+		                    			out.println("<td id=\"studiengang_" + userID + "\">" + student.getStudiengang() + "</td>");
 		                    			out.println("</tr>");
+		                    			
+		                    			users.add(user);
+		                    			studenten.add(student);
 		                    		}
 	                    		} catch(Exception e) {
 	                    			out.print(":O");
+	                    			list = new ArrayList<Integer>();
 	                    		}
 	                    		
 	                    		
@@ -130,7 +141,110 @@
 	        </div>
 	    </div>
 	    
-	    
+	    	    
+	    <script>
+	    	function updateForm() {
+	    		var selected = document.getElementById("matrik").value;
+	    		
+	    		document.getElementById("vorname").value = document.getElementById("vorname_" + selected).innerHTML;
+	    		document.getElementById("name").value = document.getElementById("name_" + selected).innerHTML
+	    		document.getElementById("studiengang").value = document.getElementById("studiengang_" + selected).innerHTML;
+	    		document.getElementById("email").value = document.getElementById("email_" + selected).innerHTML;
+	    	}
+	    	
+	    </script>
+    <div class="container-fluid myrow botbox mt-4 mb-0">
+
+            <form id="student" method="post" action="AdminTeamDetails" class="col-12 row">
+                <div class="col-4 mt-2">
+    
+                    <div class="row mt-1">
+                        <div class="col-4 p-1">
+                            <h4 class="inlabel text-left">Matrikel-Nr.</h4>
+                        </div>
+                        <div class="col-7 pr-4">
+                        		<input type="hidden" name="team" value="<% out.print(teamID); %>">
+                                <select id="matrik" name="matrikelnummer" class="custom-select mw-200 w-100 border border-dark" onchange="updateForm();">
+                                  <%
+                                  try {
+	                                  for(int i = 0; i < list.size();i++) {
+			                    			int userID = list.get(i).intValue();
+			                    			out.println("<option value=\"" + userID +"\">" + studenten.get(i).getMatrikelnummer() + "</option>");
+	                                  }
+                                  } catch(Exception e) {
+                                	  
+                                  }
+                                  %>
+                                </select>
+                        </div>
+    
+                    </div>
+    
+                    <div class="row mt-1">
+                        <div class="col-4 p-1">
+                            <h4 class="inlabel text-left">Name</h4>
+                        </div>
+                        <div class="col-7 pr-4">
+                            <input id="name" name="name" type="text" class="mw-200 w-100 border border-dark  p-1 ">
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="row mt-1">
+                        <div class="col-4 p-1">
+                            <h4 class="inlabel text-left">Vorname</h4>
+                        </div>
+                        <div class="col-7 pr-4">
+                                <input id="vorname" name="vorname" type="text" class="mw-200 w-100 border border-dark  p-1 ">
+                        </div>
+                    </div>
+                </div>
+    
+    
+               
+           
+            
+           
+                <div class="col-4 ">
+    
+                    <div class="myrow mt-2">
+                        <div class="col-4">
+                            <h4 class="inlabel p-1 text-left">Studiengang</h4>
+                        </div>
+                        <div class="col-7">
+                            <input id="studiengang" name="studiengang" type="text" class=" mw-200 w-100 border border-dark p-1 mt-1">
+                        </div>
+    
+                    </div>
+                    <div class="myrow mt-2">
+                            <div class="col-4">
+                                <h4 class="inlabel p-1 text-left">E-Mail</h4>
+                            </div>
+                            <div class="col-7">
+                                <input id="email" name="email" type="text" class=" mw-200 w-100 border border-dark p-1 mt-1">
+                            </div>
+        
+                        </div>
+    
+                </div>
+                <div class="col-2"></div>
+                <div class="col-2">
+                        <div class="row mt-2">
+        
+                            <input type="submit" formid="lehrstuhl" class="addi ml-auto p-1 mt-1 border border-dark" value="Ändern">
+                        </div>
+                        <div class="row mt-2">
+        
+                            <input type="submit" class="dele ml-auto p-1 mt-1 border border-secondary" value="Löschen">
+        
+                        </div>
+                    </div>
+            <div class=" col-2">
+
+            </div>
+        </form>
+        </div>
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"

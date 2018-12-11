@@ -46,7 +46,34 @@ public class AdminTeamDetails extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userID = request.getParameter("matrikelnummer");
+		String name = request.getParameter("name");
+		String vorname = request.getParameter("vorname");
+		String studiengang = request.getParameter("studiengang");
+		String email = request.getParameter("email");
+		String teamID = request.getParameter("team");
 		
+		String page = "";
+		
+		if(userID == null || name == null || vorname == null || studiengang == null || email == null) {
+			page = "AdminTeamDetails?error=1&teamid=" + teamID;
+		} else if(!email.endsWith("@student.uni-siegen.de")){
+			page = "AdminTeamDetails?error=4&teamid=" + teamID;
+		} else {
+			try {
+				int uID = Integer.parseInt(userID);
+				
+				db.updateStudent(uID, vorname, name, email, studiengang);
+				page = "AdminTeamDetails?teamid=" + teamID;
+			} catch(NumberFormatException e) {
+				page = "AdminTeamDetails?error=3&teamid=" + teamID;
+			} catch (SQLException e) {
+				page = "AdminTeamDetails?error=2&teamid=" + teamID;
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		response.sendRedirect(page);
 	}
 
 }
