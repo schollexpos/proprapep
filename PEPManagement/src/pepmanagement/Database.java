@@ -622,7 +622,7 @@ public class Database {
 		while(result.next()) {
 			return (result.getInt("punkte"));
 		}
-        return -1;
+        return 0;
 	} 
 	
 	public void setBewertung(int teamid, int bewertungid, int punktzahl, int jurorid) throws SQLException {
