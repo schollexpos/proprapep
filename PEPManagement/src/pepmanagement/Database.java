@@ -570,13 +570,13 @@ public class Database {
 	}
 	
 	public boolean jurorGruppeExists(int jurorid) throws SQLException {
-		ResultSet result = executeQuery("SELECT * FROM juror WHERE nutzerid = '" + jurorid + "'");
+		ResultSet result = executeQuery("SELECT * FROM juror WHERE nutzerID = '" + jurorid + "'");
 		return result.next();
 	}
 	
 	
 	public boolean bewertungExists(int teamID, int bewertungID, int jurorID) throws SQLException {
-		ResultSet result = executeQuery("SELECT * FROM bewertung WHERE teamID = " + teamID + " AND bewertungID = " + bewertungID + "AND jurorID = " + jurorID);
+		ResultSet result = executeQuery("SELECT * FROM bewertung WHERE teamID = " + teamID + " AND bewertungID = " + bewertungID + " AND jurorID = " + jurorID);
 		return result.next();
 	}
 	
@@ -588,7 +588,7 @@ public class Database {
 			statement.setString(2,teilkriterium);
 			statement.setInt(3,maxpunkte);
 			statement.setString(4,teilkriterium);
-			statement.executeQuery();
+			statement.executeUpdate();
 			
 		} else {
 			executeUpdate("INSERT INTO `bewertungskriterium` (`hauptkriterium`, `teilkriterium`, `maxpunkte`) VALUES ( '" + hauptkriterium + "', '" + teilkriterium + "', '" + maxpunkte  + "');");	
