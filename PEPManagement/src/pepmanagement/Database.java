@@ -625,6 +625,25 @@ public class Database {
         return 0;
 	} 
 	
+	public ArrayList<String> getOrderedTeams(int group) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT projekttitel, teamID, SUM(punkte) AS summe FROM team NATURAL JOIN bewertung WHERE betreuer1 IN (SELECT id FROM betreuer WHERE gruppe = ?) GROUP BY teamID ORDER BY summe DESC");
+		statement.setInt(1,group);
+		ResultSet result = statement.executeQuery();
+		
+		ArrayList<String> teams = new ArrayList<String>();
+		
+		while (result.next())  { 
+			String team = result.getString(1) + "#" + result.getInt(2) + "#" + result.getInt(3);
+			teams.add(team);
+		}
+		
+		return teams;
+	}
+		
+		
+	
+	
+	
 	public void setBewertung(int teamid, int bewertungid, int punktzahl, int jurorid) throws SQLException {
 		
 		

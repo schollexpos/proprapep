@@ -1,4 +1,4 @@
-<%@ page import="pepmanagement.Database, pepmanagement.Pair, java.util.ArrayList" %>
+<%@ page import="pepmanagement.Database, pepmanagement.Pair, java.util.ArrayList, java.util.HashMap" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -9,6 +9,21 @@ if(request.getAttribute("hasAccess") == null) {
 
 Database db = new Database();
 db.connect();
+
+
+int order = 1;
+int [] teamIDg1 = new int[3];
+int [] teamIDg2 = new int[3];
+try {
+	if(request.getAttribute("order") != null) {
+		order = Integer.parseInt((String) request.getAttribute("order"));
+		if(order < 1 || order > 2) order = 1;
+	}
+} catch(Exception e) {
+	
+}
+
+System.out.println("Req: " + request.getAttribute("Order") + " Order: " + order);
 
 %>
 
@@ -64,13 +79,26 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         </div>
         
         <div class="col-2">
-                <select class="custom-select inputl w-50 m-auto p-1 border border-dark"><span>Reihenfolge</span>
-                    <option>Aufsteigend</option>
-                    <option>Absteigend</option>
+                <select class="custom-select m-auto p-1 border border-dark" id="Order" onchange="updatediv();"><span>Reihenfolge</span>
+                   <%
+             			out.print("<option value=\"1\" " + (order == 1 ? "selected" : "")+ ">Absteigend</option>");
+             			out.print("<option value=\"2\" " + (order == 2 ? "selected" : "")+ ">Aufsteigend</option>");
+             		%>
                 </select>
         </div>
         <form class="col-2" action="AdminSiegerehrung" method="post">
-        <input type="submit" class="uploadbtn standard addi border border-dark" name="createPr"  value="Erstelle Präsentation" >
+
+        <% if (order==1) {
+        	out.print("<input type=\"hidden\" name=\"order\" value=\"1\" >");
+     		out.print("<input type=\"submit\" class=\"uploadbtn standard addi border border-dark\"  name=\"createPr\" value=\"Erstelle Präsentation\" >");
+        }
+       
+        else if(order==2) {
+        	out.print("<input type=\"hidden\" name=\"order\" value=\"2\" >");
+        	out.print("<input type=\"submit\" class=\"uploadbtn standard addi border border-dark\"  name=\"createPr\" value=\"Erstelle Präsentation\" >");
+        	}
+        
+  %>
         </form>
         </div>
         <div class="row">
@@ -89,24 +117,27 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">Platz 1</th>
-                                    <td>Spanverfahren</td>
-                                    <td>012412</td>
-                                    <td>169</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Platz 2</th>
-                                    <td>Fahrradfanatik</td>
-                                    <td>235346</td>
-                                    <td>150</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Platz 3</th>
-                                    <td>Spahnnungs-entwicklung</td>
-                                    <td>0151252</td>
-                                    <td>130</td>
-                                </tr>
+                               <%
+                       
+                       ArrayList<String> teamListe = db.getOrderedTeams(1);
+               			
+                               
+	               		for(int i = 0;i < teamListe.size() && i < 3;i++) {
+	               			String [] currTeam = teamListe.get(i).split("#");
+	               			teamIDg1[i]= Integer.parseInt(currTeam[1]);
+	               			
+	               			out.print("<tr>");
+	               			out.print("<th scope=\"row\"> Platz " + (i + 1) + "</th>");
+	               			out.print("<td>" + currTeam[0] + "</td>");
+	               			out.print("<td>"+currTeam[1] +"</td>");
+	               			out.print("<td>"+currTeam[2] +"</td>");
+	               			
+	               			
+	               			out.print("</tr>");
+	               		}
+	               		
+               		
+                       %>
                             </tbody>
                         </table>
 
@@ -131,25 +162,26 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">Platz 1</th>
-                                    <td>Spanverfahren</td>
-                                    <td>012412</td>
-                                    <td>169</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Platz 2</th>
-                                    <td>Fahrradfanatik</td>
-                                    <td>235346</td>
-                                    <td>150</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Platz 3</th>
-                                    <td>Spahnnungs-entwicklung</td>
-                                    <td>0151252</td>
-                                    <td>130</td>
-                                </tr>
-
+                               <%
+                       
+                       ArrayList<String> teamListe2 = db.getOrderedTeams(2);
+               			
+                               
+	               		for(int i = 0;i < teamListe2.size() && i < 3;i++) {
+	               			String [] currTeam = teamListe.get(i).split("#");
+	               			teamIDg2[i]= Integer.parseInt(currTeam[1]);
+	               			
+	               			out.print("<tr>");
+	               			out.print("<th scope=\"row\"> Platz " + (i + 1) + "</th>");
+	               			out.print("<td>" + currTeam[0] + "</td>");
+	               			out.print("<td>"+currTeam[1] +"</td>");
+	               			out.print("<td>"+currTeam[2] +"</td>");
+	               			
+	               			
+	               			out.print("</tr>");
+	               		}
+               		
+                       %>
 
                             </tbody>
                         </table>
@@ -185,7 +217,15 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                 </form>
                 <div class="row mt-3">
                     <div class="col-3 pt-1">
-                        <h5 class="text-right mb-0 mr-2">Platz 3</h5>
+                        <h5 class="text-right mb-0 mr-2"><%
+                        if (order == 1) {
+                        	out.print("Platz 3");
+                        }
+                        else if (order == 2){
+                        	out.print("Platz 1");
+                        }
+                        
+                        %></h5>
                     </div>
                     <div class="col-7 pt-1" style="z-index:-1;">
                         <div class="v-spacer"></div>
@@ -197,7 +237,25 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         <h4 class="inlabel text-center">Gruppe 1</h4>
                     </div>
                     <div class="col-5">
-                        <div class="uplout text-left border border-dark p-1 w-100">Projektitel</div>
+                        <div class="uplout text-left border border-dark p-1 w-100"><%
+                        if(order==1){
+                        	String prjkt = db.getTeamTitel(teamIDg1[2]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        
+                        else if(order==2){
+                        	String prjkt = db.getTeamTitel(teamIDg1[0]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        
+                        
+                        %></div>
                     </div>
                 </div>
                 <div class="row mt-1">
@@ -205,7 +263,25 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         <h4 class="inlabel text-center">Gruppe 2</h4>
                     </div>
                     <div class="col-5">
-                        <div class="uplout text-left border border-dark p-1 w-100">Projektitel</div>
+                        <div class="uplout text-left border border-dark p-1 w-100"><%
+                        if(order==1){
+                        	String prjkt = db.getTeamTitel(teamIDg2[2]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        
+                        else if(order==2){
+                        	String prjkt = db.getTeamTitel(teamIDg2[0]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        
+                        
+                        %></div>
                     </div>
                 </div>
 
@@ -244,7 +320,15 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         <h4 class="inlabel text-center">Gruppe 1</h4>
                     </div>
                     <div class="col-5">
-                        <div class="uplout text-left border border-dark p-1 w-100">Projektitel</div>
+                        <div class="uplout text-left border border-dark p-1 w-100"><%
+                        {
+                        	String prjkt = db.getTeamTitel(teamIDg1[1]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        %></div>
                     </div>
                 </div>
                 <div class="row mt-1">
@@ -252,7 +336,16 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         <h4 class="inlabel text-center">Gruppe 2</h4>
                     </div>
                     <div class="col-5">
-                        <div class="uplout text-left border border-dark p-1 w-100">Projektitel</div>
+                        <div class="uplout text-left border border-dark p-1 w-100"><%
+                        {
+                        	String prjkt = db.getTeamTitel(teamIDg1[1]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+             
+                        %></div>
                     </div>
                 </div>
 
@@ -278,7 +371,15 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 
                 <div class="row mt-3">
                     <div class="col-3 pt-1">
-                        <h5 class="text-right mb-0 mr-2">Platz 1</h5>
+                        <h5 class="text-right mb-0 mr-2"><%
+                        if (order == 1) {
+                        	out.print("Platz 1");
+                        }
+                        else if (order == 2){
+                        	out.print("Platz 3");
+                        }
+                        
+                        %></h5>
                     </div>
                     <div class="col-7 pt-1" style="z-index:-1;">
                         <div class="v-spacer"></div>
@@ -291,7 +392,25 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         <h4 class="inlabel text-center">Gruppe 1</h4>
                     </div>
                     <div class="col-5">
-                        <div class="uplout text-left border border-dark p-1 w-100">Projektitel</div>
+                        <div class="uplout text-left border border-dark p-1 w-100"><%
+                        if(order==1){
+                        	String prjkt = db.getTeamTitel(teamIDg1[0]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        
+                        else if(order==2){
+                        	String prjkt = db.getTeamTitel(teamIDg1[2]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        
+                        
+                        %></div>
                     </div>
                 </div>
                 <div class="row mt-1">
@@ -299,7 +418,25 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         <h4 class="inlabel text-center">Gruppe 2</h4>
                     </div>
                     <div class="col-5">
-                        <div class="uplout text-left border border-dark p-1 w-100">Projektitel</div>
+                        <div class="uplout text-left border border-dark p-1 w-100"><%
+                        if(order==1){
+                        	String prjkt = db.getTeamTitel(teamIDg1[2]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        
+                        else if(order==2){
+                        	String prjkt = db.getTeamTitel(teamIDg1[0]);
+                        	if (prjkt==""){
+                        		out.print("Projekttitel");
+                        		}
+                        	else{out.print(prjkt);}
+                        }
+                        
+                        
+                        %></div>
                     </div>
                 </div>
 
@@ -328,7 +465,15 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
     </div>
 
 
+<script>
+function updatediv() {
+	e = document.getElementById("Order");
+	var strUser = e.options[e.selectedIndex].value;
+	document.location.href = "AdminSiegerehrung?order=" + strUser;
+}
 
+
+</script>
 
 
 

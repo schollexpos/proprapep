@@ -37,6 +37,7 @@ import pepmanagement.Session;
 public class AdminSiegerehrung extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String filePath = "C:\\Users\\lucah\\Desktop\\Testfiles\\abschluss\\";
+	private static final String filePath2 = "C:\\Users\\lucah\\Desktop\\Testfiles\\abschluss\\";
 	private Database db;
 	
     public AdminSiegerehrung() {
@@ -47,7 +48,11 @@ public class AdminSiegerehrung extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
+    	
+    	String order = request.getParameter("order");
+		request.setAttribute("order", order);
 		
+		    	
 		if(request.getParameter("error") != null) {
 			request.setAttribute("error", request.getParameter("error"));
 		}
@@ -119,28 +124,93 @@ public class AdminSiegerehrung extends HttpServlet {
  	         page = "admin_siegerehrung.jsp?error=1";
  	      }
  	   } 
+ 	  
+ 	   /* DRUCKE PRÄSENTATION */
  	   else if (request.getParameter("createPr").equals("Erstelle Präsentation")) {
+ 		  
+ 		  String order = request.getParameter("order");
+ 		  int ord = Integer.parseInt(order);
+ 		  ArrayList<String> teamsg1 = new ArrayList<String>();
+ 		  ArrayList<String> teamsg2 = new ArrayList<String>();
+ 		  
  		  try {
-		        
-		        List<InputStream> inputPdfList = new ArrayList<InputStream>();
-		        inputPdfList.add(new FileInputStream(filePath+"Startfolie.pdf"));
-		        //inputPdfList.add(new FileInputStream("Gruppe1P3.pdf"));
-		        //inputPdfList.add(new FileInputStream("Gruppe2P3.pdf"));
-		        inputPdfList.add(new FileInputStream(filePath+"zwischen1.pdf"));
-		        //inputPdfList.add(new FileInputStream("Gruppe1P2.pdf"));
-		        //inputPdfList.add(new FileInputStream("Gruppe2P2.pdf"));
-		        inputPdfList.add(new FileInputStream(filePath+"zwischen2.pdf"));
-		        //inputPdfList.add(new FileInputStream("Gruppe1P1.pdf"));
-		        //inputPdfList.add(new FileInputStream("Gruppe2P1.pdf"));
-		        inputPdfList.add(new FileInputStream(filePath+"orga.pdf"));
-		        OutputStream outputStream = new FileOutputStream(filePath+"merged2");
-		        //Output Stream zum Speichern
-		     
-		        mergePDF(inputPdfList, outputStream);     
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
- 		   
+ 				  teamsg1=db.getOrderedTeams(1); 
+ 				  teamsg2=db.getOrderedTeams(2);
+ 				  
+ 				  String idg1;
+ 				  String idg2;
+ 				
+ 				  if(ord==1) {
+ 					List<InputStream> inputPdfList = new ArrayList<InputStream>();
+ 			        inputPdfList.add(new FileInputStream(filePath+"Startfolie.pdf"));
+ 			        
+ 			       idg1=teamsg1.get(2).split("#")[1]+"_kurzbeschreibung.pdf";
+ 			       idg2=teamsg2.get(2).split("#")[1]+"_kurzbeschreibung.pdf";
+ 			       inputPdfList.add(new FileInputStream(filePath2+idg1));
+ 			       inputPdfList.add(new FileInputStream(filePath2+idg2));
+ 			        
+ 			       inputPdfList.add(new FileInputStream(filePath+"zwischen1.pdf"));
+ 			        
+ 			       idg1=teamsg1.get(1).split("#")[1]+"_kurzbeschreibung.pdf";
+ 			       idg2=teamsg2.get(1).split("#")[1]+"_kurzbeschreibung.pdf";
+ 			       inputPdfList.add(new FileInputStream(filePath2+idg1));
+ 			       inputPdfList.add(new FileInputStream(filePath2+idg2));
+ 			        
+ 			        inputPdfList.add(new FileInputStream(filePath+"zwischen2.pdf"));
+ 			        
+ 			       idg1=teamsg1.get(0).split("#")[1]+"_kurzbeschreibung.pdf";
+ 			       idg2=teamsg2.get(0).split("#")[1]+"_kurzbeschreibung.pdf";
+ 			       inputPdfList.add(new FileInputStream(filePath2+idg1));
+ 			       inputPdfList.add(new FileInputStream(filePath2+idg2));
+ 			        
+ 			        inputPdfList.add(new FileInputStream(filePath+"orga.pdf"));
+ 			        
+ 			        OutputStream outputStream = new FileOutputStream(filePath+"merged23.pdf");
+ 			        //Output Stream zum Speichern
+ 			     
+ 			        mergePDF(inputPdfList, outputStream);
+ 					
+ 			  }
+ 				  
+ 				  else if(ord==2) {
+  					List<InputStream> inputPdfList = new ArrayList<InputStream>();
+  			        inputPdfList.add(new FileInputStream(filePath+"Startfolie.pdf"));
+  			        
+  			       idg1=teamsg1.get(0).split("#")[1]+"_kurzbeschreibung.pdf";
+  			       idg2=teamsg2.get(0).split("#")[1]+"_kurzbeschreibung.pdf";
+  			       inputPdfList.add(new FileInputStream(filePath2+idg1));
+  			       inputPdfList.add(new FileInputStream(filePath2+idg2));
+  			        
+  			       inputPdfList.add(new FileInputStream(filePath+"zwischen1.pdf"));
+  			        
+  			       idg1=teamsg1.get(1).split("#")[1]+"_kurzbeschreibung.pdf";
+  			       idg2=teamsg2.get(1).split("#")[1]+"_kurzbeschreibung.pdf";
+  			       inputPdfList.add(new FileInputStream(filePath2+idg1));
+  			       inputPdfList.add(new FileInputStream(filePath2+idg2));
+  			        
+  			        inputPdfList.add(new FileInputStream(filePath+"zwischen2.pdf"));
+  			        
+  			       idg1=teamsg1.get(2).split("#")[1]+"_kurzbeschreibung.pdf";
+  			       idg2=teamsg2.get(2).split("#")[1]+"_kurzbeschreibung.pdf";
+  			       inputPdfList.add(new FileInputStream(filePath2+idg1));
+  			       inputPdfList.add(new FileInputStream(filePath2+idg2));
+  			        
+  			        inputPdfList.add(new FileInputStream(filePath+"orga.pdf"));
+  			        
+  			        OutputStream outputStream = new FileOutputStream(filePath+"merged23.pdf");
+  			        //Output Stream zum Speichern
+  			     
+  			        mergePDF(inputPdfList, outputStream);
+  					
+  			  }
+ 		 
+ 		  }catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+			
+			e.printStackTrace();
+		} 
+ 		  	   
  		  page = "admin_siegerehrung.jsp";
  	   }
  		   
