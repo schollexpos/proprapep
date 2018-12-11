@@ -171,16 +171,16 @@
         <div class="col-sm-9 col-md-3">
         
                 <h3 class="m-auto p-3 ">Downloads</h3>
-                <a href=<%=FileManager.getFilename(team, FileManager.getFileIdentifier(0))%>>
+                <a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(0))%>">
                		 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Dokumentation">
 				</a>
-				<a href=<%=FileManager.getFilename(team, FileManager.getFileIdentifier(1))%>>
+				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(1))%>">
                 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Poster">
 				</a>
-				<a href=<%=FileManager.getFilename(team, FileManager.getFileIdentifier(2))%>>
+				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(2))%>">
                 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Kurzbeschreibung">
 				</a>
-				<a href=<%=FileManager.getFilename(team, FileManager.getFileIdentifier(3))%>>
+				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(3))%>">
                		 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Präsentation">
 				</a>
         </div>
