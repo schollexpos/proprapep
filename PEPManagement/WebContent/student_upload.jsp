@@ -1,9 +1,17 @@
  <%
- 	if(request.getAttribute("list") == null) {
+ boolean deadlineReached = false;
+ 	if(request.getAttribute("list") == null || request.getAttribute("teamid") == null || request.getAttribute("deadlinereached") == null) {
  		response.sendRedirect("StudentUpload");
+ 	} else {
+ 		int teamID = -1;
+ 		try {
+ 			teamID = ((Integer) request.getAttribute("teamid")).intValue();
+ 		} catch(Exception e) {}
+ 		
+ 		if(teamID == -1) response.sendRedirect("StudentSelectTeam");
+ 		
+ 		deadlineReached = ( (Boolean) request.getAttribute("deadlinereached")).booleanValue();
  	}
- 
- 	boolean deadlineReached = ( (Boolean) request.getAttribute("deadlinereached")).booleanValue();
  %>
 <%@ page import="pepmanagement.Database, pepmanagement.Menu, pepmanagement.AccountControl, pepmanagement.Pair, java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -47,7 +55,7 @@
   for(int i = 0;list != null && i < list.size();i++) {
 	  
 	  out.println("<div class=\"container-fluid mt-1 p-3\"><form class=\"myrow\" action = \"StudentUpload\" method=\"post\" enctype = \"multipart/form-data\">");
-	  out.println("<div class=\"col-sm ml-auto\"><h4 class=\"inlabel text-center\">" +  list.get(i).x + "</h4></div>");
+	  out.println("<div class=\"col-sm ml-auto\"><h4 class=\"inlabel text-center\">" +  pepmanagement.FileManager.getFileDescriptor(i) + "</h4></div>");
 	  out.println("<input type=\"hidden\" name=\"filename\" value=\"" + list.get(i).x + "\" />");
 	  if(vorsitz.booleanValue() && !deadlineReached) {
 		  out.println("<div class=\"col-sm input-group\"><label class=\"input-group-btn\"><span class=\"btn btn-default wichtigUp\">Browse...<input type = \"file\" name = \"file\" size = \"50\" style=\"display: none;\" multiple></span></label><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>"); 

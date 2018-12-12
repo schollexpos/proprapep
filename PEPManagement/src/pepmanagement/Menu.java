@@ -24,11 +24,12 @@ public class Menu {
 		
 		switch(rank) {
 		case ADMIN:
-			menu += "<a class=\"dropdown-item\" href=\"AdminTeamUebersicht\">Teamübersicht</a>";
-			menu += "<a class=\"dropdown-item\" href=\"AdminLehrstuhlStudiengang\">Lehstühle/Studiengänge</a>";
-			menu += "<a class=\"dropdown-item\" href=\"AdminBewertungskriterien\">Bewertungskriterien</a>";
+			menu += "<a class=\"dropdown-item\" href=\"AdminTeamUebersicht\">TeamÃ¼bersicht</a>";
+			menu += "<a class=\"dropdown-item\" href=\"AdminLehrstuhlStudiengang\">LehstÃ¼hle/StudiengÃ¤nge</a>";
+			menu += "<a class=\"dropdown-item\" href=\"AdminBewertungskriterien\">Kriterien/Juroren</a>";
+			menu += "<a class=\"dropdown-item\" href=\"AdminSiegerehrung\">Siegerehrung</a>";
 			menu += "<a class=\"dropdown-item\" href=\"AdminConfig\">Fristen & Freigaben</a>";
-			menu += "<a class=\"dropdown-item\" href=\"AdminStudiengang\">Accountinfos</a>";
+			menu += "<a class=\"dropdown-item\" href=\"AdminPersoenlich\">Accountinfos</a>";
 			break;
 		case JUROR:
 			

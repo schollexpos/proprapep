@@ -48,7 +48,7 @@ public class FileManager {
 		case 2:
 			return "Kurzbeschreibung";
 		case 3:
-			return "Präsentation";
+			return "PrÃ¤sentation";
 		default:
 			return ":(";
 		}

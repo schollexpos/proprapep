@@ -56,6 +56,8 @@ public class AdminRegister extends HttpServlet {
 			page = "admin_register.jsp?error=5";
 		} else if(!email.endsWith("uni-siegen.de") || !email.contains("@")) {
 			page = "admin_register.jsp?error=3";
+		} else if(session.restore(request)) {
+			page = "index";
 		} else {
 			//TODO: email verification
 			try {

@@ -46,9 +46,12 @@ public class JurorBewertung extends HttpServlet {
 				Session session = new Session(db, request);
 				session.restore(request);
 				request.setAttribute("teamtitel",(request.getParameter("projekttitel")));
-				request.setAttribute("hasAccess", new Boolean(true));
 				request.setAttribute("jurorID", db.getUserID(session.getEmail()));
 				request.setAttribute("kriterien", db.getKriterien());
+				
+				if(!db.bewertungOpen()) {
+					request.setAttribute("error", "10");
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

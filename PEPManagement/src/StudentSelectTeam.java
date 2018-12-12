@@ -72,9 +72,11 @@ public class StudentSelectTeam extends HttpServlet {
 					page = "student_select_team.jsp?error=4";
 				} else if(db.getStudentTeam(userID) != -1) {
 					page = "index";
+				} else if(db.getStudentenFromTeam(teamIDint).size() >= db.getMaxTeamSize()) {
+					page = "student_select_team.jsp?error=5";
 				} else {
 					db.addStudentToTeam(userID, teamIDint);
-					page = "index";
+					page = "_erfolg.html";
 				}
 				
 			} catch(SQLException e) {

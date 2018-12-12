@@ -123,7 +123,7 @@ if(request.getAttribute("hasAccess") == null) {
                     <h4 class="inlabel">Download</h4>
                 </div>
                  <div class="relem2">
-                    <a class="standard border border-dark" style="width:98%; margin:0;" href="">Formular Herunterladen</a>
+                    <a class="standard border border-dark" target="_blank" style="width:98%; margin:0;" href="anmeldeform.pdf">Formular Herunterladen</a>
                 </div>
             </div>
             </div>

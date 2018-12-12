@@ -36,14 +36,18 @@ import pepmanagement.Session;
 @WebServlet("/AdminSiegerehrung")
 public class AdminSiegerehrung extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String filePath = "C:\\Users\\lucah\\Desktop\\Testfiles\\abschluss\\";
-	private static final String filePath2 = "C:\\Users\\lucah\\Desktop\\Testfiles\\abschluss\\";
+	private static String filePath = "C:\\Users\\lucah\\Desktop\\Testfiles\\abschluss\\";
+	private static String filePath2 = "C:\\Users\\lucah\\Desktop\\Testfiles\\abschluss\\";
 	private Database db;
 	
     public AdminSiegerehrung() {
         super();
         db = new Database();
         db.connect();
+        
+        
+        filePath = FileManager.getBasePath();
+        filePath2 = FileManager.getBasePath();
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

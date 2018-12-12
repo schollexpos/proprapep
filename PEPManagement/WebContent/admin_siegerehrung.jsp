@@ -125,11 +125,12 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	               		for(int i = 0;i < teamListe.size() && i < 3;i++) {
 	               			String [] currTeam = teamListe.get(i).split("#");
 	               			teamIDg1[i]= Integer.parseInt(currTeam[1]);
+	               			Database.Team team = db.getTeam(teamIDg1[i]);
 	               			
 	               			out.print("<tr>");
 	               			out.print("<th scope=\"row\"> Platz " + (i + 1) + "</th>");
 	               			out.print("<td>" + currTeam[0] + "</td>");
-	               			out.print("<td>"+ currTeam[1] +"</td>");
+	               			out.print("<td>"+ team.getKennnummer() +"</td>");
 	               			out.print("<td>"+currTeam[2] +"</td>");
 	               			
 	               			
@@ -145,7 +146,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                 </div>
                 <div class="row mt-0">
                     <div class="col-3">
-                        <input type="button" class=" w-100 senden border border-dark" value="Drucken">
+                       
                     </div>
                 </div>
 
@@ -189,7 +190,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                 </div>
                 <div class="row mt-0">
                     <div class="col-3">
-                        <input type="button" class=" w-100 senden border border-dark" value="Drucken">
+                        <input type="button" class=" w-100 senden border border-dark" onclick="javascript:location.href='admin_sieger_printview.jsp';"value="Drucken">
                     </div>
                 </div>
             </div>

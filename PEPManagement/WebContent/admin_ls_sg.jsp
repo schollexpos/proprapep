@@ -1,7 +1,7 @@
 <%@ page import="pepmanagement.Database, pepmanagement.Pair, java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <% if(request.getAttribute("hasAccess") == null) {
 	response.sendRedirect("AdminLehrstuhlStudiengang");
 }
@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="theme.css" type="text/css">
-    <title>Lehrstuhl/Studiengangübersicht PEP</title>
+    <title>Lehrstuhl/StudiengangÃ¼bersicht PEP</title>
 </head>
 
 <body class="flex-grow-1">
@@ -63,25 +63,27 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                     <thead>
                         <tr>
                             <th class="sortable" scope="col">#</th>
-                            <th class="sortable" scope="col">Kürzel</th>
+                            <th class="sortable" scope="col">KÃ¼rzel</th>
                             <th class="sortable" scope="col">Lehrstuhl</th>    
                             <th class="sortable" scope="col">Lehrstuhlinhaber</th>
                             <th class="sortable" scope="col">Gruppe</th>
+                            <th class="sortable" scope="col"></th>
                         </tr>
                     </thead>
                       <tbody>
                     
                     	<%
-                    		ArrayList<Database.Betreuer> betreuerList = db.getBetreuer();
-                    		for(int i = 0;i < betreuerList.size();i++) {
-                    			out.print("<tr>");
-                    			out.print("<th scope=\"row\">" + (i+1) + "</th>");
-                    			out.print("<td>" + betreuerList.get(i).getKuerzel() + "</td>");
-                    			out.print("<td>" + betreuerList.get(i).getLehrstuhl() + "</td>");
-                    			out.print("<td>" + betreuerList.get(i).getName() + "</td>");
-                    			out.print("<td>Gruppe " + betreuerList.get(i).getGruppe() + "</td>");
-                    			out.print("</tr>");
-                    		}
+                    	ArrayList<Database.Betreuer> betreuerList = db.getBetreuer();
+                		for(int i = 0;i < betreuerList.size();i++) {
+                			out.print("<tr id=\"betreuer_" + betreuerList.get(i).getID() + "\">");
+                			out.print("<th scope=\"row\">" + (i+1) + "</th>");
+                			out.print("<td>" + betreuerList.get(i).getKuerzel() + "</td>");
+                			out.print("<td>" + betreuerList.get(i).getLehrstuhl() + "</td>");
+                			out.print("<td>" + betreuerList.get(i).getName() + "</td>");
+                			out.print("<td>Gruppe " + betreuerList.get(i).getGruppe() + "</td>"); 
+                			out.print("<td><button type=\"button\" onclick=\"deleteBetreuer(" + betreuerList.get(i).getID() + ");\" class=\"addi p-1 mt-1 border border-dark\">LÃ¶schen</button></td>");
+                			out.print("</tr>");
+                		}
                     	
                     	%>
                       
@@ -97,18 +99,19 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         <tr>
                             <th class="sortable" scope="col">#</th>
                             <th class="sortable" scope="col">Studiengang</th>
-
+							<th class="sortable" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                     	<%
-                    		ArrayList<String> studiengangliste = db.getStudiengaenge();
-                    		for(int i = 0;i < studiengangliste.size();i++) {
-                    			out.print("<tr>");
-                    			out.print("<th scope=\"row\">" + (i+1) + "</th>");
-                    			out.print("<td>" + studiengangliste.get(i) + "</td>");
-                    			out.print("</tr>");
-                    		}
+                    	ArrayList<String> studiengangliste = db.getStudiengaenge();
+                		for(int i = 0;i < studiengangliste.size();i++) {
+                			out.print("<tr id=\"stuga_" + i + "\">");
+                			out.print("<th scope=\"row\">" + (i+1) + "</th>");
+                			out.print("<td>" + studiengangliste.get(i) + "</td>");
+                			out.print("<td><button type=\"button\" onclick=\"deleteStudiengang(" + i + ");\" class=\"addi p-1 mt-1 border border-dark\">LÃ¶schen</button></td>");
+                			out.print("</tr>");
+                		}
                     	%>
                     </tbody>
                 </table>
@@ -143,7 +146,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	                    
 	                    <div class="row mt-1">
 		                    <div class="col-4 p-1">
-		                        <h5 class="inlabel text-left ">Lehrstuhlkürzel</h5>
+		                        <h5 class="inlabel text-left ">LehrstuhlkÃ¼rzel</h5>
 		                    </div>
 		                    <div class="col-7 pr-4">
 		                        <input id="lehrstuhlh" name="kuerzel" type="text" class="mw-200 w-100 border border-dark  p-1 " maxlength="2">
@@ -170,11 +173,9 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	            <div class="col-4">
 	                <div class="row mt-2">
 	                    
-	                        <input type="submit" formid="lehrstuhl" class="sub1 addi p-1 mt-1 border border-dark" value="Lehrstuhl Hinzufügen">
+	                        <input type="submit" formid="lehrstuhl" class="sub1 addi p-1 mt-1 border border-dark" value="Lehrstuhl HinzufÃ¼gen">
 	                                    </div>
 	                <div class="row mt-2">
-	                    
-	                        <input type="submit" class="sub1 dele p-1 mt-1 border border-secondary" value="Lehrstuhl Löschen">
 	                    
 	                </div>
 	            </div>
@@ -197,10 +198,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	
 	            <div class=" col-4" >
 	                <div class="row mt-2">
-	                        <input type="submit" formid="studiengang" class="sub1 addi p-1 mt-1 border border-dark" value="Studiengang Hinzufügen">
-	                </div>
-	                <div class="row mt-2">
-	                        <input type="submit" formid="studiengang" class="sub1 dele p-1 mt-1 border border-secondary" value="Studiengang Löschen">
+	                        <input type="submit" formid="studiengang" class="sub1 addi p-1 mt-1 border border-dark" value="Studiengang HinzufÃ¼gen">
 	                </div>
 	            </div>
 	            
@@ -213,6 +211,45 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+             <script>
+             var allow = true;
+             
+        function deleteBetreuer(id) {
+        	if(!allow) return;
+        	
+        	document.getElementById("betreuer_" + id).style.display = "none";
+        	
+	     	  var xhttp = new XMLHttpRequest();
+	     	  xhttp.onreadystatechange = function() {
+	     	    if (this.readyState == 4 && this.status == 200) {
+	     	    	location.reload(); 
+	     	    }
+	     	  };
+	     	  xhttp.open("GET", "DeleteLSSG?betreuer=" + id, true);
+	     	  xhttp.send();
+	     	
+	     	 allow = false;
+        }
+        
+        function deleteStudiengang(id) {
+        	if(!allow) return;
+        	
+        	document.getElementById("stuga_" + id).style.display = "none";
+        	
+	     	  var xhttp = new XMLHttpRequest();
+	     	  xhttp.onreadystatechange = function() {
+	     	    if (this.readyState == 4 && this.status == 200) {
+	     	    	location.reload(); 
+	     	    }
+	     	  };
+	     	  xhttp.open("GET", "DeleteLSSG?studiengang=" + id, true);
+	     	  xhttp.send();
+	     	  
+	     	 allow = false;
+        }
+        
+        
+        </script>
 </body>
 
 </html>

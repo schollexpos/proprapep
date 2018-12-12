@@ -67,6 +67,7 @@ public class StudentUpload extends HttpServlet {
 				Database.Student s = db.getStudent(db.getUserID(session.getEmail()));
 				vorsitz = s.isVorsitz();
 				teamID = s.getTeamID();
+				
 				deadlineReached = Database.dateReached(db.getDeadlineUpload());
 				for(int i = 0;i < FileManager.getFileCount();i++) {
 					String date = "";
@@ -91,6 +92,7 @@ public class StudentUpload extends HttpServlet {
 			request.setAttribute("list", list);
 			request.setAttribute("vorsitz", new Boolean(vorsitz));
 			request.setAttribute("deadlinereached", new Boolean(deadlineReached));
+			request.setAttribute("teamid", new Integer(teamID));
 		}
 		
 		AccountControl.processResult(res, request, response, "StudentUpload", "student_upload.jsp", true);
@@ -106,6 +108,9 @@ public class StudentUpload extends HttpServlet {
 	   String contentType = request.getContentType();
 	   String page = "";
 	   
+	   boolean vorsitz = false;
+	   boolean deadlineReached = false;
+		int teamID = -1;
 	   if ((contentType.indexOf("multipart/form-data") >= 0)) {
 	      DiskFileItemFactory factory = new DiskFileItemFactory();
 	      factory.setSizeThreshold(maxMemSize);
@@ -118,16 +123,21 @@ public class StudentUpload extends HttpServlet {
 	      upload.setSizeMax(maxFileSize);
 	      
 	      try { 
+	    	
+	    	  
 	    	 Session session = new Session(db, request);
 	    	 
 	    	 if(session.restore(request) && !Database.dateReached(db.getDeadlineUpload()) && db.studentIsVorsitzender(db.getUserID(session.getEmail()))) {
-		    	 String filename = request.getParameter("filename");
+	    		  Database.Student s = db.getStudent(db.getUserID(session.getEmail()));
+					vorsitz = s.isVorsitz();
+	    		 
+	    		 String filename = request.getParameter("filename");
 		    	 
 		    	 Enumeration<String> espeter = request.getParameterNames();
 		    	 while(espeter.hasMoreElements()) System.out.println(">" + espeter.nextElement());
 		    	 
 		    	 
-		    	 int teamID = db.getTeamID(session.getEmail());
+		    	 teamID = db.getTeamID(session.getEmail());
 		    	 
 		         List<FileItem> fileItems = upload.parseRequest((RequestContext) new ContextGlue(request));
 	
@@ -164,6 +174,10 @@ public class StudentUpload extends HttpServlet {
 		   page = "team_upload.jsp?error=2";
 	     //No file selected
 	   }
+	   
+	   request.setAttribute("vorsitz", new Boolean(vorsitz));
+		request.setAttribute("deadlinereached", new Boolean(deadlineReached));
+		request.setAttribute("teamid", new Integer(teamID));
 	   
 
 		response.sendRedirect(page);

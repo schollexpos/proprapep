@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
@@ -79,7 +79,7 @@
 		      <div class="myrow">
 		        <div class="srow" >
 		          <p class="" style="height:16px; text-align: left; padding-left: 10px;">
-		            Registrierung muss über die Mail-Adresse der Universit�t erfolgen!</p>
+		            Registrierung muss über die Mail-Adresse der Universität erfolgen!</p>
 		        </div>
 		      </div>
 		      <div class="myrow">

@@ -61,6 +61,7 @@ public class StudentRegister extends HttpServlet {
 		} else if(password.length() < 8) {
 			page = "student_register.jsp?error=5";
 		} else if(!email.endsWith("@student.uni-siegen.de")) {
+			System.out.println("EAIL: >>" + email + "<<");
 			page = "student_register.jsp?error=3";
 		} else if(!password.equals(passwordWdh)) {
 			page = "student_register.jsp?error=6";

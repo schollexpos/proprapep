@@ -138,7 +138,7 @@ public class Database {
 		return getDate(result);
 	}  
 	
-	private Date getDate(PreparedStatement statement)  throws SQLException {
+	private Date getDate(PreparedStatement statement) throws SQLException {
 		ResultSet result = statement.executeQuery();
 		return getDate(result);
 	}  
@@ -166,22 +166,17 @@ public class Database {
 	
 	public boolean loginUser(String email, String password) throws SQLException {
 		/* Checks if the password is is correct */
-		ResultSet result = executeQuery("SELECT passwort FROM nutzer WHERE email = '" + email + "'");
-		String hashedPassword = "";
-		while (result.next())  { 
-			hashedPassword = result.getString(1);
-    	}
+		PreparedStatement statement = connection.prepareStatement("SELECT passwort FROM nutzer WHERE email = ?");
+		statement.setString(1, email);
+		String hashedPassword = getString(statement);
 		
 		return Crypt.validatePassword(hashedPassword, email, password);
 	}
 	
 	public boolean emailExists(String email) throws SQLException {
-		ResultSet result = executeQuery("SELECT passwort FROM nutzer WHERE email = '" + email + "'");
-		int rows = 0;
-		while (result.next())  { 
-			rows++;
-    	}
-		return rows > 0;
+		PreparedStatement statement = connection.prepareStatement("SELECT id FROM nutzer WHERE email = ?");
+		statement.setString(1, email);
+		return statement.executeQuery().next();
 	}
 	
 	public int getUserID(String email) throws SQLException {
@@ -202,7 +197,11 @@ public class Database {
 		for(int i = 0;i < hashedPassword.length;i++) {
 			password += hashedPassword[i];
 		}
-		executeUpdate("UPDATE nutzer WHERE id = " + id + " SET passwort = '" + password + "'");
+		
+		PreparedStatement statement = connection.prepareStatement("UPDATE nutzer WHERE id = ? SET passwort = ?");
+		statement.setInt(1, id);
+		statement.setString(2, password);
+		statement.executeUpdate();
 	}  
 	
 	
@@ -244,23 +243,29 @@ public class Database {
 	/* 			Session				*/
 	
 	public void addSession(String email, String sessionID) throws SQLException {
-		executeUpdate("INSERT INTO `sessions` (`email`, `session`) VALUES ( '" + email + "', '" + sessionID +  "');");
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO `sessions` (`email`, `session`) VALUES (?, ?);");
+		statement.setString(1, email);
+		statement.setString(2, sessionID);
+		statement.executeUpdate();
 	}
 	
 	public boolean verifySession(String email, String sessionID) throws SQLException {
-		ResultSet result = executeQuery("SELECT * FROM sessions WHERE email='" + email + "' AND session='" + sessionID + "'");
-	
-		int rows = 0;
-		while (result.next())  rows++;
-		return rows > 0;
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM sessions WHERE email=? AND session=?");
+		statement.setString(1, email);
+		statement.setString(2, sessionID);
+		return statement.executeQuery().next();
 	}
 	
 	public void deleteSession(String email) throws SQLException {
 		/*
 		 * Deletes all the session with e-mail email from the database.
 		 */
-		executeUpdate("DELETE FROM sessions WHERE email='" + email);
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM sessions WHERE email=?");
+		statement.setString(1, email);  
+		statement.executeUpdate();
 	}
+	
+	
 	
 	
 	/* 			Student 			*/
@@ -356,7 +361,14 @@ public class Database {
 	/* 			Team 				*/
 	
 	public void createTeam(String email, int betreuer1ID, String betreuer2, String teamname) throws SQLException {
-		executeUpdate("INSERT INTO `team` (`vorsitzmail`, `betreuer1`, `betreuer2`, `projekttitel`, `kennnummer`, `note`) VALUES ( '" + email + "', " + betreuer1ID + ", '" + betreuer2 +  "', '" +  teamname + "', '-1', 0.0);");
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO `team` (`vorsitzmail`, `betreuer1`, `betreuer2`, `projekttitel`, `kennnummer`, `note`) VALUES ( ?, ?, ?, ?, ?, ?);");
+		statement.setString(1, email);
+		statement.setInt(2, betreuer1ID);
+		statement.setString(3, betreuer2);
+		statement.setString(4, teamname);
+		statement.setString(5, "-1");
+		statement.setInt(6, 0);
+		statement.executeUpdate();
 	}
 	
 	public class Team {
@@ -444,7 +456,9 @@ public class Database {
 	}
 	
 	public int getTeamID(String vorsitzmail) throws SQLException {
-		return getInt("SELECT id FROM team WHERE vorsitzmail = '" + vorsitzmail + "'");
+		PreparedStatement statement = connection.prepareStatement("SELECT id FROM team WHERE vorsitzmail = ?");
+		statement.setString(1, vorsitzmail);
+		return getInt(statement);
 	}
 	
 	public String getTeamVorsitzenderName(int teamID) throws SQLException {
@@ -505,7 +519,12 @@ public class Database {
 	/* 			Betreuer 		*/
 	
 	public void addBetreuer(String name, String kuerzel, String lehrstuhl, int gruppe) throws SQLException {
-		executeUpdate("INSERT INTO `betreuer` (`id`, `name`, `lehrstuhl`, `kennung`, `gruppe`) VALUES (NULL, '" + name + "', '" + lehrstuhl +  "', '" +  kuerzel + "', " + gruppe + ");");
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO `betreuer` (`id`, `name`, `lehrstuhl`, `kennung`, `gruppe`) VALUES (NULL, ?, ?, ?, ?);");
+		statement.setString(1, name);
+		statement.setString(2, lehrstuhl);
+		statement.setString(3, kuerzel);
+		statement.setInt(4, gruppe);
+		statement.executeUpdate();
 	}
 	
 	public class Betreuer {
@@ -567,6 +586,12 @@ public class Database {
 		return bet;
 	}
 	
+	public void deleteBetreuer(int betreuer) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM betreuer WHERE id=?");
+		statement.setInt(1, betreuer);
+		statement.executeUpdate();
+	}
+	
 	/* BEWERTUNG */
 	
 	public void setJurorGruppe(int jurorid, int gruppe) throws SQLException {
@@ -595,7 +620,6 @@ public class Database {
 	}
 	
 	public void setKriterium(String hauptkriterium, String teilkriterium, int maxpunkte) throws SQLException {
-		int id = -1;
 		if (kriteriumExists(teilkriterium)) {
 			PreparedStatement statement = connection.prepareStatement("UPDATE `bewertungskriterium` SET hauptkriterium = ?, teilkriterium = ?, maxpunkte = ? WHERE teilkriterium = ?;");
 			statement.setString(1,hauptkriterium);
@@ -603,28 +627,37 @@ public class Database {
 			statement.setInt(3,maxpunkte);
 			statement.setString(4,teilkriterium);
 			statement.executeUpdate();
-			
 		} else {
-			executeUpdate("INSERT INTO `bewertungskriterium` (`hauptkriterium`, `teilkriterium`, `maxpunkte`) VALUES ( '" + hauptkriterium + "', '" + teilkriterium + "', '" + maxpunkte  + "');");	
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO `bewertungskriterium` (`hauptkriterium`, `teilkriterium`, `maxpunkte`) VALUES ( ?, ?, ?);");
+			statement.setString(1, hauptkriterium);
+			statement.setString(2, teilkriterium);
+			statement.setInt(3, maxpunkte);
+			statement.executeUpdate();
 		}
 	}
 	
-	public void deleteTeilkriterium(String teilkriterium) throws SQLException {		
-		executeUpdate("DELETE FROM bewertungskriterium WHERE teilkriterium='" + teilkriterium + "'");
+	public void deleteTeilkriterium(String teilkriterium) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM bewertungskriterium WHERE teilkriterium=?");
+		statement.setString(1, teilkriterium);
+		statement.executeUpdate();
 	}
 	
-	public void deleteHauptkriterium(String hauptkriterium) throws SQLException {		
-		executeUpdate("DELETE FROM bewertungskriterium WHERE hauptkriterium='" + hauptkriterium + "'");
+	public void deleteHauptkriterium(String hauptkriterium) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM bewertungskriterium WHERE hauptkriterium=?");
+		statement.setString(1, hauptkriterium);
+		statement.executeUpdate();
+	}
+	
+	public void deleteKriterium(int id) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM bewertungskriterium WHERE id=?");
+		statement.setInt(1, id);
+		statement.executeUpdate();
 	}
 	
 	public boolean kriteriumExists(String teilkriterium) throws SQLException {
-		ResultSet result = executeQuery("SELECT id FROM bewertungskriterium WHERE teilkriterium = '" + teilkriterium + "'");
-		boolean hasResults = false;
-		while(result.next()) {
-			hasResults = true;
-		}
-		
-		return hasResults;
+		PreparedStatement statement = connection.prepareStatement("SELECT id FROM bewertungskriterium WHERE teilkriterium = ?");
+		statement.setString(1, teilkriterium);
+		return statement.executeQuery().next();
 	}
 	
 	public int getBewertung(int teamID, int bewertungid) throws SQLException {
@@ -653,9 +686,6 @@ public class Database {
 		
 		return teams;
 	}
-		
-		
-	  
 	
 	
 	public void setBewertung(int teamid, int bewertungid, int punktzahl, int jurorid) throws SQLException {
@@ -736,12 +766,9 @@ public class Database {
 	}
 	
 	public int getTeamIDByTitel(String titel) throws SQLException {
-		int id = -1;
-		ResultSet result = executeQuery("SELECT * FROM team WHERE projekttitel = '" + titel + "'");
-		while(result.next()) {
-			id = result.getInt("id");
-		}
-		return id;
+		PreparedStatement statement = connection.prepareStatement("SELECT id FROM team WHERE projekttitel = ?");
+		statement.setString(1, titel);
+		return getInt(statement);
 	}
 	
 	
@@ -749,14 +776,22 @@ public class Database {
 	
 	public ArrayList<String> getStudiengaenge() throws SQLException {
 		ArrayList<String> aList = new ArrayList<String>();
-		ResultSet result = executeQuery("SELECT * FROM studiengangliste");
+		ResultSet result = executeQuery("SELECT * FROM studiengangliste ORDER BY name");
 		
 		while (result.next()) aList.add(result.getString(1));
 		return aList;
 	}
 	
 	public void addStudiengang(String name) throws SQLException {
-		executeUpdate("INSERT INTO `studiengangliste` (`name`) VALUES ('" + name + "');");
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO `studiengangliste` (`name`) VALUES (?);");
+		statement.setString(1, name);
+		statement.executeUpdate();
+	}
+	
+	public void deleteStudiengang(String name) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM studiengangliste WHERE name = ?");
+		statement.setString(1, name);
+		statement.executeUpdate();
 	}
 	
 	
@@ -817,6 +852,7 @@ public class Database {
 	}
 	
 	public void setDeadlineRegistrierung(Date date) throws SQLException {
+		date.setTime(date.getTime() + 24*60*60*1000);
 		PreparedStatement statement = connection.prepareStatement("UPDATE config SET `deadline-registrierung` = ? WHERE id = 1");
 		statement.setDate(1, date);
 		statement.executeUpdate();
@@ -827,6 +863,7 @@ public class Database {
 	}
 	
 	public void setDeadlineUpload(Date date) throws SQLException {
+		date.setTime(date.getTime() + 24*60*60*1000);
 		PreparedStatement statement = connection.prepareStatement("UPDATE config SET `deadline-uploaden` = ? WHERE id = 1");
 		statement.setDate(1, date);
 		statement.executeUpdate();

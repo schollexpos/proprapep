@@ -94,7 +94,7 @@
                             <th scope="col">Hauptkriterium</th>
                             <th scope="col">Teilkriterium</th>
                             <th scope="col">Skala</th>
-
+							<th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,6 +103,7 @@
 	            					<th scope="row">${kriterium.hauptkriterium}</th>
 	            					<td>${kriterium.teilkriterium}</td>
 	            					<td>0-${kriterium.maxpunkte}</td>
+	            					<td id="kriterium_${kriterium.bewertungID}"><a href="javascript:deleteKriterium(${kriterium.bewertungID});">Löschen</a></td>
         						</tr>
    							</c:forEach>
                         
@@ -124,9 +125,7 @@
                     <input id="maxpunkte" type="text" class="inputl border border-dark w-25 p-1 mt-1 ml-1 mr-auto" name = "maxpunkte">
 
                     <input type="submit" class="border border-dark addi w-25 ml-0" value="Kriterium hinzufügen" style=" min-width:200px; height:40px" name = "addKriterium">
-                    
-               		<input type="submit" class="border border-secondary dele mr-auto ml-1 " value="Löschen" style="width: 10%; min-width:100px; height:40px" name = "deleteKriterium">
-                </div>
+               </div>
                 
 
             </div>
@@ -140,6 +139,26 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>#
+        
+          <script>
+             var allow = true;
+             
+        function deleteKriterium(id) {
+        	if(!allow) return;
+        	
+	     	  var xhttp = new XMLHttpRequest();
+	     	  xhttp.onreadystatechange = function() {
+	     	    if (this.readyState == 4 && this.status == 200) {
+	     	    	location.reload(); 
+	     	    }
+	     	  };
+	     	  xhttp.open("GET", "DeleteLSSG?kriterium=" + id, true);
+	     	  xhttp.send();
+	     	
+	     	 allow = false;
+        }
+        </script>
+        
 </body>
 </html>

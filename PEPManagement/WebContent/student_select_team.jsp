@@ -21,7 +21,7 @@
         <h1 class="nav-item m-auto "><b>Planungs- und Entwicklungsprojekt</b></h1>
 
         	<%
-					String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.VORSITZ);
+					String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.STUDENT);
 					out.println(str);
 				%>
       </nav>
@@ -41,7 +41,9 @@
 				} else if(str.equals("3")) {
 					errorMessage = "Bitte &uuml;berpr&uuml;fen Sie Ihre Eingaben auf Korrektheit!";
 				}  else if(str.equals("4")) {
-					errorMessage = "Das Gew&auml;hlte Team existiert nicht!";
+					errorMessage = "Das gew&auml;hlte Team existiert nicht!";
+				}  else if(str.equals("5")) {
+					errorMessage = "Das gew&auml;hlte Team ist voll!";
 				} 
 				
 				out.println(pepmanagement.Menu.getErrorMessage(errorMessage));

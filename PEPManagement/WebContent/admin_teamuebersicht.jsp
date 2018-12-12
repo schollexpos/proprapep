@@ -170,6 +170,9 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	               			if(!team.getKennnummer().equals("-1")) {
 		               			out.print("<td>Best&auml;tigt</td>");
 		               			out.print("<td>" + team.getKennnummer() + "</td>");
+	               			} else if(db.getStudentenFromTeam(team.getID()).size() < db.getMinTeamSize()){
+	               				out.print("<td>Mindestgr&ouml;&szlig;e nicht erreicht</td>");
+		               			out.print("<td> - </td>");
 	               			} else {
 		               			out.print("<td><a href=\"AdminTeamUebersicht?team=" + team.getID() + "\">Best&auml;tigen</a></td>");
 		               			out.print("<td> - </td>");

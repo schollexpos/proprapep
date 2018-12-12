@@ -47,7 +47,7 @@ public class AdminPersoenlich extends HttpServlet {
 			request.setAttribute("error", request.getParameter("error"));
 		}
 		
-		AccountControl.processResult(res, request, response, "StudentPersoenlich", "student_persoenlich.jsp");
+		AccountControl.processResult(res, request, response, "AdminPersoenlich", "admin_persoenlich.jsp");
 	}
 
 
@@ -62,7 +62,7 @@ public class AdminPersoenlich extends HttpServlet {
 			try {
 				Session session = new Session(db, request);
 				session.restore(request);
-				
+				  
 				int uID = db.getUserID(session.getEmail());
 				Database.User u = db.getUser(uID);
 				
@@ -72,9 +72,11 @@ public class AdminPersoenlich extends HttpServlet {
 					if(newPW1.equals(newPW2)) {
 						if(db.loginUser(session.getEmail(), oldPW)) {
 							db.setPasswort(u.getID(), newPW1, session.getEmail());
+						} else {
+							res = AccountControl.Result.ERROR;
 						}
 					} else {
-						
+						res = AccountControl.Result.ERROR;
 					}
 				}
 			} catch (SQLException e) {

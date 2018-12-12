@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <% if(request.getAttribute("hasAccess") == null) {
-	response.sendRedirect("StudentPersoenlich");
+	response.sendRedirect("AdminPersoenlich");
 }
 
 Database.User u = (Database.User) request.getAttribute("user");
@@ -71,7 +71,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
       <div class="col-sm m-1">
         <h4 class="inlabel text-center">Passwort ändern</h4>
       </div>
-      	<form action="StudentPersoenlich" method="post">
+      	<form action="AdminPersoenlich" method="post">
             <div class="myrow">
                 <div class="srow">
                 <div class="relem1">

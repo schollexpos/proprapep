@@ -85,7 +85,7 @@ public class StudentRegisterTeam extends HttpServlet {
 					db.createTeam(session.getEmail(), betreuer1, betreuer2, teamname);
 					db.addStudentToTeam(db.getUserID(session.getEmail()), db.getTeamID(session.getEmail()));
 					
-					page = "index";
+					page = "_erfolg.html";
 				}
 			} catch(SQLException e) {
 				page = "student_register_team.jsp?error=2";
