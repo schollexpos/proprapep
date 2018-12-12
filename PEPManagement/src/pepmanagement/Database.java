@@ -832,6 +832,11 @@ public class Database {
 		statement.executeUpdate();
 	}
 	
+	public static boolean dateReached(Date date) {
+		java.sql.Date systemDate = new java.sql.Date(System.currentTimeMillis());
+		return systemDate.after(date);
+	}
+	
 	public boolean bewertungOpen() {
 		try {
 			return getBoolean("SELECT `bewertung` FROM config WHERE id = 1");

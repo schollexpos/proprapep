@@ -67,7 +67,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	            <h4 class="inlabel text-center">Registrierungsfrist</h4>
 	        </div>
 	        <div class="col-sm">
-	            <input type="date" value="<%=deadlineUp %>" name="register-frist" class="iputl p-1 w-100">
+	            <input type="date" value="<%=deadlineReg %>" name="register-frist" class="iputl p-1 w-100">
 	        </div>
 	        <div class="col-sm">
 	            <input type="submit" class="wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value="Ändern">
@@ -81,7 +81,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
           <h4 class="inlabel text-center">Abgabefrist</h4>
       </div>
       <div class="col-sm">
-          <input type="date" value="<%=deadlineReg %>" name="upload-frist" class ="iputl p-1 w-100">
+          <input type="date" value="<%=deadlineUp %>" name="upload-frist" class ="iputl p-1 w-100">
       </div>
       <div class="col-sm">
           <input type ="submit" class="wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="Ändern">

@@ -2,6 +2,8 @@
  	if(request.getAttribute("list") == null) {
  		response.sendRedirect("StudentUpload");
  	}
+ 
+ 	boolean deadlineReached = ( (Boolean) request.getAttribute("deadlinereached")).booleanValue();
  %>
 <%@ page import="pepmanagement.Database, pepmanagement.Menu, pepmanagement.AccountControl, pepmanagement.Pair, java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -47,9 +49,13 @@
 	  out.println("<div class=\"container-fluid mt-1 p-3\"><form class=\"myrow\" action = \"StudentUpload\" method=\"post\" enctype = \"multipart/form-data\">");
 	  out.println("<div class=\"col-sm ml-auto\"><h4 class=\"inlabel text-center\">" +  list.get(i).x + "</h4></div>");
 	  out.println("<input type=\"hidden\" name=\"filename\" value=\"" + list.get(i).x + "\" />");
-	  out.println("<div class=\"col-sm input-group\"><label class=\"input-group-btn\"><span class=\"btn btn-default wichtigUp\">Browse...<input type = \"file\" name = \"file\" size = \"50\" style=\"display: none;\" multiple></span></label><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>");
-	  out.println("<div class=\"col-sm\">");
-	  if(vorsitz.booleanValue())
+	  if(vorsitz.booleanValue() && !deadlineReached) {
+		  out.println("<div class=\"col-sm input-group\"><label class=\"input-group-btn\"><span class=\"btn btn-default wichtigUp\">Browse...<input type = \"file\" name = \"file\" size = \"50\" style=\"display: none;\" multiple></span></label><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>"); 
+	  } else {
+		  out.println("<div class=\"col-sm input-group\"><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>");
+		  
+	  } out.println("<div class=\"col-sm\">");
+	  if(vorsitz.booleanValue() && !deadlineReached)
 		  out.println("<input type=\"submit\" class=\"btn btn-default wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark\" value=\"Upload\" style=\"display:block;\">");
   	  
 	  out.println("</div></form><div class=\"myrow\">");

@@ -7,7 +7,7 @@ import java.io.File;
 public class FileManager {
 	
 	public static String getBasePath() {
-		return "C:\\Users\\lucat\\git\\proprapep\\PEPManagement\\WebContent\\data\\";
+		return "C:\\Users\\lucat\\git\\proprapepnew\\PEPManagement\\WebContent\\data\\";
 	}
 	
 	public static boolean fileExists(String path, int teamID, String filename) {

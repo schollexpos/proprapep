@@ -36,7 +36,6 @@ import pepmanagement.Session;
 @WebServlet("/StudentUpload")
 public class StudentUpload extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String filePath = "C:\\Users\\lucat\\git\\proprapep\\PEPManagement\\WebContent\\data\\";
 	private Database db;
        
    
@@ -61,26 +60,27 @@ public class StudentUpload extends HttpServlet {
 			session.restore(request);
 			
 			boolean vorsitz = false;
+			boolean deadlineReached = true;
 			
 			int teamID = -1;
 			try {
 				Database.Student s = db.getStudent(db.getUserID(session.getEmail()));
 				vorsitz = s.isVorsitz();
 				teamID = s.getTeamID();
-	    			
+				deadlineReached = Database.dateReached(db.getDeadlineUpload());
 				for(int i = 0;i < FileManager.getFileCount();i++) {
 					String date = "";
 					
-					if(FileManager.fileExists(filePath, teamID, FileManager.getFileIdentifier(i))) {
+					if(FileManager.fileExists(FileManager.getBasePath(), teamID, FileManager.getFileIdentifier(i))) {
 						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-						long lastMod = FileManager.fileDate(filePath, teamID, FileManager.getFileIdentifier(i));
+						long lastMod = FileManager.fileDate(FileManager.getBasePath(), teamID, FileManager.getFileIdentifier(i));
 	    				
 	    				date = sdf.format(lastMod);
 					} else {
 						date = "-";
 					}
 					
-					deadline = db.getDeadlineUpload().getTime();
+					
 					list.add(new pepmanagement.Pair<String, String>(FileManager.getFileIdentifier(i), date));
 				}
 			} catch (SQLException e) {
@@ -90,7 +90,7 @@ public class StudentUpload extends HttpServlet {
 			
 			request.setAttribute("list", list);
 			request.setAttribute("vorsitz", new Boolean(vorsitz));
-			request.setAttribute("deadline", new Long(deadline));
+			request.setAttribute("deadlinereached", new Boolean(deadlineReached));
 		}
 		
 		AccountControl.processResult(res, request, response, "StudentUpload", "student_upload.jsp", true);
@@ -120,7 +120,7 @@ public class StudentUpload extends HttpServlet {
 	      try { 
 	    	 Session session = new Session(db, request);
 	    	 
-	    	 if(session.restore(request) && db.studentIsVorsitzender(db.getUserID(session.getEmail()))) {
+	    	 if(session.restore(request) && !Database.dateReached(db.getDeadlineUpload()) && db.studentIsVorsitzender(db.getUserID(session.getEmail()))) {
 		    	 String filename = request.getParameter("filename");
 		    	 
 		    	 Enumeration<String> espeter = request.getParameterNames();
@@ -144,7 +144,7 @@ public class StudentUpload extends HttpServlet {
 		            
 		               // Write the file
 		
-		               file = new File(filePath + FileManager.getFilename(teamID, filename)) ;
+		               file = new File(FileManager.getBasePath() + FileManager.getFilename(teamID, filename)) ;
 		               fi.write(file) ;
 		          
 		            } else if(fi.getFieldName().equals("filename")) {

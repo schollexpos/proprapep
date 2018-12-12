@@ -32,7 +32,7 @@ public class StudentRegister extends HttpServlet {
 		}
 		
 		try {
-			if(System.currentTimeMillis() >= db.getDeadlineRegistrierung().getTime()) request.setAttribute("error", 10);
+			if(Database.dateReached(db.getDeadlineRegistrierung())) request.setAttribute("error", 10);
 		} catch (SQLException e) {}
 		
 		response.sendRedirect("student_register.jsp");
@@ -76,7 +76,7 @@ public class StudentRegister extends HttpServlet {
 				
 				if(db.emailExists(email)) {
 					page = "student_register.jsp?error=4";
-				} else if(System.currentTimeMillis() >= db.getDeadlineRegistrierung().getTime()) {
+				} else if(Database.dateReached(db.getDeadlineRegistrierung())) {
 					page = "student_register.jsp?error=10";
 				} else { 
 					db.registerUser(email, password);
