@@ -130,8 +130,10 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                 </div>
               </div>
             </div>
-        <div class="col-sm">
-          <input type ="submit" class="wichtigUp w-25 m-auto uploadbtn border border-dark" value ="Passwort ändern" >
+        <div class="myrow">
+        <div class="srow p-1">
+          <input type ="submit" class="fstil wichtigUp mr-auto ml-0 uploadbtn border border-dark" style="width:95%;" value ="Passwort ändern" >
+        </div>
         </div>
         </form>
 

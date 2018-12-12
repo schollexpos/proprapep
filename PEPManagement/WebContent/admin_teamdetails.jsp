@@ -38,7 +38,7 @@
 %>
 	
 	    <div class="py-2 px-2 mt-0">
-	        <    <div class="container-fluid logo border border-dark">
+	           <div class="container-fluid logo border border-dark">
       <nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
         <a class="navbar-brand mr-auto" href="https://www.uni-siegen.de/start/">
           <img class="log" src="logo_u_s.png" width="180">
@@ -231,11 +231,11 @@
                 <div class="col-2">
                         <div class="row mt-2">
         
-                            <input type="submit" formid="lehrstuhl" class="addi ml-auto p-1 mt-1 border border-dark" value="Ändern">
+                            <input type="submit" formid="lehrstuhl" class="addi sub1 ml-auto p-1 mt-1 border border-dark" value="Ändern">
                         </div>
                         <div class="row mt-2">
         
-                            <input type="submit" class="dele ml-auto p-1 mt-1 border border-secondary" value="Löschen">
+                            <input type="submit" class="dele sub1 ml-auto p-1 mt-1 border border-secondary" value="Löschen">
         
                         </div>
                     </div>

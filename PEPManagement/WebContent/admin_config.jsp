@@ -70,7 +70,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	            <input type="date" value="<%=deadlineReg %>" name="register-frist" class="iputl p-1 w-100">
 	        </div>
 	        <div class="col-sm">
-	            <input type="submit" class="wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value="ƒndern">
+	            <input type="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value="ƒndern">
 	        </div>
     </form>
 </div>
@@ -84,7 +84,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
           <input type="date" value="<%=deadlineUp %>" name="upload-frist" class ="iputl p-1 w-100">
       </div>
       <div class="col-sm">
-          <input type ="submit" class="wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="ƒndern">
+          <input type ="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="ƒndern">
       </div>
   </form>
 </div>
@@ -98,7 +98,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
             <input type ="text" name="zc-student" value="<%=zcS %>" class ="iputl p-1 w-100">
         </div>
         <div class="col-sm">
-            <input type ="submit" class="wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="ƒndern" >
+            <input type ="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="ƒndern" >
         </div>
     </form>
   </div>
@@ -112,7 +112,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
             <input type ="text" name="zc-juror" value="<%=zcJ %>" class ="iputl p-1 w-100">
         </div>
         <div class="col-sm">
-            <input type ="submit" class="wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="ƒndern" >
+            <input type ="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="ƒndern" >
         </div>
     </form>
   </div>
@@ -126,7 +126,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
             <input type ="text" name="zc-admin" value="<%=zcA %>" class ="iputl p-1 w-100">
         </div>
         <div class="col-sm">
-            <input type ="submit" class="wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="ƒndern" >
+            <input type ="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="ƒndern" >
         </div>
     </form>
   </div>
@@ -138,7 +138,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         </div>
         <form action="AdminConfig" method="post" class="col-sm">
         	<input type="hidden" name="freigabe" value="jabitte">
-            <input type="submit" class="wichtigUp w-100 mr-auto ml-0 uploadbtn border border-dark" value ="<% out.print((frei ? "Schliessen" : "Freigeben")); %>" >
+            <input type="submit" class="fstil wichtigUp w-100 mr-auto ml-0 uploadbtn border border-dark" value ="<% out.print((frei ? "Schliessen" : "Freigeben")); %>" >
         </form>
         <div class="col-sm">
         </div>
@@ -148,7 +148,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         </div>
         <div class="col-sm mt-3">
             <h3 class="inlabel text-center">Semester Abschlieﬂen?</h3>
-            <input type ="button" class="wichtigUp w-100 mr-auto mt-1 wichtigUpbtn border border-dark" value ="Semster Abschlieﬂen!" >
+            <input type ="button" class="fstil wichtigUp w-100 mr-auto mt-1 wichtigUpbtn border border-dark" value ="Semster Abschlieﬂen!" >
         </div>
         <div class="col-sm">
         </div>

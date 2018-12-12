@@ -146,7 +146,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 		                        <h5 class="inlabel text-left ">Lehrstuhlkürzel</h5>
 		                    </div>
 		                    <div class="col-7 pr-4">
-		                        <input id="lehrstuhlh" name="kuerzel" type="text" class="w-100 border border-dark  p-1 " maxlength="2">
+		                        <input id="lehrstuhlh" name="kuerzel" type="text" class="mw-200 w-100 border border-dark  p-1 " maxlength="2">
 		                    </div>
 		                </div>
 	                    
@@ -170,11 +170,11 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	            <div class="col-4">
 	                <div class="row mt-2">
 	                    
-	                        <input type="submit" formid="lehrstuhl" class="addi p-1 mt-1 border border-dark" value="Lehrstuhl Hinzufügen">
+	                        <input type="submit" formid="lehrstuhl" class="sub1 addi p-1 mt-1 border border-dark" value="Lehrstuhl Hinzufügen">
 	                                    </div>
 	                <div class="row mt-2">
 	                    
-	                        <input type="submit" class="dele p-1 mt-1 border border-secondary" value="Lehrstuhl Löschen">
+	                        <input type="submit" class="sub1 dele p-1 mt-1 border border-secondary" value="Lehrstuhl Löschen">
 	                    
 	                </div>
 	            </div>
@@ -197,10 +197,10 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	
 	            <div class=" col-4" >
 	                <div class="row mt-2">
-	                        <input type="submit" formid="studiengang" class="addi p-1 mt-1 border border-dark" value="Studiengang Hinzufügen">
+	                        <input type="submit" formid="studiengang" class="sub1 addi p-1 mt-1 border border-dark" value="Studiengang Hinzufügen">
 	                </div>
 	                <div class="row mt-2">
-	                        <input type="submit" formid="studiengang" class="dele p-1 mt-1 border border-secondary" value="Studiengang Löschen">
+	                        <input type="submit" formid="studiengang" class="sub1 dele p-1 mt-1 border border-secondary" value="Studiengang Löschen">
 	                </div>
 	            </div>
 	            

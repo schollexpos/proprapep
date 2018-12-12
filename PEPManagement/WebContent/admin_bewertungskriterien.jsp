@@ -49,7 +49,7 @@
         <div class="container-fluid w-25 h-75 mt-3 ml-0 mr-auto p-4 border-right border-dark" style="box-shadow: 15px 0 8px -10px rgb(82, 82, 82);">
 
             <h2 class="mt-1 text-center">Juror / Gruppe</h2>
-             <div class="myrow mt-4">
+            
              <form action = "AdminBewertungskriterien" method = post>
 	        <%
 	        Database db = new Database();
@@ -60,23 +60,26 @@
 	        for (int i = 0; i < juroren.size(); i++){
 	        	int jurorid = jurorenIDs.get(i);
 	        	int gruppe = db.getJurorGruppe(jurorid);
+	        	out.println("<div class=\"myrow mt-4\">");
 	        	out.println( "<h4 class=" + "\"w-25 mr-auto ml-0 text-center pt-1\">" + juroren.get(i) + "</h4>");
 	        	out.println("<select class=\"w-50 ml-2 mr-auto custom-select  border border-dark\" name=\"gruppe" + i + "\" ><span>Gruppe</span>");
 	        	out.println("<option " + (gruppe == 1 ? "selected" : "") + ">1</option>");
 	        	out.println("<option " + (gruppe == 2 ? "selected" : "") + ">2</option>");
 	        	out.println("<input type=\"hidden\" name=\"jurorid" + i  + "\" value=\""  + jurorid + "\"" + ">");
-	        	out.println("</select>");
+	        	out.println("</select> </div>");
 	        }
 	        
 	        
 	        %>
-            <input type="submit" class="btn btn-primary m-2" value="Juroren zuweisen" style="width: 200px; min-width:100px; height:40px" name = "zuweisung">
+           
+           
+            <input type="submit" class="standard addi w-75 uploadbtn border border-dark mx-auto mt-2" value="Juroren zuweisen" style="min-width:100px; height:40px" name = "zuweisung">
 	         </form> 
 	               
 	
 	          
 	
-	            </div>
+	          
 	
 
             <p class="impmsg border border-secondary w-75 mt-2" style="font-size:18px;">Bitte erst nach Ablauf der

@@ -161,7 +161,7 @@
                 </table>
             </div>
             
-            <input type="submit" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Bewertung hinzufügen" style="width: 200px; min-width:100px; height:40px" name = "bewerten">
+            <input type="submit" class="wichtigUp fstil mw-200 w-50 p-2 uploadbtn border border-dark" value="Bewertung hinzufügen" style=" height:40px" name="bewerten">
             
             </form>
             
@@ -171,17 +171,17 @@
         <div class="col-sm-9 col-md-3">
         
                 <h3 class="m-auto p-3 ">Downloads</h3>
-                <a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(0))%>">
-               		 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Dokumentation">
+                <a class="blank" href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(0))%>">
+               		 <input type="button" class="fstil wichtigUp w-30 mb-2 p-2 uloadbtn border border-dark" value="Dokumentation">
 				</a>
-				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(1))%>">
-                <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Poster">
+				<a  class="blank" href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(1))%>">
+                <input type="button" class="fstil wichtigUp w-30 mb-2 p-2 wuloadbtn border border-dark" value="Poster">
 				</a>
-				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(2))%>">
-                <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Kurzbeschreibung">
+				<a class="blank" href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(2))%>">
+                <input type="button" class="fstil wichtigUp w-30 mb-2 p-2 uloadbtn border border-dark" value="Kurzbeschreibung">
 				</a>
-				<a href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(3))%>">
-               		 <input type="button" class="wichtigUp w-30 mb-2 p-2 wichtigUpbtn border border-dark" value="Präsentation">
+				<a class="blank" href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(3))%>">
+               	<input type="button" class="fstil wichtigUp w-30 mb-2 p-2 uloadbtn border border-dark" value="Präsentation">
 				</a>
         </div>
     </div>

@@ -162,6 +162,11 @@ address {
 
 
 /*Custom*/
+.fstil{
+  font-style: inherit !important;
+  font-size:16px !important;
+}
+
 
 .error {
     top: 45%;
@@ -493,34 +498,8 @@ img.log {
     text-decoration: none
 }
 
-.wichtig a:active,
-.standard a:active {
-    text-decoration: none;
-    color: white;
-    width: 100%;
-}
 
-.wichtig a:visited,
-.standard a:visited {
-    text-decoration: none;
-    color: white;
-    width: 100%;
-}
-
-.wichtigUp:active,
-.standard:active {
-    text-decoration: none;
-    color: white;
-    width: 100%;
-}
-
-.wichtigUp:visited,
-.standard:visited {
-    text-decoration: none;
-    color: white;
-    width: 100%;
-}
-
+.vorsitz:hover,
 .wichtigUp:hover,
 .senden:hover,
 .addi:hover,
@@ -534,9 +513,39 @@ img.log {
     cursor: pointer;
     display: block;
 }
+.vorsitz{ 
+	color:#040385; 
+	font-family: inherit; 
+	font-size: 16pt; 
+	font-weight: normal; 
+	display: block; 
+	padding: 12px; 
+	margin: auto; 
+	text-align: center; 
+	min-width: 100px; 
+	width: 100%; 
+	max-width: 100%; 
+	background-size: 100%; 
+	background-color:white; 
+	text-decoration: none; 
+	} 
+	
+.vorsitz:active { 
+	text-decoration: none; 
+	color:white; 
+	width:100%; 
+	background-color: #040385; } 
+	
+.vorsitz:focus{ 
+	color: white; 
+background-color: #040385; }
 
 .standard:hover {
     background-color: rgba(235, 235, 235, 0.95);
+}
+.standard:active {
+	background-color: #040385;
+	color:white;
 }
 
 .addi:hover {

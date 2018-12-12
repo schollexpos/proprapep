@@ -640,14 +640,14 @@ public class Database {
 	} 
 	
 	public ArrayList<String> getOrderedTeams(int group) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("SELECT projekttitel, teamID, SUM(punkte) AS summe FROM team NATURAL JOIN bewertung WHERE betreuer1 IN (SELECT id FROM betreuer WHERE gruppe = ?) GROUP BY teamID ORDER BY summe DESC");
+		PreparedStatement statement = connection.prepareStatement("SELECT projekttitel, ID, SUM(punkte) AS summe FROM team NATURAL JOIN bewertung WHERE betreuer1 IN (SELECT id FROM betreuer WHERE gruppe = ?) AND team.ID = bewertung.teamID GROUP BY team.ID ORDER BY summe DESC");
 		statement.setInt(1,group);
 		ResultSet result = statement.executeQuery();
 		
 		ArrayList<String> teams = new ArrayList<String>();
 		
 		while (result.next())  { 
-			String team = result.getString(1) + "#" + result.getInt(2) + "#" + result.getInt(3);
+			String team = result.getString("projekttitel") + "#" + result.getInt("ID") + "#" + result.getInt("summe");
 			teams.add(team);
 		}
 		

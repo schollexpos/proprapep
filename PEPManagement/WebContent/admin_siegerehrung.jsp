@@ -120,7 +120,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                                <%
                        
                        ArrayList<String> teamListe = db.getOrderedTeams(1);
-               			
+                               
                                
 	               		for(int i = 0;i < teamListe.size() && i < 3;i++) {
 	               			String [] currTeam = teamListe.get(i).split("#");
@@ -129,12 +129,12 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	               			out.print("<tr>");
 	               			out.print("<th scope=\"row\"> Platz " + (i + 1) + "</th>");
 	               			out.print("<td>" + currTeam[0] + "</td>");
-	               			out.print("<td>"+currTeam[1] +"</td>");
+	               			out.print("<td>"+ currTeam[1] +"</td>");
 	               			out.print("<td>"+currTeam[2] +"</td>");
 	               			
 	               			
 	               			out.print("</tr>");
-	               		}
+	               		} 
 	               		
                		
                        %>
@@ -165,21 +165,20 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                                <%
                        
                        ArrayList<String> teamListe2 = db.getOrderedTeams(2);
-               			
-                               
-	               		for(int i = 0;i < teamListe2.size() && i < 3;i++) {
-	               			String [] currTeam = teamListe.get(i).split("#");
-	               			teamIDg2[i]= Integer.parseInt(currTeam[1]);
+                    
+	               	 for(int i = 0;i < teamListe2.size() && i < 3;i++) {
+	               			String [] currTeam = teamListe2.get(i).split("#");
+	               			teamIDg1[i]= Integer.parseInt(currTeam[1]);
 	               			
 	               			out.print("<tr>");
 	               			out.print("<th scope=\"row\"> Platz " + (i + 1) + "</th>");
 	               			out.print("<td>" + currTeam[0] + "</td>");
-	               			out.print("<td>"+currTeam[1] +"</td>");
+	               			out.print("<td>"+ currTeam[1] +"</td>");
 	               			out.print("<td>"+currTeam[2] +"</td>");
 	               			
 	               			
 	               			out.print("</tr>");
-	               		}
+	               		} 
                		
                        %>
 
@@ -338,7 +337,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                     <div class="col-5">
                         <div class="uplout text-left border border-dark p-1 w-100"><%
                         {
-                        	String prjkt = db.getTeamTitel(teamIDg1[1]);
+                        	String prjkt = db.getTeamTitel(teamIDg2[1]);
                         	if (prjkt==""){
                         		out.print("Projekttitel");
                         		}

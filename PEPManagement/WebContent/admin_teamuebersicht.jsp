@@ -103,13 +103,14 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	            </div>
 	            <div class="myrow p-1">
 	                <div class="col-sm">
-	                    <input type ="submit" class="wichtigUp w-100 mr-auto ml-0 uploadbtn border border-dark" value ="Ändern" >
+	                    <input type ="submit" class="fstil wichtigUp w-100 mr-auto ml-0 uploadbtn border border-dark" value ="Ändern" >
 	                </div>
 	            </div>
             </form>
         </div>
+        
 
-        <div class="col-sm m-auto">
+        <div class="col-sm">
             <div class="myrow ">
                 <h1 class="m-auto">Team Übersicht</h1>
             </div>
@@ -131,7 +132,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         <div class="col-sm m-auto">
             <div class="myrow mt-2">
                 <div class="relem2 w-100">
-                    <h2><input type="submit" onclick="window.print();" class="addi ml-auto p-1 border border-dark"
+                    <h2><input type="submit" onclick="window.print();" class="sub1 addi ml-auto mr-2 p-1 border border-dark"
                             style="height:150px; max-width: 300px;" value="Drucken">
                     </h2>
                 </div>
