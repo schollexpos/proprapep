@@ -1,6 +1,6 @@
 <%@ page import="pepmanagement.Database, pepmanagement.Menu, pepmanagement.AccountControl, pepmanagement.Pair, java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
     <%
     	Database db = new Database();
@@ -63,6 +63,8 @@
 					errorMessage = "Falscher Code!";
 				} else if(str.equals("9")) {
 					errorMessage = "Bitte kontrollieren sie Ihre Eingaben auf Korrektheit.";
+				} else if(str.equals("10")) {
+					errorMessage = "Die Registrierungsphase ist vorbei!";
 				}
 				
 				out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
@@ -105,7 +107,7 @@
 		      <div class="myrow">
 		        <div class="srow" >
 		          <p class="" style="height:16px; text-align: left; padding-left: 10px;">
-		            Registrierung muss �ber die Mail-Adresse der Universit�t erfolgen!</p>
+		            Registrierung muss über die Mail-Adresse der Universität erfolgen!</p>
 		        </div>
 		      </div>
 		      <div class="myrow" >
@@ -134,8 +136,7 @@
 		          		%>
 		          	</select>
 		          
-		            <input id="studiengang" name="studiengang" type="text" class="inputl border border-dark p-1 mt-1" >
-		          </div>
+		           </div>
 		        </div>
 		      </div>
 		      <div class="myrow">
