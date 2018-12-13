@@ -94,8 +94,9 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         }
        
         else if(order==2) {
+        	//out.print ("<a class=\"blank\" href=\"C:\\Users\\lucah\\Desktop\\Testfiles\\-1.dokumentation.pdf\">");
         	out.print("<input type=\"hidden\" name=\"order\" value=\"2\" >");
-        	out.print("<input type=\"submit\" class=\"uploadbtn standard addi border border-dark\"  name=\"createPr\" value=\"Erstelle Präsentation\" >");
+        	out.print("<input type=\"submit\" class=\"uploadbtn standard addi border border-dark\"  name=\"createPr\" value=\"Erstelle Präsentation\" > ");
         	}
         
   %>
@@ -169,7 +170,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                     
 	               	 for(int i = 0;i < teamListe2.size() && i < 3;i++) {
 	               			String [] currTeam = teamListe2.get(i).split("#");
-	               			teamIDg1[i]= Integer.parseInt(currTeam[1]);
+	               			teamIDg2[i]= Integer.parseInt(currTeam[1]);
 	               			
 	               			out.print("<tr>");
 	               			out.print("<th scope=\"row\"> Platz " + (i + 1) + "</th>");
@@ -420,7 +421,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                     <div class="col-5">
                         <div class="uplout text-left border border-dark p-1 w-100"><%
                         if(order==1){
-                        	String prjkt = db.getTeamTitel(teamIDg1[2]);
+                        	String prjkt = db.getTeamTitel(teamIDg2[0]);
                         	if (prjkt==""){
                         		out.print("Projekttitel");
                         		}
@@ -428,7 +429,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         }
                         
                         else if(order==2){
-                        	String prjkt = db.getTeamTitel(teamIDg1[0]);
+                        	String prjkt = db.getTeamTitel(teamIDg2[2]);
                         	if (prjkt==""){
                         		out.print("Projekttitel");
                         		}
