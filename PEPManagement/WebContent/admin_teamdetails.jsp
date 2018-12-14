@@ -1,7 +1,7 @@
 <%@ page import="pepmanagement.Database, pepmanagement.Pair, java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <% if(request.getAttribute("hasAccess") == null) {
 	response.sendRedirect("AdminTeamDetails");
 }
@@ -21,14 +21,14 @@
 		String errorMessage = "???";
 		if(str.equals("1")) {
 
-			errorMessage = "Füllen Sie alle Felder aus!";
+			errorMessage = "Fï¿½llen Sie alle Felder aus!";
 		} else if(str.equals("2")) {
 
 			errorMessage = "Datenbankfehler";
 		} else if(str.equals("3")) {
-			errorMessage = "Bitte geben sie als Matrikelnummer ausschließlich eine Zahl ein";
+			errorMessage = "Bitte geben sie als Matrikelnummer ausschlieï¿½lich eine Zahl ein";
 		} else if(str.equals("4")) {
-			errorMessage = "Nur studentische E-Mail-Adressen der Universität Siegen sind erlaubt!";
+			errorMessage = "Nur studentische E-Mail-Adressen der Universitï¿½t Siegen sind erlaubt!";
 		} else {
 			errorMessage = "Unbekannter Fehler!";
 		}
@@ -231,11 +231,11 @@
                 <div class="col-2">
                         <div class="row mt-2">
         
-                            <input type="submit" formid="lehrstuhl" class="addi sub1 ml-auto p-1 mt-1 border border-dark" value="Ändern">
+                            <input type="submit" formid="lehrstuhl" class="addi sub1 ml-auto p-1 mt-1 border border-dark" value="Ã„ndern">
                         </div>
                         <div class="row mt-2">
         
-                            <input type="submit" class="dele sub1 ml-auto p-1 mt-1 border border-secondary" value="Löschen">
+                            <input type="submit" class="dele sub1 ml-auto p-1 mt-1 border border-secondary" value="LÃ¶schen">
         
                         </div>
                     </div>

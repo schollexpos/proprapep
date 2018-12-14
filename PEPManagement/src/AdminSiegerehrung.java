@@ -173,7 +173,7 @@ public class AdminSiegerehrung extends HttpServlet {
  			        //Output Stream zum Speichern
  			     
  			        mergePDF(inputPdfList, outputStream);
- 					
+ 			       page = "PDFServe?special=1";
  			  }
  				  
  				  else if(ord==2) {
@@ -205,20 +205,20 @@ public class AdminSiegerehrung extends HttpServlet {
   			        //Output Stream zum Speichern
   			     
   			        mergePDF(inputPdfList, outputStream);
-  					
+  			      page = "PDFServe?special=1";
   			  }
  		 
- 		  }catch (SQLException e) {
+ 		  } catch (SQLException e) {
 				e.printStackTrace();
-			} catch (Exception e) {
+				page = "admin_siegerehrung.jsp";
+		} catch (Exception e) {
 			
 			e.printStackTrace();
+			page = "admin_siegerehrung.jsp";
 		} 
  		  	   
- 		  page = "admin_siegerehrung.jsp";
- 	   }
- 		   
- 		else {
+ 		  
+ 	   } else {
  		   page = "admin_siegerehrung.jsp?error=2";
  	     //No file selected
  	   }

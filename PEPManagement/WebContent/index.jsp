@@ -38,7 +38,9 @@
 									out.println("<a class=\"dropdown-item\" href=\"AdminLehrstuhlStudiengang\">Admin: Lehrstuhl/Studiengangliste</a>");
 									out.println("<a class=\"dropdown-item\" href=\"AdminTeamUebersicht\">Admin: Teamübersicht</a>");
 									out.println("<a class=\"dropdown-item\" href=\"AdminBewertungskriterien\">Admin: Bewertungskriterien</a>");
-							        out.println("</li>");
+									out.println("<a class=\"dropdown-item\" href=\"AdminSiegerehrung\">Admin: Siegerehrung</a>");
+									out.println("<a class=\"dropdown-item\" href=\"AdminConfig\">Fristen/Zugangscodes</a>");
+									out.println("</li>");
 							        
 							        out.println("<li class=\"nav-item dropdown\">");
 									out.println("<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownJuror\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Juror</a>");

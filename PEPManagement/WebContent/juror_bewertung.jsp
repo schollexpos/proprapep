@@ -177,19 +177,19 @@
         <div class="col-sm-9 col-md-3">
         
                 <h3 class="m-auto p-3 ">Downloads</h3>
-                <a class="blank" href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(0))%>">
+                <a class="blank" href="<%=FileManager.getPDFServe(team, FileManager.getFileIdentifier(0))%>">
                		 <input type="button" class="fstil wichtigUp w-30 mb-2 p-2 uloadbtn border border-dark" value="Dokumentation">
 				</a>
-				<a  class="blank" href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(1))%>">
+				<a  class="blank" href="<%=FileManager.getPDFServe(team, FileManager.getFileIdentifier(1))%>">
                 <input type="button" class="fstil wichtigUp w-30 mb-2 p-2 wuloadbtn border border-dark" value="Poster">
 				</a>
-				<a class="blank" href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(2))%>">
+				<a class="blank" href="<%=FileManager.getPDFServe(team, FileManager.getFileIdentifier(2))%>">
                 <input type="button" class="fstil wichtigUp w-30 mb-2 p-2 uloadbtn border border-dark" value="Kurzbeschreibung">
 				</a>
-				<a class="blank" href="data/<%=FileManager.getFilename(team, FileManager.getFileIdentifier(3))%>">
+				<a class="blank" href="<%=FileManager.getPDFServe(team, FileManager.getFileIdentifier(3))%>">
                	<input type="button" class="fstil wichtigUp w-30 mb-2 p-2 uloadbtn border border-dark" value="Präsentation">
 				</a>
-        </div>
+        </div>   
     </div>
   
     </form>

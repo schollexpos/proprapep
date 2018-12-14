@@ -25,7 +25,7 @@ public class Menu {
 		switch(rank) {
 		case ADMIN:
 			menu += "<a class=\"dropdown-item\" href=\"AdminTeamUebersicht\">Teamübersicht</a>";
-			menu += "<a class=\"dropdown-item\" href=\"AdminLehrstuhlStudiengang\">Lehstühle/Studiengänge</a>";
+			menu += "<a class=\"dropdown-item\" href=\"AdminLehrstuhlStudiengang\">Lehrstühle/Studiengänge</a>";
 			menu += "<a class=\"dropdown-item\" href=\"AdminBewertungskriterien\">Kriterien/Juroren</a>";
 			menu += "<a class=\"dropdown-item\" href=\"AdminSiegerehrung\">Siegerehrung</a>";
 			menu += "<a class=\"dropdown-item\" href=\"AdminConfig\">Fristen & Freigaben</a>";

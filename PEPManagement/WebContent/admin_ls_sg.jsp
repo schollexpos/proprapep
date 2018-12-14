@@ -81,7 +81,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                 			out.print("<td>" + betreuerList.get(i).getLehrstuhl() + "</td>");
                 			out.print("<td>" + betreuerList.get(i).getName() + "</td>");
                 			out.print("<td>Gruppe " + betreuerList.get(i).getGruppe() + "</td>"); 
-                			out.print("<td><button type=\"button\" onclick=\"deleteBetreuer(" + betreuerList.get(i).getID() + ");\" class=\"addi p-1 mt-1 border border-dark\">Löschen</button></td>");
+                			out.print("<td><button type=\"button\" onclick=\"deleteBetreuer(" + betreuerList.get(i).getID() + ");\" class=\"dele p-1 mt-1 border border-secondary\">Löschen</button></td>");
                 			out.print("</tr>");
                 		}
                     	
@@ -109,7 +109,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                 			out.print("<tr id=\"stuga_" + i + "\">");
                 			out.print("<th scope=\"row\">" + (i+1) + "</th>");
                 			out.print("<td>" + studiengangliste.get(i) + "</td>");
-                			out.print("<td><button type=\"button\" onclick=\"deleteStudiengang(" + i + ");\" class=\"addi p-1 mt-1 border border-dark\">Löschen</button></td>");
+                			out.print("<td><button type=\"button\" onclick=\"deleteStudiengang(" + i + ");\" class=\"dele p-1 mt-1 border border-secondary\">Löschen</button></td>");
                 			out.print("</tr>");
                 		}
                     	%>

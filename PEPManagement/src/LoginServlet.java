@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 		
 		//TODO: login.jsp can recieve a "returnto" parameter via get!
 		
-		if(email == null || password == null) {
+		if(email == null || password == null || email.length() == 0 || password.length() == 0) {
 			page = "login.jsp?error=1";
 		} else {
 			try {

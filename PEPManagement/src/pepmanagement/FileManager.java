@@ -57,5 +57,9 @@ public class FileManager {
 	public static String getFilename(int teamID, String filename) {
 		return teamID + "_" + filename + ".pdf";
 	}
+	
+	public static String getPDFServe(int teamID, String filename) {
+		return "PDFServe?team=" + teamID + "&fileid=" + filename;
+	}
 
 }
