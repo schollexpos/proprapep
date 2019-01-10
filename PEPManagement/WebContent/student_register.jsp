@@ -225,6 +225,7 @@
 		          <div  class="col-xl-4 col-sm-8 col-12 ">
 						<input class ="wichtig border border-dark" type="submit" value="Registrieren">
 		          </div>
+		           <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
 		     
       </form>
