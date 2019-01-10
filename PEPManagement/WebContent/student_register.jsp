@@ -32,15 +32,15 @@
   
   <div class="pt-3">
     
-      <div class="myrow" >
-        <div class="srow">
-          <div class="relem3">
-            <h3 class="inlabel">Registrierung</h3>
+      <div class="contaier-fluid row">
+		        <div class="col-lg-4 col-sm-3 col-0"></div>
+		          <div  class="col-lg-8 col-sm-2 col-12">
+            <h3 class="inlabel w-100 p-1">Registrierung</h3>
           </div>
         </div>
       </div>
     
-  </div>
+  
   <div class="py-1" >
     <div class="container-fluid">
     	<%
@@ -74,59 +74,65 @@
     	
     	<form action="StudentRegister" method="post">
 		    	
-		      <div class="myrow">
-		        <div class="srow">
-		          <div  class="relem1">
-		            <h4 class="inlabel">Vorname</h4>
+		      <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">Vorname</h4>
 		          </div>
-		          <div class="relem2">
-		            <input id="vornameh" name="vorname" type="text" class="inputl border border-dark p-1 mt-1" >
-		          </div>
-		        </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+		            <input id="vornameh" name="vorname" type="text" class="border w-100 border-dark p-1 mt-1" >
+		         </div>
+		         <div class="col-xl-4 col-sm-2 col-0"></div>
 		      </div>
-		      <div class="myrow">
-		        <div class="srow" >
-		          <div  class="relem1">
-		            <h4 class="inlabel">Nachname</h4>
+		      
+		      <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">Nachname</h4>
 		          </div>
-		          <div class="relem2" >
-		            <input id="nachnameh" name="nachname" type="text" class="inputl border border-dark p-1 mt-1" >
+		          <div class="col-xl-3 col-sm-5 col-12">
+		            <input id="nachnameh" name="nachname" type="text" class="w-100 border border-dark p-1 mt-1" >
 		          </div>
+		          <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
-		      </div>
-		      <div class="myrow">
-		        <div class="srow">
-		          <div class="relem1">
-		            <h4 class="inlabel">E-Mail</h4>
+		      
+		     <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">E-Mail</h4>
 		          </div>
-		          <div class="relem2" >
-		            <input id="mailh" name="email" type="email" class="inputl border border-dark p-1 mt-1" >
+		          <div class="col-xl-3 col-sm-5 col-12">
+		            <input id="mailh" name="email" type="email" class="w-100 border border-dark p-1 mt-1" >
 		          </div>
+		          <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
-		      </div>
-		      <div class="myrow">
-		        <div class="srow" >
-		          <p class="" style="height:16px; text-align: left; padding-left: 10px;">
+		     
+		       <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-8 col-sm-10 col-12">
+		          <p class="" style="height:16px; text-align: left;">
 		            Registrierung muss über die Mail-Adresse der Universität erfolgen!</p>
 		        </div>
 		      </div>
-		      <div class="myrow" >
-		        <div class="srow">
-		          <div class="relem1">
-		            <h4 class="inlabel">Matrikel-Nr.</h4>
+		     
+		     <div class="row mt-1">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-1">Matrikel-Nr.</h5>
 		          </div>
-		          <div class="relem2" >
-		            <input id="matrikh" name="matrikelno" type="text" class="inputl border border-dark p-1 mt-1" >
+		          <div class="col-xl-3 col-sm-5 col-12">
+		            <input id="matrikh" name="matrikelno" type="text" class="w-100 border border-dark p-1 mt-1" >
 		          </div>
+		          <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
-		      </div>
-		       <div class="myrow">
-		        <div class="srow">
-		          <div class="relem1">
-		            <h4 class="inlabel">Studiengang</h4>
+		      
+		       <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-1">Studiengang</h5>
 		          </div>
-		          <div class="relem2" >
-		          	<select name="studiengang" id="studiengang" class="inputl border border-dark p-1 mt-1">
+		          <div class="col-xl-3 col-sm-5 col-12">
+		          	<select name="studiengang" id="studiengang" class="w-100 border border-dark p-1 mt-1">
 		          		<%
 		          			ArrayList<String> sList = db.getStudiengaenge();
 		          		
@@ -137,77 +143,90 @@
 		          	</select>
 		          
 		           </div>
+		           <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
-		      </div>
-		      <div class="myrow">
-		        <div class="srow">
-		          <div class="relem1">
-		            <h4 class="inlabel">Zugang</h4>
+		    
+		      
+		     <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">Zugang</h4>
 		          </div>
-		          <div class="relem2" >
-		            <input id="zugangh" name="zugangscode" type="text" class="inputl border border-dark p-1 mt-1" >
+		          <div class="col-xl-3 col-sm-5 col-12">
+		            <input id="zugangh" name="zugangscode" type="text" class="w-100 border border-dark p-1 mt-1" >
 		          </div>
+		          <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
-		      </div>
-		      <div class="myrow">
-		        <div class="srow">
-		          <div class="relem1">
-		            <h5 class="inlabel">Passwort</h5>
+		      
+		      
+		     <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-1">Passwort</h5>
 		          </div>
-		          <div class="relem2" >
-		            <input id="passworth" name="password" type="password" class="inputl border border-dark p-1 mt-1" >
+		          <div class="col-xl-3 col-sm-5 col-12">
+		            <input id="passworth" name="password" type="password" class="w-100 border border-dark p-1 mt-1" >
 		          </div>
+		           <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
-		      </div>
-		      <div class="myrow" >
-		        <div class="srow">
-		          <div class="relem1">
-		            <h5 class="inlabel">Passwort Wdh.</h5>
+		      
+		      <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-1">Passwort Wdh.</h5>
 		          </div>
-		          <div class="relem2" >
-		            <input id="passworthw" name="password2" type="password" class="inputl border border-dark p-1 mt-1" >
+		          <div class="col-xl-3 col-sm-5 col-12">
+		            <input id="passworthw" name="password2" type="password" class="w-100 border border-dark p-1 mt-1" >
 		          </div>
+		          <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
-		      </div>
+		     
 		    
 		  
 		 
 		  
 		    
-		      <div class="myrow" >
-		        <div class="srow" >
-		          <div class="relem3">
-		            <p class="impmsg border-secondary border">Wichtig: Bitte sprechen Sie sich vor Abgabe dieser Informationen mit Ihren Teammitgliedern ab!
+		      <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
+		            <p class="w-100 impmsg border-secondary border">Wichtig: Bitte sprechen Sie sich vor Abgabe dieser Informationen mit Ihren Teammitgliedern ab!
 		              <br>Es darf pro Team nur einen Vorsitzenden geben!</p>
 		          </div>
+		          <div class="col-xl-4 col-sm-2 col-0"></div>
 		        </div>
-		      </div>
-		    
+		      
 		  
 		  
-		    <div class="myrow" >
-		      <div class="srow">
-		        <div  class="relem1" style="width:35%">
+		    <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-2 col-sm-3 col-12 mr-2">
 		          <p class="" style="	display: block;	margin: auto;	text-align: left;	min-width: 200px;	width: 100%;">Haben Sie den Vorsitz Ihres Teams inne?</p>
 		        </div>
+		          <div class="col-xl-4 col-sm-2 col-0"></div>
+		        </div>
+		        
+		        <div class="row">
+		          <div class="col-xl-4 col-sm-2 col-0"></div>
 		        <input type="hidden" value="0" name="vorsitz" id="vorsitzfeld">
-		        <div class="relem1" style="	width: 30%;">
-		          <input type="button" value="Ja" class="vorsitz border border-dark" onclick="document.getElementById('vorsitzfeld').value = '1';">
+		        <div class="col-xl-2 col-sm-4 col-6 mr-2">
+		          <input type="button" value="Ja" class="w-100 vorsitz border border-dark" onclick="document.getElementById('vorsitzfeld').value = '1';">
 		        </div>
-		        <div class="relem1" style="	width: 30%;">
-		          <input type="button" value="Nein" class="vorsitz border border-dark" value="Nein" onclick="document.getElementById('vorsitzfeld').value = '0';" >
+		        <div class="col-xl-2 col-sm-4 col-5">
+		          <input type="button" value="Nein" class="w-100 vorsitz border border-dark" value="Nein" onclick="document.getElementById('vorsitzfeld').value = '0';" >
 		        </div>
+		         <div class="col-xl-4 col-sm-2 col-0"></div>
 		      </div>
-		    </div>
+		   
 		  
 		  
-		      <div class="myrow">
-		        <div class="srow">
-		          <div class="relem3">
+		     
+		      <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
 						<input class ="wichtig border border-dark" type="submit" value="Registrieren">
 		          </div>
 		        </div>
-		      </div>
+		     
       </form>
     </div>
   </div>

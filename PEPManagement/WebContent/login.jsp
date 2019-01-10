@@ -28,19 +28,20 @@
     <div class="py-2 px-2 mt-0" >
       <div class="container-fluid logo my-0 border border-dark" >
         <div class="row text-center pl-2  w-100">
-            <a class="navbar-brand" href="https://www.uni-siegen.de/start/">
+            <a class="col-md-2 col-12 navbar-brand" href="https://www.uni-siegen.de/start/">
                 <img  src="logo_u_s.svg" width="180">
             </a>
-            <div class="relem2 pt-1" style="">
-            <h1 class="w-100 ml-4" style:="margin:auto; position: fixed;" ><b>Planungs- und Entwicklungsprojekt</b></h1>
+            <div class="col-md-8 col-12 pt-1">
+            <h1 class="w-100 mx-2" data-toggle="collapse" style:="margin:auto; position: fixed;" ><b>Planungs- und Entwicklungsprojekt</b></h1>
           </div>
+          <div class="col-md-2 col-0"></div>
           </div>
         </div>
     </div>
   <div class="py-3 w-100 mt-5" >
     <div class="container-fluid text-center">
-      <div class="myrow">
-        <h3 class="" style="margin:auto; text-align: center;">Herzlich willkommen beim Planungs- und Entwicklungsprojekt.<br><b>PEP</b><br></h3>
+      <div class="row">
+        <h3 class="m-auto col-12">Herzlich willkommen beim Planungs- und Entwicklungsprojekt.<br><b>PEP</b><br></h3>
       </div>
     </div>
   </div>
@@ -50,31 +51,33 @@
   <div class="py-1 mt-2">
     <div class="container-fluid">
       <form action="LoginServlet" method="post">
-	      <div class="myrow">
-	          <div class="srow">
-	            <div  class="relem1">
-	              <h4 class="inlabel">E-mail</h4>
+	      <div class="row">
+	      <div class ="col-md-4 col-0"></div>
+	          <div class="col-md-1 col-12 pt-2">
+	           <h4 class="text-left">E-mail</h4>
+	           </div>
+	            <div class="col-md-3 col-12">
+	              <input id="emailfield" placeholder="mail@uni-siegen.de" name="email" type="email" class="w-100 border border-dark p-1 mt-1" >
 	            </div>
-	            <div class="relem2">
-	              <input id="emailfield" placeholder="mail@uni-siegen.de" name="email" type="email" class="inputl border border-dark p-1 mt-1" >
-	            </div>
-	          </div>
+	            <div class="col-md-4 col-0"></div>
+	          
 	        </div>
 	        
-	      <div class="myrow">
-	        <div class="srow">
-	          <div  class="relem1">
-	            <h4 class="inlabel">Passwort</h4>
-	          </div>
-	          <div class="relem2">
-	            <input id="passwordfield" type="password" name="password" class="inputl border border-dark p-1 mt-1" >
+	      <div class="row">
+	      <div class ="col-md-4 col-0"></div>
+	          <div class="col-md-1 col-12 pt-2">
+	           <h4 class="text-left">Passwort</h4>
 	           </div>
+	            <div class="col-md-3 col-12">
+	            <input id="passwordfield" type="password" name="password" class="w-100 border border-dark p-1 mt-1" >
+	           </div>
+	            <div class="col-md-4 col-0"></div>
+	          
 	        </div>
-	       </div>
 	    
-	       <div class="myrow">
-	         <div class="srow">
-	           <div class = "relem1" style="width:60%">
+	       <div class="row">
+	        <div class="col-md-4 col-0"></div>
+	           <div class ="col-md-2 col-12 relem1">
 	           		<%
 	           			if(request.getParameter("returnto") != null) {
 	           				out.println("<input type=\"hidden\" name=\"returnto\" value=\"" + request.getParameter("returnto") + "\" />");
@@ -82,26 +85,28 @@
 	           		%>
 	           		<input class ="standard border border-dark" type="submit" value="Anmelden">
 	           </div>
-	           <div class = "relem1" style="width:35%">
+	           <div class = "col-md-2 col-12 relem1" >
 	              <a class ="standard border border-dark" href="https://www.uni-siegen.de/start/">Abbrechen</a>
 	            </div>
-	         </div>
+	            <div class="col-md-4 col-0"></div>
+	         
 	        </div>
          </form>
       
-        <div class="myrow">
-            <div class="srow" >
-              <p class="" style="height:16px; text-align: left; padding-top:10px; padding-left: 10px;">
+        <div class="row">
+          	<div class="col-md-4 col-0"></div>
+          	<div class="col-md-8 col-12">
+              <p class="" style="height:16px; text-align: left; padding-top:10px;">
                 Noch keinen Account?
               </p>
             </div>
           </div>
-        <div class="myrow">
-          <div class="srow">
-            <div class="relem3">
-            <a class ="wichtig border border-dark" href="student_register.jsp">Registrieren</a>
+        <div class="row">
+          <div class="col-md-4 col-0"></div>
+            <div class="col-md-4 col-12">
+            <a class ="wichtig w-100 m-0 border border-dark" href="student_register.jsp">Registrieren</a>
             </div>
-          </div>
+         
         </div>
       </div>
 </div>
