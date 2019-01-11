@@ -52,87 +52,90 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
       </nav>
     </div>
   </div>
-    <div class="m-5">
-        <div class="container-fluid">
-          <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h4 class="inlabel">Vorname</h4>
-              </div>
-              <div class="relem2">
-                <input id="vornameh" value="<%=s.getVorname() %>" type="text" class="inputl border border-dark p-1 mt-1">
-              </div>
-            </div>
-          </div>
-          <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h4 class="inlabel">Nachname</h4>
-              </div>
-              <div class="relem2">
-                <input id="nachnameh" value="<%=s.getNachname() %>" type="text" class="inputl border border-dark p-1 mt-1">
+   
+        <div class="container-fluid mt-5">
+          
+           <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">Vorname</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                <input id="vornameh" value="<%=s.getVorname() %>" type="text" class="w-100 border border-dark p-1 mt-1">
               </div>
             </div>
-          </div>
-          <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h4 class="inlabel">E-Mail</h4>
-              </div>
-              <div class="relem2">
-                <input id="mailh" value="<%=u.getEmail() %>" type="email" class="inputl border border-dark p-1 mt-1">
-              </div>
-            </div>
-          </div>
-          </div>
-          <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h4 class="inlabel">Matrikel-Nr.</h4>
-              </div>
-              <div class="relem2">
-                <input id="matrikh" value="<%=s.getMatrikelnummer() %>" type="text" class="inputl border border-dark p-1 mt-1">
+        
+          
+           <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">Nachname</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                <input id="nachnameh" value="<%=s.getNachname() %>" type="text" class="w-100 border border-dark p-1 mt-1">
               </div>
             </div>
-          </div>
-      </div>
-      <div class="col-sm m-1">
+        
+           <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">E-Mail</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                <input id="mailh" value="<%=u.getEmail() %>" type="email" class="w-100 border border-dark p-1 mt-1">
+              </div>
+            </div>
+          
+          
+           <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">Zugang</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                <input id="matrikh" value="<%=s.getMatrikelnummer() %>" type="text" class="w-100 border border-dark p-1 mt-1">
+              </div>
+            </div>
+          
+      
+      <div class="col-sm mt-3">
         <h4 class="inlabel text-center">Passwort ändern</h4>
       </div>
       	<form action="StudentPersoenlich" method="post">
-            <div class="myrow">
-                <div class="srow">
-                <div class="relem1">
-                    <h5 class="inlabel">Altes Passwort</h5>
+            
+            <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-2">Altes Passwort</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                    <input id="passworth" name="oldpw" type="password" class="w-100 border border-dark p-1 mt-1">
                 </div>
-                <div class="relem2">
-                    <input id="passworth" name="oldpw" type="password" class="inputl border border-dark p-1 mt-1">
                 </div>
-                </div>
-            </div>
-            <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h5 class="inlabel">Neues Passwort</h5>
-              </div>
-              <div class="relem2">
-                <input id="passworth" name="newpw1" type="password" class="inputl border border-dark p-1 mt-1">
-              </div>
-            </div>
-            </div>
-            <div class="myrow">
-              <div class="srow">
-                <div class="relem1">
-                  <h5 class="inlabel">Neues Passwort Wdh.</h5>
-                </div>
-                <div class="relem2">
-                  <input id="passworthw" name="newpw2" type="password" class="inputl border border-dark p-1 mt-1">
-                </div>
+          
+             <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-2">Neues Passwort</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                <input id="passworth" name="newpw1" type="password" class="w-100 border border-dark p-1 mt-1">
               </div>
             </div>
-        <div class="myrow">
-        <div class="srow p-1">
-          <input type ="submit" class="fstil wichtigUp mr-auto ml-0 uploadbtn border border-dark" style="width:95%;" value ="Passwort ändern" >
+            
+             <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-1">Neues Passowrt wdh.</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                  <input id="passworthw" name="newpw2" type="password" class="w-100 border border-dark p-1 mt-1">
+                </div>
+               </div>
+         <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
+          <input type ="submit" class="fstil wichtigUp uploadbtn border border-dark" style="width:95%;" value ="Passwort ändern" >
         </div>
         </div>
         </form>

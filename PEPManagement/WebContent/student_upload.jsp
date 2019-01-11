@@ -55,18 +55,18 @@
   for(int i = 0;list != null && i < list.size();i++) {
 	  
 	  out.println("<div class=\"container-fluid mt-1 p-3\"><form class=\"myrow\" action = \"StudentUpload\" method=\"post\" enctype = \"multipart/form-data\">");
-	  out.println("<div class=\"col-sm ml-auto\"><h4 class=\"inlabel text-center\">" +  pepmanagement.FileManager.getFileDescriptor(i) + "</h4></div>");
+	  out.println("<div class=\"col-lg-4 col-sm-3 col-12\"><h4 class=\"inlabel text-center\">" +  pepmanagement.FileManager.getFileDescriptor(i) + "</h4></div>");
 	  out.println("<input type=\"hidden\" name=\"filename\" value=\"" + list.get(i).x + "\" />");
 	  if(vorsitz.booleanValue() && !deadlineReached) {
-		  out.println("<div class=\"col-sm input-group\"><label class=\"input-group-btn\"><span class=\"btn btn-default wichtigUp\">Browse...<input type = \"file\" name = \"file\" size = \"50\" style=\"display: none;\" multiple></span></label><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>"); 
+		  out.println("<div class=\"col-lg-4 col-sm-5 col-12 input-group\"><label class=\"input-group-btn\"><span class=\"btn btn-default wichtigUp\">Browse...<input type = \"file\" name = \"file\" size = \"50\" style=\"display: none;\" multiple></span></label><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>"); 
 	  } else {
-		  out.println("<div class=\"col-sm input-group\"><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>");
+		  out.println("<div class=\"col-lg-4 col-sm-3 col-12 input-group\"><input type=\"text\" class=\"form-control uplout border border-dark\" readonly></div>");
 		  
-	  } out.println("<div class=\"col-sm\">");
+	  } out.println("<div class=\"col-lg-2 col-sm-3 col-12\">");
 	  if(vorsitz.booleanValue() && !deadlineReached)
-		  out.println("<input type=\"submit\" class=\"btn btn-default wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark\" value=\"Upload\" style=\"display:block;\">");
+		  out.println("<input type=\"submit\" class=\"btn btn-default wichtigUp w-100 mr-auto ml-0 uploadbtn border border-dark\" value=\"Upload\" style=\"display:block;\">");
   	  
-	  out.println("</div></form><div class=\"myrow\">");
+	  out.println("<div class=\"col-lg-2 col-sm-1 col-0\"></div> </div></form><div class=\"myrow\">");
   	  out.println("<p class=\"text-center m-auto\" style=\"height:16px; ; padding-left: 1px;\">Letzter Upload: " + list.get(i).y + "</p></div>"); 
 	  out.println("</div>\n");
 	  
