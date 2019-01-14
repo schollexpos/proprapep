@@ -54,22 +54,24 @@ if(request.getAttribute("hasAccess") == null) {
 		%>
     	</div>
     
-        <div class="myrow">
-            <div class="srow" style="width:700px;">
-                <p class=" impmsg">Da Sie Vorsitzender sind, müssen Sie folgende Informationen zusätzlich angeben und das Anmeldeformular ausdrucken. 
+        <div class="row">
+            <div class="col-xl-3 col-md-1 col-0"></div>
+            <div class="col-xl-6 col-md-10 col-12">
+                <p class="text-center impmsg">Da Sie Vorsitzender sind, müssen Sie folgende Informationen zusätzlich angeben und das Anmeldeformular ausdrucken. 
                     <br>Alle Teammitglieder müssen Unterschreiben!</p>
+                    </div>
             </div>
-        </div>
+        
         
          <form action="StudentRegisterTeam" method="post">
 
-        <div class="myrow mt-3">
-                <div class="srow">
-                  <div  class="relem1">
-                    <h5 class="inlabel" style="font-size:18px;">Erster Betreuer</h5>
-                  </div>
-                  <div class="relem2">
-	                    <select class="custom-select mt-1 p-1 border border-dark" name="betreuer1">
+        <div class="row mt-4">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-2">Erster Betreuer</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+	                    <select class="custom-select w-100 mt-1 p-1 border border-dark" name="betreuer1">
 	                    <%
 	                    	pepmanagement.Database db = new pepmanagement.Database();
 	                       	db.connect();
@@ -84,57 +86,57 @@ if(request.getAttribute("hasAccess") == null) {
 	                    </select>
                   </div>
                 </div>
-              </div>
+              
 
-        <div class="myrow">
-             <div class="srow">
-                <div  class="relem1">
-                    <h5 class="inlabel" style="font-size:18px;">Zweiter Betreuer</h5>
+        <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-2">Zweiter Betreuer</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                    <input id="betreuer2h" name="betreuer2" type="text" class="w-100 border border-dark p-1 mt-1" >
                 </div>
-                <div class="relem2">
-                    <input id="betreuer2h" name="betreuer2" type="text" class="inputl border border-dark p-1 mt-1" >
                 </div>
-                </div>
-            </div>
+           
             
-        <div class="myrow">
-         <div class="srow">
-            <div  class="relem1">
-                <h4 class="inlabel">Teamname</h4>
-            </div>
-            <div class="relem2">
-                <input id="teamnameh" name="teamname" type="text" class="inputl border border-dark p-1 mt-1" >
+       <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-2">Teamname</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                <input id="teamnameh" name="teamname" type="text" class="w-100 border border-dark p-1 mt-1" >
             </div>
         </div>
-        </div>
+        
 
-        <div class="myrow">
-                <div class="srow" >
-                    <div class="relem3">
+      <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
                     <p class="mt-2 border border-secondary impmsg">Wichtig: Bitte geben Sie den korrekten Betreuer ein. Hiernach werden Lehrstuhl und Gruppe eingeteilt. 
                         <br>Der erste Betreuer ist der jeweilige Lehrstuhlinhaber, alle weiteren gehören dem zweiten Betreuer an</p>
                 </div>
             </div>
-            </div>
+           
 
-        <div class="myrow mt-3">
-            <div class="srow">
-                <div  class="relem1">
-                    <h4 class="inlabel">Download</h4>
-                </div>
-                 <div class="relem2">
-                    <a class="standard border border-dark" target="_blank" style="width:98%; margin:0;" href="anmeldeform.pdf">Formular Herunterladen</a>
+        <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-2">Download</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                    <a class="standard w-100 border border-dark" target="_blank" href="anmeldeform.pdf">Formular Herunterladen</a>
                 </div>
             </div>
-            </div>
+            
 
-            <div class="myrow">
-                <div class="srow">
-                  <div class="relem3">
+			<div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
         				<input class ="wichtig border border-dark" type="submit" value="Team Registrieren">
                   </div>
                 </div>
-              </div>
+              
               </form>
     </div>
 </div>

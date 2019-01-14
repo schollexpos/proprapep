@@ -53,8 +53,9 @@
     
         
         
-            <div class="myrow">
-                <div class="srow" style="width:800px;">
+            <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
                     <p class="text-center border border-secondary impmsg">Sie haben sich noch keinem Team zu geordnet!<br>
                         Wählen Sie dringend das von Ihrem Vorsitzendem erstellte Projekt aus!
                     </p>
@@ -63,13 +64,13 @@
 
 			<form action="StudentSelectTeam" method="post">
 
-	            <div class="myrow mt-3">
-	                <div class="srow">
-	                    <div class="relem1">
-	                        <h4 class="inlabel">Projekttitel</h4>
-	                    </div>
-	                    <div class="relem2">
-	                        <select name="teamid" class="custom-select mt-1 p-1 border border-dark"><span>Projekttitel</span>
+	           <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12">
+		            <h4 class="inlabel pt-2">Projekttitel</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+	                        <select name="teamid" class="custom-select w-100 mt-1 p-1 border border-dark"><span>Projekttitel</span>
 	                            <option value="-1">Projekt auswählen</option>
 	                              <%
 			                    	pepmanagement.Database db = new pepmanagement.Database();
@@ -87,16 +88,16 @@
 	                        </select>
 	                    </div>
 	                </div>
-	            </div>
+	            
 	
-	            <div class="myrow">
-	                <div class="srow">
-	                    <div class="relem3">
+	             <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
 	                        <input type="submit" value="Bestätigen" class="wichtig border border-dark" href="">
 	
 	                    </div>
 	                </div>
-	            </div>
+	            
             
             </form>
 
