@@ -21,6 +21,13 @@ public class Session {
 		db = database;
 	}
 	
+	public Session(Database database, HttpSession tsession) {
+		session = tsession;
+		session.setMaxInactiveInterval(30*60);
+		email = "null";
+		db = database;
+	}
+	
 	public void create(String temail) throws SQLException {
 		/*
 		 * Creates a new session and registers it in the database

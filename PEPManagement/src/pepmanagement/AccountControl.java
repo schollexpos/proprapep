@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 //Hello
 
-
+@Deprecated
 public class AccountControl {
 	
 	/* TODO: nicht mehr statisch, session undso mit dem servlet teilen,

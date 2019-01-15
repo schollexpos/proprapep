@@ -5,6 +5,9 @@
 <% if(request.getAttribute("hasAccess") == null) {
 	response.sendRedirect("AdminTeamDetails");
 }
+if(request.getParameter("teamid") == null) {
+	response.sendRedirect("AdminTeamUebersicht");
+}
     %>
 <!DOCTYPE html>
 <html>
@@ -21,14 +24,14 @@
 		String errorMessage = "???";
 		if(str.equals("1")) {
 
-			errorMessage = "F�llen Sie alle Felder aus!";
+			errorMessage = "Füllen Sie alle Felder aus!";
 		} else if(str.equals("2")) {
 
 			errorMessage = "Datenbankfehler";
 		} else if(str.equals("3")) {
-			errorMessage = "Bitte geben sie als Matrikelnummer ausschlie�lich eine Zahl ein";
+			errorMessage = "Bitte geben sie als Matrikelnummer ausschließlich eine Zahl ein";
 		} else if(str.equals("4")) {
-			errorMessage = "Nur studentische E-Mail-Adressen der Universit�t Siegen sind erlaubt!";
+			errorMessage = "Nur studentische E-Mail-Adressen der Universität Siegen sind erlaubt!";
 		} else {
 			errorMessage = "Unbekannter Fehler!";
 		}
@@ -67,7 +70,7 @@
 			kennnummer = team.getKennnummer();
 			titel = team.getTitel();
 		} catch(Exception e) {
-			
+			System.out.println("ach mann.." + request.getParameter("teamid"));
 		}
 	    	
 	    %>
