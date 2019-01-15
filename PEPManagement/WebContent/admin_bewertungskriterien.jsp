@@ -63,6 +63,7 @@
 	        	out.println("<div class=\"myrow mt-4\">");
 	        	out.println( "<h4 class=" + "\"w-25 mr-auto ml-0 text-center pt-1\">" + juroren.get(i) + "</h4>");
 	        	out.println("<select class=\"w-50 ml-2 mr-auto custom-select  border border-dark\" name=\"gruppe" + i + "\" ><span>Gruppe</span>");
+	        	out.println("<option " + (gruppe == 0 ? "selected" : "") + ">0</option>");
 	        	out.println("<option " + (gruppe == 1 ? "selected" : "") + ">1</option>");
 	        	out.println("<option " + (gruppe == 2 ? "selected" : "") + ">2</option>");
 	        	out.println("<input type=\"hidden\" name=\"jurorid" + i  + "\" value=\""  + jurorid + "\"" + ">");

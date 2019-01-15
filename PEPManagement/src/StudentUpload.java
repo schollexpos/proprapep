@@ -127,7 +127,7 @@ public class StudentUpload extends HttpServlet {
 	    	  
 	    	 Session session = new Session(db, request);
 	    	 
-	    	 if(session.restore(request) && !Database.dateReached(db.getDeadlineUpload()) && db.studentIsVorsitzender(db.getUserID(session.getEmail()))) {
+	    	 if(session.restore(request) && !Database.dateReached(db.getDeadlineUpload())) {
 	    		  Database.Student s = db.getStudent(db.getUserID(session.getEmail()));
 					vorsitz = s.isVorsitz();
 	    		 
@@ -175,7 +175,7 @@ public class StudentUpload extends HttpServlet {
 	     //No file selected
 	   }
 	   
-	   request.setAttribute("vorsitz", new Boolean(vorsitz));
+	   request.setAttribute("vorsitz", new Boolean(true));
 		request.setAttribute("deadlinereached", new Boolean(deadlineReached));
 		request.setAttribute("teamid", new Integer(teamID));
 	   

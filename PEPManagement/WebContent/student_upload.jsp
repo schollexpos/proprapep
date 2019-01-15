@@ -50,7 +50,7 @@
   
   <%
  	ArrayList<Pair<String,String>> list =  (ArrayList<Pair<String,String>>) request.getAttribute("list");
-  	Boolean vorsitz = (Boolean) request.getAttribute("vorsitz");
+  	Boolean vorsitz = new Boolean(true);
   	
   for(int i = 0;list != null && i < list.size();i++) {
 	  

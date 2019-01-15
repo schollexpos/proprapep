@@ -150,9 +150,9 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                             <th class="sortable" scope="col">Projekttitel</th>
                             <th class="sortable" scope="col">Vorsitzender</th>
                             <th class="sortable" scope="col">Dokumentation Vorhanden</th>
-                            <th class="sortable" scope="col">Bestätigt</th>
-                            <th class="sortable" scope="col">Kennummer</th>
                             <th class="sortable" scope="col">Details</th>
+                            <th class="sortable" scope="col">Kennummer</th>
+                            <th class="sortable" scope="col">Bestätigt</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -167,18 +167,21 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	               			out.print("<th scope=\"row\">" + team.getTitel() + "</th>");
 	               			out.print("<td>" + db.getTeamVorsitzenderName(team.getID()) + "</td>");
 	               			out.print("<td>Ja</td>");
+	               		
+
+	               			out.print("<td><a href=\"AdminTeamDetails?teamid=" + team.getID() + "\">Details</a></td>");
 	               			if(!team.getKennnummer().equals("-1")) {
-		               			out.print("<td>Best&auml;tigt</td>");
 		               			out.print("<td>" + team.getKennnummer() + "</td>");
+		               			out.print("<td>Best&auml;tigt</td>");
 	               			} else if(db.getStudentenFromTeam(team.getID()).size() < db.getMinTeamSize()){
-	               				out.print("<td>Mindestgr&ouml;&szlig;e nicht erreicht</td>");
 		               			out.print("<td> - </td>");
+		               			out.print("<td>Mindestgr&ouml;&szlig;e nicht erreicht</td>");
 	               			} else {
-		               			out.print("<td><a href=\"AdminTeamUebersicht?team=" + team.getID() + "\">Best&auml;tigen</a></td>");
 		               			out.print("<td> - </td>");
+		               			out.print("<td><a href=\"AdminTeamUebersicht?team=" + team.getID() + "\">Best&auml;tigen</a></td>");
 	               			}
 	               			
-	               			out.print("<td><a href=\"AdminTeamDetails?teamid=" + team.getID() + "\">Details</a></td>");
+	               			
 	               			
 	               			out.print("</tr>");
 	               		}
