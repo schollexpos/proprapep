@@ -782,7 +782,14 @@ public class Database {
 		return aList;
 	}
 	
+	public boolean studiengangExists(String name) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT name FROM studiengangliste WHERE name = ?");
+		statement.setString(1, name);
+		return statement.executeQuery().next();
+	}
+	
 	public void addStudiengang(String name) throws SQLException {
+		if(studiengangExists(name)) return;
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO `studiengangliste` (`name`) VALUES (?);");
 		statement.setString(1, name);
 		statement.executeUpdate();

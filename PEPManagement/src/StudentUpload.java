@@ -153,16 +153,27 @@ public class StudentUpload extends HttpServlet {
 		               long sizeInBytes = fi.getSize();
 		            
 		               // Write the file
+		               String allowedExtensions[] = { ".pdf", ".PDF", ".PPT", ".ppt", ".PPTX", ".pptx" };
+		               
+		               boolean extensionOkay = false;
+		               for(int n = 0;n < allowedExtensions.length;n++) {
+		            	   if(fileName.endsWith(allowedExtensions[n])) extensionOkay = true;
+		               }
 		
-		               file = new File(FileManager.getBasePath() + FileManager.getFilename(teamID, filename)) ;
-		               fi.write(file) ;
+		               if(extensionOkay && (!filename.equals("kurzbeschreibung") || filename.endsWith(".pdf") || filename.endsWith(".PDF")) ) {
+		            	   file = new File(FileManager.getBasePath() + FileManager.getFilename(teamID, filename)) ;
+			               fi.write(file) ;
+		               } else {
+		            	   page = "team_upload.jsp?error=99";
+		               }
+		               
 		          
 		            } else if(fi.getFieldName().equals("filename")) {
 		            	filename = fi.getString();
 		            }
 		         }
 		         
-		         page = "student_upload.jsp";
+		         if(page.equals("")) page = "student_upload.jsp";
 	    	 } else {
 	    		 page = "team_upload.jsp?error=3";
 	    	 }
