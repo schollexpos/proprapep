@@ -40,6 +40,8 @@ public class AdminLehrstuhlStudiengang extends HttpServlet {
 		String gruppe = request.getParameter("gruppe");
 		String studiengang = request.getParameter("studiengang");
 		String kuerzel  = request.getParameter("kuerzel");
+		String cgruppe = request.getParameter("cgruppe");
+		String betreuerId = request.getParameter("ID");
 		String page = "";
 		
 		try {
@@ -52,7 +54,13 @@ public class AdminLehrstuhlStudiengang extends HttpServlet {
 			} else if(studiengang != null) {
 				db.addStudiengang(studiengang);   
 				page = "admin_ls_sg.jsp";
-			} else {
+			} else if(cgruppe != null) {
+			
+				db.changeBetreuerGruppe(Integer.parseInt(betreuerId), Integer.parseInt(cgruppe));
+				page="admin_ls_sg.jsp";
+			}
+			
+			else {
 				page = "admin_ls_sg.jsp?error=1";
 			}
 		} catch(SQLException e) {

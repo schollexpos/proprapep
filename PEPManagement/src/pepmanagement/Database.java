@@ -527,6 +527,8 @@ public class Database {
 		statement.executeUpdate();
 	}
 	
+	
+	
 	public class Betreuer {
 		int id;
 		String name, lehrstuhl, kuerzel;
@@ -563,6 +565,14 @@ public class Database {
 		public String getKennung() {
 			return (id < 10 ? ("0" + id) : Integer.toString(id));
 		}
+		
+	
+	}
+	public void changeBetreuerGruppe(int betreuer, int neueGruppe) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("UPDATE betreuer SET gruppe=? WHERE id=?");
+		statement.setInt(1, neueGruppe);
+		statement.setInt(2, betreuer);
+		statement.executeUpdate();
 	}
 
 	public ArrayList<Betreuer> getBetreuer() throws SQLException {

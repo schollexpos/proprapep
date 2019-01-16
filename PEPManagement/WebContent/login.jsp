@@ -51,33 +51,34 @@
   <div class="py-1 mt-2">
     <div class="container-fluid">
       <form action="LoginServlet" method="post">
+	      
 	      <div class="row">
-	      <div class ="col-md-4 col-0"></div>
-	          <div class="col-md-1 col-12 pt-2">
-	           <h4 class="text-left">E-mail</h4>
-	           </div>
-	            <div class="col-md-3 col-12">
+	      <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">E-Mail</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
 	              <input id="emailfield" placeholder="mail@uni-siegen.de" name="email" type="email" class="w-100 border border-dark p-1 mt-1" >
 	            </div>
-	            <div class="col-md-4 col-0"></div>
+	            <div class="col-xl-4 col-sm-2 col-0"></div>
 	          
 	        </div>
 	        
 	      <div class="row">
-	      <div class ="col-md-4 col-0"></div>
-	          <div class="col-md-1 col-12 pt-2">
-	           <h4 class="text-left">Passwort</h4>
-	           </div>
-	            <div class="col-md-3 col-12">
+	       <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">Passwort</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
 	            <input id="passwordfield" type="password" name="password" class="w-100 border border-dark p-1 mt-1" >
 	           </div>
-	            <div class="col-md-4 col-0"></div>
+	            <div class="col-xl-4 col-sm-2 col-0"></div>
 	          
 	        </div>
 	    
-	       <div class="row">
-	        <div class="col-md-4 col-0"></div>
-	           <div class ="col-md-2 col-12 relem1">
+	       <div class="row mt-2">
+	        <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+	           <div class ="col-xl-2 col-sm-4 col-12">
 	           		<%
 	           			if(request.getParameter("returnto") != null) {
 	           				out.println("<input type=\"hidden\" name=\"returnto\" value=\"" + request.getParameter("returnto") + "\" />");
@@ -85,25 +86,25 @@
 	           		%>
 	           		<input class ="standard border border-dark" type="submit" value="Anmelden">
 	           </div>
-	           <div class = "col-md-2 col-12 relem1" >
+	            <div class ="col-xl-2 col-sm-4 col-12">
 	              <a class ="standard border border-dark" href="https://www.uni-siegen.de/start/">Abbrechen</a>
 	            </div>
-	            <div class="col-md-4 col-0"></div>
+	            <div class="col-xl-4 col-sm-2 col-0"></div>
 	         
 	        </div>
          </form>
       
         <div class="row">
-          	<div class="col-md-4 col-0"></div>
-          	<div class="col-md-8 col-12">
+          	<div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+          	<div class="col-xl-4 col-sm-8 col-12">
               <p class="" style="height:16px; text-align: left; padding-top:10px;">
                 Noch keinen Account?
               </p>
             </div>
           </div>
         <div class="row">
-          <div class="col-md-4 col-0"></div>
-            <div class="col-md-4 col-12">
+          <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+            <div class="col-xl-4 col-sm-8 col-12">
             <a class ="wichtig w-100 m-0 border border-dark" href="student_register.jsp">Registrieren</a>
             </div>
          

@@ -58,7 +58,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
     <div class="p-3 mb-5 container-fluid h-50">
         <div class="row mb-5">
             <div class="table-wrapper-scroll-y mr-2" style="width:55%">
-
+			
                 <table class="table table-hover " id="myTable">
                     <thead>
                         <tr>
@@ -71,25 +71,29 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                         </tr>
                     </thead>
                       <tbody>
-                    
+                    	
                     	<%
                     	ArrayList<Database.Betreuer> betreuerList = db.getBetreuer();
                 		for(int i = 0;i < betreuerList.size();i++) {
+                			out.print("<form action=\"AdminLehrstuhlStudiengang\" method=\"post\">");
+                			out.print("<input type=\"hidden\" name=\"ID\" value=\""+betreuerList.get(i).getID()+"\">");
                 			out.print("<tr id=\"betreuer_" + betreuerList.get(i).getID() + "\">");
                 			out.print("<th scope=\"row\">" + (i+1) + "</th>");
                 			out.print("<td>" + betreuerList.get(i).getKuerzel() + "</td>");
                 			out.print("<td>" + betreuerList.get(i).getLehrstuhl() + "</td>");
                 			out.print("<td>" + betreuerList.get(i).getName() + "</td>");
-                			out.print("<td>Gruppe " + betreuerList.get(i).getGruppe() + "</td>"); 
-                			out.print("<td><button type=\"button\" onclick=\"deleteBetreuer(" + betreuerList.get(i).getID() + ");\" class=\"dele p-1 mt-1 border border-secondary\">Löschen</button></td>");
-                			out.print("</tr>");
+                			out.print("<td><select onchange=\"this.form.submit()\" class=\"custom-select border border-dark\" name=\"cgruppe\" ><span>Gruppe</span>");
+            	        	out.println("<option value=\"1\"" + (betreuerList.get(i).getGruppe() == 1 ? "selected" : "") + ">1</option>");
+            	        	out.println("<option value=\"2\"" + (betreuerList.get(i).getGruppe() == 2 ? "selected" : "") + ">2</option></td>"); 
+                			out.print("<td><button type=\"button\" onclick=\"deleteBetreuer(" + betreuerList.get(i).getID() + ");\" class=\"dele p-1 border border-secondary\">Löschen</button></td>");
+                			out.print("</tr></form>");
                 		}
                     	
                     	%>
                       
                     </tbody>
                 </table>
-
+			
             </div>
 
             <div class="table-wrapper-scroll-y ml-auto" style="width:40%;">
@@ -108,6 +112,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
                 		for(int i = 0;i < studiengangliste.size();i++) {
                 			out.print("<tr id=\"stuga_" + i + "\">");
                 			out.print("<th scope=\"row\">" + (i+1) + "</th>");
+                			
                 			out.print("<td>" + studiengangliste.get(i) + "</td>");
                 			out.print("<td><button type=\"button\" onclick=\"deleteStudiengang(" + i + ");\" class=\"dele p-1 mt-1 border border-secondary\">Löschen</button></td>");
                 			out.print("</tr>");
