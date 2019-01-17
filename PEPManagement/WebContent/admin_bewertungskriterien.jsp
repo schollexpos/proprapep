@@ -103,7 +103,7 @@
 	       						<tr>
 	            					<th scope="row">${kriterium.hauptkriterium}</th>
 	            					<td>${kriterium.teilkriterium}</td>
-	            					<td>${kriterium.minpunkte}-${kriterium.maxpunkte}</td>
+	            					<td>0-${kriterium.maxpunkte}</td>
 	            					<td id="kriterium_${kriterium.bewertungID}"><a href="javascript:deleteKriterium(${kriterium.bewertungID});">Löschen</a></td>
         						</tr>
    							</c:forEach>
@@ -122,11 +122,9 @@
                 </div>
 
                 <div class="w-100 myrow mt-1 ml-0 mr-auto">
-                    <h5 class="inlabel ml-0 mr-0" style="width:160px">Maximale Punktzahl</h5>
-                   
+                    <h5 class="inlabel ml-0 mr-0" style="width:160px">Maximale Punktzahl)</h5>
                     <input id="maxpunkte" type="text" class="inputl border border-dark w-25 p-1 mt-1 ml-1 mr-auto" name = "maxpunkte">
-					<h5 class="inlabel ml-0 mr-0" style="width:160px">Minimale Punktzahl</h5>
-					<input id="minpunkte" type="text" class="inputl border border-dark w-25 p-1 mt-1 ml-1 mr-auto" name = "minpunkte">
+
                     <input type="submit" class="border border-dark addi w-25 ml-0" value="Kriterium hinzufügen" style=" min-width:200px; height:40px" name = "addKriterium">
                </div>
                 
@@ -142,7 +140,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>#
         
           <script>
              var allow = true;
