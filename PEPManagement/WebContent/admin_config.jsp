@@ -148,7 +148,9 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         </div>
         <div class="col-sm mt-3">
             <h3 class="inlabel text-center">Semester Abschlieﬂen?</h3>
-            <input type ="button" class="fstil wichtigUp w-100 mr-auto mt-1 wichtigUpbtn border border-dark" value ="Semster Abschlieﬂen!" >
+            <form  action="AdminConfig" method="post">
+            <input type ="submit" class="fstil wichtigUp w-100 mr-auto mt-1 wichtigUpbtn border border-dark" name="Ende" value ="Semster Abschlieﬂen!" >
+            </form>
         </div>
         <div class="col-sm">
         </div>

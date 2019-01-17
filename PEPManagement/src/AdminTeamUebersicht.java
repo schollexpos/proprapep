@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import pepmanagement.AccountControl;
 import pepmanagement.Database;
+import pepmanagement.Database.Team;
+import pepmanagement.FileManager;
 import pepmanagement.Session;
 
 @WebServlet("/AdminTeamUebersicht")
@@ -23,6 +25,7 @@ public class AdminTeamUebersicht extends HttpServlet {
         super();
         db = new Database();
         db.connect();
+        
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,8 +37,10 @@ public class AdminTeamUebersicht extends HttpServlet {
 		try {
 			if(team != null) {
 				int teamID = Integer.parseInt(team);
-
 				db.teamSetKennnummer(teamID);
+				
+				Team teamk = db.getTeam(teamID);
+				FileManager.createTeamFolder(teamID + "_" +teamk.getKennnummer());
 			}
 		} catch(SQLException e) {
 			res = AccountControl.Result.DBERROR;

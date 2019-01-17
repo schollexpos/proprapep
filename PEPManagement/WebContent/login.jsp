@@ -78,7 +78,7 @@
 	    
 	       <div class="row mt-2">
 	        <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
-	           <div class ="col-xl-2 col-sm-4 col-12">
+	           <div class ="col-xl-2 col-sm-4 col-6">
 	           		<%
 	           			if(request.getParameter("returnto") != null) {
 	           				out.println("<input type=\"hidden\" name=\"returnto\" value=\"" + request.getParameter("returnto") + "\" />");
@@ -86,7 +86,7 @@
 	           		%>
 	           		<input class ="standard border border-dark" type="submit" value="Anmelden">
 	           </div>
-	            <div class ="col-xl-2 col-sm-4 col-12">
+	            <div class ="col-xl-2 col-sm-4 col-6">
 	              <a class ="standard border border-dark" href="https://www.uni-siegen.de/start/">Abbrechen</a>
 	            </div>
 	            <div class="col-xl-4 col-sm-2 col-0"></div>

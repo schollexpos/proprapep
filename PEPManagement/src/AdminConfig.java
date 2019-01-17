@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import pepmanagement.AccountControl;
 import pepmanagement.Database;
+import pepmanagement.FileManager;
 import pepmanagement.Session;
 
 
@@ -55,6 +56,7 @@ public class AdminConfig extends HttpServlet {
 		String zcAdmin = request.getParameter("zc-admin");
 		String zcJuror = request.getParameter("zc-juror");
 		String changeFreigabe = request.getParameter("freigabe");
+		String ende = request.getParameter("Ende");
 		
 		try {
 			if(deadlinereg != null) {
@@ -80,6 +82,13 @@ public class AdminConfig extends HttpServlet {
 				db.setJurorZugangscode(zcJuror);
 			} else if(changeFreigabe != null) {
 				db.setBewertungOpen(!db.bewertungOpen());
+			}else if (ende != null) {
+				if(FileManager.zipAllTeams()){
+				System.out.println("Packen abgeschlossen!");
+				}
+				
+				//Abschluss muss noch
+				
 			}
 		} catch (ParseException e) {
 			res = AccountControl.Result.ERROR;
