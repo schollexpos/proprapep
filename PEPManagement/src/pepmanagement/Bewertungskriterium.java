@@ -5,6 +5,7 @@ public class Bewertungskriterium {
 	private String teilkriterium;
 	private int maxpunkte;
 	private int bewertungID;
+	private int minpunkte;
 	
 	public String getHauptkriterium() {
 		return hauptkriterium;
@@ -29,6 +30,12 @@ public class Bewertungskriterium {
 	}
 	public void setBewertungID(int bewertungID) {
 		this.bewertungID = bewertungID;
+	}
+	public int getMinpunkte() {
+		return minpunkte;
+	}
+	public void setMinpunkte(int minpunkte) {
+		this.minpunkte = minpunkte;
 	}
 	
 }

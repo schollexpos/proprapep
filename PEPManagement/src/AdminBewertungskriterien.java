@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,9 +44,10 @@ public class AdminBewertungskriterien extends HttpServlet {
 		} 
 
         try {
-            ArrayList<Bewertungskriterium> kriterien = db.getKriterien();   			
-            request.setAttribute("kriterien", kriterien); // Will be available as ${kriterien} in JSP
+            ArrayList<Bewertungskriterium> kriterien = db.getKriterien();   
             
+            
+            request.setAttribute("kriterien", kriterien); // Will be available as ${kriterien} in JSP
         } catch (SQLException e) {
 			System.out.println("SQLError in AdminBewertung.java: " + e.getMessage());		
         }
@@ -103,14 +106,15 @@ public class AdminBewertungskriterien extends HttpServlet {
 		String hauptkriterium = request.getParameter("hauptkriterium");
 		String teilkriterium = request.getParameter("teilkriterium");
 		String maxpunkte =request.getParameter("maxpunkte");
+		String minpunkte = request.getParameter("minpunkte");
 		System.out.println("");
 		
-		if(hauptkriterium.equals("") || teilkriterium.equals("") || maxpunkte.equals("")) {
+		if(hauptkriterium.equals("") || teilkriterium.equals("") || maxpunkte.equals("")|| minpunkte.equals("")) {
 			request.setAttribute("error", "1");
 			System.out.println("Keine Angaben!");
 		} else {
 			try {
-				db.setKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte));
+				db.setKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte), Integer.parseInt(minpunkte));
 			} catch(NumberFormatException e) {
 				request.setAttribute("error", "2");
 			}
@@ -132,5 +136,6 @@ public class AdminBewertungskriterien extends HttpServlet {
 		}
 		doGet(request,response);
 		
-	}	
+	}
+
 }

@@ -629,13 +629,14 @@ public class Database {
 		return result.next();
 	}
 	
-	public void setKriterium(String hauptkriterium, String teilkriterium, int maxpunkte) throws SQLException {
+	public void setKriterium(String hauptkriterium, String teilkriterium, int maxpunkte, int minpunkte) throws SQLException {
 		if (kriteriumExists(teilkriterium)) {
-			PreparedStatement statement = connection.prepareStatement("UPDATE `bewertungskriterium` SET hauptkriterium = ?, teilkriterium = ?, maxpunkte = ? WHERE teilkriterium = ?;");
+			PreparedStatement statement = connection.prepareStatement("UPDATE `bewertungskriterium` SET hauptkriterium = ?, teilkriterium = ?, maxpunkte = ?, minpunkte = ? WHERE teilkriterium = ?;");
 			statement.setString(1,hauptkriterium);
 			statement.setString(2,teilkriterium);
 			statement.setInt(3,maxpunkte);
-			statement.setString(4,teilkriterium);
+			statement.setInt(4,minpunkte);
+			statement.setString(5,teilkriterium);
 			statement.executeUpdate();
 		} else {
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO `bewertungskriterium` (`hauptkriterium`, `teilkriterium`, `maxpunkte`) VALUES ( ?, ?, ?);");
@@ -734,6 +735,7 @@ public class Database {
         	bewertungskriterium.setHauptkriterium(result.getString("hauptkriterium"));
         	bewertungskriterium.setTeilkriterium(result.getString("teilkriterium"));
         	bewertungskriterium.setMaxpunkte(result.getInt("maxpunkte"));
+        	bewertungskriterium.setMinpunkte(result.getInt("minpunkte"));
         	bewertungskriterium.setBewertungID(result.getInt("id"));
         	kriterien.add(bewertungskriterium);
         }
