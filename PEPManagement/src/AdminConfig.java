@@ -51,7 +51,12 @@ public class AdminConfig extends HttpServlet {
 		//TODO: Semester abschlieﬂen
 		
 		String deadlinereg = request.getParameter("register-frist");
-		String deadlineup  = request.getParameter("upload-frist");
+		
+		String deadlinedok  = request.getParameter("dokumentation-frist");
+		String deadlinekube = request.getParameter("kurzbeschreibung-frist");
+		String deadlinepo = request.getParameter("poster-frist");
+		String deadlineprae = request.getParameter("praesentation-frist");
+		
 		String zcStudenten = request.getParameter("zc-student");
 		String zcAdmin = request.getParameter("zc-admin");
 		String zcJuror = request.getParameter("zc-juror");
@@ -67,13 +72,34 @@ public class AdminConfig extends HttpServlet {
 				d = new Date(format.parse(deadlinereg).getTime());
 				
 				db.setDeadlineRegistrierung(d);
-			} else if(deadlineup != null) {
+			} else if(deadlinedok != null) {
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date d;
 				
-				d = new Date(format.parse(deadlineup).getTime());
+				d = new Date(format.parse(deadlinedok).getTime());
 				
-				db.setDeadlineUpload(d);
+				db.setDeadlineDokumentation(d);
+			} else if(deadlinekube != null) {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date d;
+				
+				d = new Date(format.parse(deadlinekube).getTime());
+				
+				db.setDeadlineKurzbeschreibung(d);
+			} else if(deadlinepo != null) {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date d;
+				
+				d = new Date(format.parse(deadlinepo).getTime());
+				
+				db.setDeadlineKurzbeschreibung(d);
+			} else if(deadlineprae != null) {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date d;
+				
+				d = new Date(format.parse(deadlineprae).getTime());
+				
+				db.setDeadlinePraesentation(d);
 			} else if(zcStudenten != null) {
 				db.setStudentZugangscode(zcStudenten);
 			} else if(zcAdmin != null) {

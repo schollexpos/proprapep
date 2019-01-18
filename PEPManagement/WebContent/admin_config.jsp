@@ -10,7 +10,10 @@ Database db = new Database();
 db.connect();
 
 Date deadlineReg = db.getDeadlineRegistrierung();
-Date deadlineUp = db.getDeadlineUpload();
+Date deadlinePoster= db.getDeadlinePoster();
+Date deadlineDokumentation = db.getDeadlineDokumentation();
+Date deadlineKurzbeschreibung = db.getDeadlineKurzbeschreibung();
+Date deadlinePraesentation = db.getDeadlinePraesentation();
 String zcS = db.getStudentZugangscode();
 String zcJ = db.getJurorZugangscode();
 String zcA = db.getAdminZugangscode();
@@ -78,10 +81,52 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 <div class="container-fluid mt-0 p-3">
     <form action="AdminConfig" method="post" class="myrow">
       <div class="col-sm ml-auto">
-          <h4 class="inlabel text-center">Abgabefrist</h4>
+          <h4 class="inlabel text-center">Abgabefrist Dokumentation</h4>
       </div>
       <div class="col-sm">
-          <input type="date" value="<%=deadlineUp %>" name="upload-frist" class ="iputl p-1 w-100">
+          <input type="date" value="<%=deadlineDokumentation %>" name="dokumentation-frist" class ="iputl p-1 w-100">
+      </div>
+      <div class="col-sm">
+          <input type ="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="Ändern">
+      </div>
+  </form>
+</div>
+
+<div class="container-fluid mt-0 p-3">
+    <form action="AdminConfig" method="post" class="myrow">
+      <div class="col-sm ml-auto">
+          <h4 class="inlabel text-center">Abgabefrist Kurzbeschreibung</h4>
+      </div>
+      <div class="col-sm">
+          <input type="date" value="<%=deadlineKurzbeschreibung %>" name="kurzbeschreibung-frist" class ="iputl p-1 w-100">
+      </div>
+      <div class="col-sm">
+          <input type ="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="Ändern">
+      </div>
+  </form>
+</div>
+
+<div class="container-fluid mt-0 p-3">
+    <form action="AdminConfig" method="post" class="myrow">
+      <div class="col-sm ml-auto">
+          <h4 class="inlabel text-center">Abgabefrist Poster</h4>
+      </div>
+      <div class="col-sm">
+          <input type="date" value="<%=deadlinePoster %>" name="poster-frist" class ="iputl p-1 w-100">
+      </div>
+      <div class="col-sm">
+          <input type ="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="Ändern">
+      </div>
+  </form>
+</div>
+
+<div class="container-fluid mt-0 p-3">
+    <form action="AdminConfig" method="post" class="myrow">
+      <div class="col-sm ml-auto">
+          <h4 class="inlabel text-center">Abgabefrist Präsentation</h4>
+      </div>
+      <div class="col-sm">
+          <input type="date" value="<%=deadlinePraesentation %>" name="praesentation-frist" class ="iputl p-1 w-100">
       </div>
       <div class="col-sm">
           <input type ="submit" class="fstil wichtigUp w-50 mr-auto ml-0 uploadbtn border border-dark" value ="Ändern">

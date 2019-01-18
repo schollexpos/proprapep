@@ -60,7 +60,7 @@ public class StudentUpload extends HttpServlet {
 			session.restore(request);
 			
 			boolean vorsitz = false;
-			boolean deadlineReached = true;
+			ArrayList<Boolean> deadlineReached = new ArrayList<Boolean>();
 			
 			int teamID = -1;
 			try {
@@ -68,7 +68,12 @@ public class StudentUpload extends HttpServlet {
 				vorsitz = s.isVorsitz();
 				teamID = s.getTeamID();
 				
-				deadlineReached = Database.dateReached(db.getDeadlineUpload());
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineDokumentation())));
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineKurzbeschreibung())));
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlinePoster())));
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlinePraesentation())));
+				
+				
 				for(int i = 0;i < FileManager.getFileCount();i++) {
 					String date = "";
 					
@@ -91,7 +96,7 @@ public class StudentUpload extends HttpServlet {
 			
 			request.setAttribute("list", list);
 			request.setAttribute("vorsitz", new Boolean(vorsitz));
-			request.setAttribute("deadlinereached", new Boolean(deadlineReached));
+			request.setAttribute("deadlinereached", deadlineReached);
 			request.setAttribute("teamid", new Integer(teamID));
 		}
 		
@@ -109,7 +114,7 @@ public class StudentUpload extends HttpServlet {
 	   String page = "";
 	   
 	   boolean vorsitz = false;
-	   boolean deadlineReached = false;
+	   ArrayList<Boolean> deadlineReached = new ArrayList<Boolean>();
 		int teamID = -1;
 	   if ((contentType.indexOf("multipart/form-data") >= 0)) {
 	      DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -123,6 +128,10 @@ public class StudentUpload extends HttpServlet {
 	      upload.setSizeMax(maxFileSize);
 	      
 	      try { 
+	    		deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineDokumentation())));
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineKurzbeschreibung())));
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlinePoster())));
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlinePraesentation())));
 	    	
 	    	  
 	    	 Session session = new Session(db, request);
@@ -187,7 +196,7 @@ public class StudentUpload extends HttpServlet {
 	   }
 	   
 	   request.setAttribute("vorsitz", new Boolean(true));
-		request.setAttribute("deadlinereached", new Boolean(deadlineReached));
+		request.setAttribute("deadlinereached", deadlineReached);
 		request.setAttribute("teamid", new Integer(teamID));
 	   
 

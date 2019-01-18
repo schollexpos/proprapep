@@ -173,6 +173,38 @@ public class Database {
 		return Crypt.validatePassword(hashedPassword, email, password);
 	}
 	
+	static final long ONE_MINUTE_IN_MILLIS=60000;
+	
+	public int minutesTillLogin(String email) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("SELECT nologinbefore FROM nutzer WHERE email = ?");
+		statement.setString(1, email);
+		
+		java.sql.Date systemDate = new java.sql.Date(System.currentTimeMillis());
+		long diff = (getDate(statement).getTime() - systemDate.getTime());
+		return (int) (diff < 0 ? 0 : (diff / ONE_MINUTE_IN_MILLIS));
+	}
+	
+	public void failedLoginAttempt(String email) throws SQLException {
+		PreparedStatement statement1 = connection.prepareStatement("UPDATE nutzer SET failedlogincount=failedlogincount+1 WHERE email = ?");
+		PreparedStatement statement2 = connection.prepareStatement("UPDATE nutzer SET failedlogincount=0 WHERE email = ?");
+		PreparedStatement statement3 = connection.prepareStatement("SELECT failedlogincount FROM nutzer WHERE email = ?");
+		
+		statement1.setString(1, email);
+		statement2.setString(1, email);
+		statement3.setString(1, email);
+		
+		statement1.executeUpdate();
+		
+		int failedAttempts = getInt(statement3);
+		
+		if(failedAttempts > 10) {
+			java.sql.Date systemDate = new java.sql.Date(System.currentTimeMillis());
+			//date.setTime(date.getTime() + 24*60*60*1000);
+			systemDate.setTime(systemDate.getTime() + 10 * ONE_MINUTE_IN_MILLIS);
+			statement2.executeUpdate();
+		}
+	}
+	
 	public boolean emailExists(String email) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement("SELECT id FROM nutzer WHERE email = ?");
 		statement.setString(1, email);
@@ -875,13 +907,38 @@ public class Database {
 		statement.executeUpdate();
 	}
 	
-	public Date getDeadlineUpload() throws SQLException {
-		return getDate("SELECT `deadline-uploaden` FROM config WHERE id = 1");
+	public Date getDeadlinePoster() throws SQLException {
+		return getDate("SELECT `deadline-poster` FROM config WHERE id = 1");
 	}
 	
-	public void setDeadlineUpload(Date date) throws SQLException {
+	public Date getDeadlineDokumentation() throws SQLException {
+		return getDate("SELECT `deadline-dokumentation` FROM config WHERE id = 1");
+	}
+	
+	public Date getDeadlineKurzbeschreibung() throws SQLException {
+		return getDate("SELECT `deadline-kurzbeschreibung` FROM config WHERE id = 1");
+	}
+	
+	public Date getDeadlinePraesentation() throws SQLException {
+		return getDate("SELECT `deadline-praesentation` FROM config WHERE id = 1");
+	}
+	
+	public void setDeadlineDokumentation(Date date) throws SQLException {
+		setDeadline("dokumentation", date);
+	}
+	public void setDeadlineKurzbeschreibung(Date date) throws SQLException {
+		setDeadline("kurzbeschreibung", date);
+	}
+	public void setDeadlinePoster(Date date)  throws SQLException {
+		setDeadline("poster", date);
+	}
+	public void setDeadlinePraesentation(Date date) throws SQLException {
+		setDeadline("praesentation", date);
+	}
+	
+	private void setDeadline(String field, Date date) throws SQLException {
 		date.setTime(date.getTime() + 24*60*60*1000);
-		PreparedStatement statement = connection.prepareStatement("UPDATE config SET `deadline-uploaden` = ? WHERE id = 1");
+		PreparedStatement statement = connection.prepareStatement("UPDATE config SET `deadline-" + field + "` = ? WHERE id = 1");
 		statement.setDate(1, date);
 		statement.executeUpdate();
 	}

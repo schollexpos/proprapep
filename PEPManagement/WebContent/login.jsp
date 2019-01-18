@@ -19,6 +19,11 @@
 			errorMessage = "Datenbankfehler!";
 		} else if(str.equals("3")) {
 			errorMessage = "E-Mail/Passwort falsch!";
+		} else if(str.equals("9")) {
+			String minutes = "???";
+			if(request.getParameter("minutes") != null) minutes = request.getParameter("minutes");
+			
+			errorMessage = "Zu viele fehlgeschlagene Anmeldeversuche! Versuchen Sie es in " + minutes + " Minuten erneut!";
 		}
 		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
 	}
