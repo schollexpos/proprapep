@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="pepmanagement.Database, pepmanagement.Pair, java.util.ArrayList" %>
+<%@ page import="pepmanagement.Database, pepmanagement.Pair, java.util.ArrayList, java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -29,8 +29,9 @@
 					      
 					      
 					      <%	
+					      boolean loggedIn = false;
 							if(request.getAttribute("loggedin") != null) {
-								boolean loggedIn = ((Boolean) request.getAttribute("loggedin")).booleanValue();
+								loggedIn = ((Boolean) request.getAttribute("loggedin")).booleanValue();
 								if(loggedIn) {
 									out.println("<li class=\"nav-item dropdown\">");
 									out.println("<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownAdmin\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Admin</a>");
@@ -110,40 +111,75 @@
 					      <th scope="row">Juror</th>
 					      <td>jp18_usi</td>
 					    </tr>
+					
+					 
 					    <tr>
-					      <th scope="row">3</th>
+					      <th scope="row">Admin</th>
 					      <td>acpepmb</td>
 					    </tr>
 					  </tbody>
 					</table>
 				</div>
 			</div>
+			<% if(loggedIn) {%>
+			
+				<% if(request.getAttribute("adminflag") != null) { %>
+	
+				<div class="row">
+					<div class="col">
+						<h2>Neue Nachricht verfassen</h2>
+						<form method="post" action="index">
+						<fieldset>
+						<legend>Informationen</legend>
+						Adressat:<br/><select name="usercat">
+									<option value="-1">Alle</option>
+									<option value="1">Juroren</option>
+									<option value="0">Studenten</option>
+								</select>
+						<br />
+						Team (nur bei Studenten):<br/>
+								<select name="userteam">
+									<option value="-1">Alle</option>
+								</select>
+						</fieldset>
+						Text (deutsch):<br/>
+						<textarea name="textde"></textarea><br/>
+							Text (englisch):<br/>
+						<textarea name="texten"></textarea>	<br/>
+						<input type="submit" value="Posten" />
+						
+						</form>
+					</div>
+				</div>
+				
+				<% } %>			
 			<div class="row">
 				<div class="col">
-						
-					<h2>Info: Dateinamen</h2>
-					<p>
-						Jetzt als bleibendes Schema: Das Servlet sollte so heiﬂen wie die JSP (nur mit CamelCase statt_mit_strichen),
-						wobei die JSP-Datei mit der Nutzerrolle beginnt (zB. student_upload.jsp). 
-					</p>
-					
-					<h2>Test der Datenbank:</h2>
-					<p><%
-						try {
-							Database db = new Database();
-							db.connect();
+					<%
+						if(request.getAttribute("messages") != null) {
+							ArrayList<Database.Message> messages = (ArrayList<Database.Message>) request.getAttribute("messages");
 							
-							db.getStudentZugangscode();
+							SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 							
-							out.println("&#10004; Datenbank auf dem aktuellen Stand");
-						} catch(Exception e) {
-							out.println("&#10060; Datenbank nicht aktuell!");
-							System.out.println(e.getMessage());
+							for(Database.Message m  : messages) {
+								out.print("<fieldset><legend>");
+								if(m.getRank() == 0) out.print("An " + (m.getTeam() == -1 ? " Alle Studierenden " : " Ihr Team "));
+								if(m.getRank() == 1) out.print("An alle Juroren");
+								out.print(format.format( m.getDate()  ));
+								out.print("</legend>");
+								
+								out.print("<p>" + m.getMessageDe() + "</p>");
+								
+								out.print("</fieldset>");
+							}
 						}
+						
+						
+					
 					%>
-					</p>
 				</div>
 			</div>
+			<% } %>
 		</main>
 	
 	</div>

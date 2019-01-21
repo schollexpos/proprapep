@@ -62,16 +62,22 @@ public class LoginServlet extends HttpServlet {
 			page = "login.jsp?error=1";
 		} else {
 			try {
+				System.out.println("LALELU");
 				if(db.minutesTillLogin(email) == 0) {
+					System.out.println("LALELU2");
 					if(db.loginUser(email, password)) {
+						System.out.println("LALELU3");
 						session.create(email);
 						page = "index";
 						if(returnto != null) page = returnto;
 					} else {
+						System.out.println("LALELUB");
 						db.failedLoginAttempt(email);
+						System.out.println("LALELUC");
 						page = "login.jsp?error=3";
 					}
 				} else {
+					System.out.println("LALELUD");
 					page = "login.jsp?error=9&minutes=" + db.minutesTillLogin(email);
 				}
 			} catch(SQLException e) {

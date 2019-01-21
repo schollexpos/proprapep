@@ -24,6 +24,11 @@ public class Database {
 	final String dbuser = "root";
 	final String dbpassword = "";
 	
+	enum Language {
+		PEP_DE,
+		PEP_EN
+	}
+	
 	
 	/* Connection */
 	
@@ -128,10 +133,16 @@ public class Database {
 	private Date getDate(ResultSet result) throws SQLException {
 		Date res = null;
 		while (result.next())  {
-			res = result.getDate(1);
+			try {
+				res = result.getDate(1);
+			} catch(Exception e) {
+				res = new Date(1);
+			}
+			
 		}
 		return res;
 	}
+	
 	
 	private Date getDate(String query)  throws SQLException {
 		ResultSet result = executeQuery(query);
@@ -253,8 +264,8 @@ public class Database {
 		public String getEmail() { return email; }
 		public String getPasswort() { return passwort; }
 		public int getBerechtigungen() { return berechtigungen; }
-		public boolean isAdmin() { return berechtigungen >= 2; }
-		public boolean isJuror() { return berechtigungen >= 1; }
+		public boolean isAdmin() { return berechtigungen == 2; }
+		public boolean isJuror() { return berechtigungen == 1; }
 		public boolean isStudent() { return berechtigungen == 0; }
 	}
 	
@@ -811,6 +822,112 @@ public class Database {
 		PreparedStatement statement = connection.prepareStatement("SELECT id FROM team WHERE projekttitel = ?");
 		statement.setString(1, titel);
 		return getInt(statement);
+	}
+	
+	
+	
+	/* Nachrichten */
+	
+	
+	public class Message {
+		String message_de, message_en;
+		int userRank, team;
+		Date date;
+		
+		public void setMessage(String de, String en) {
+			this.message_de = de;
+			this.message_en = en;
+		}
+		
+		public String getMessageDe() {
+			return this.message_de;
+		}
+		
+		public String getMessageEn() {
+			return this.message_en;
+		}
+		
+		public void setRank(int userRank) {
+			this.userRank = userRank;
+		}
+		
+		public int getRank() {
+			return this.userRank;
+		}
+		
+		public void setTeam(int team) {
+			this.team = team;
+		}
+		
+		public int getTeam() {
+			return this.team;
+		}
+		
+		public void setDate(Date date) {
+			this.date = date;
+		}
+		
+		public Date getDate() {
+			return this.date;
+		}
+	}
+	
+	public Message getNewMessage() {
+		return new Message();
+	}
+	
+	private Message extractMessage(ResultSet result) throws SQLException {
+		Message m = new Message();
+		
+		m.setRank(result.getInt(2));
+		m.setTeam(result.getInt(3));
+		m.setMessage(result.getString(4), result.getString(5));
+		m.setDate(result.getDate(6));
+		
+		return m;
+	}
+	
+	public ArrayList<Message> getAllMessages() throws SQLException {
+		ArrayList<Message> arr = new ArrayList<Message>();
+		ResultSet result = executeQuery("SELECT * FROM message ORDER BY date DESC");
+		
+		while(result.next()) {
+			arr.add(extractMessage(result));
+		}
+		
+		return arr;
+	}
+	
+	public ArrayList<Message> getJurorMessages() throws SQLException {
+		ArrayList<Message> arr = new ArrayList<Message>();
+		ResultSet result = executeQuery("SELECT * FROM message WHERE `user-category` = 1 OR `user-category` = -1 ORDER BY date DESC");
+		
+		while(result.next()) {
+			arr.add(extractMessage(result));
+		}
+		
+		return arr;
+	}
+	
+	public ArrayList<Message> getStudentMessage(int team) throws SQLException {
+		ArrayList<Message> arr = new ArrayList<Message>();
+		ResultSet result = executeQuery("SELECT * FROM message WHERE (`user-category` = 0 OR `user-category` = -1) AND (`user-team` = " + team + " OR `user-team` = -1) ORDER BY date DESC");
+		
+		while(result.next()) {
+			arr.add(extractMessage(result));
+		}
+		
+		return arr;
+	}
+	
+	public void publishMessage(Message m) throws SQLException {
+		PreparedStatement s = connection.prepareStatement("INSERT INTO message (`id`, `user-category`, `user-team`, `text-de`, `text-en`, `date`) VALUES (NULL, ?, ?, ?, ?, ?)");
+		s.setInt(1, m.getRank());
+		s.setInt(2, m.getTeam());
+		s.setString(3, m.getMessageDe());
+		s.setString(4, m.getMessageEn());
+		s.setDate(5, m.getDate());
+		s.executeUpdate();
 	}
 	
 	

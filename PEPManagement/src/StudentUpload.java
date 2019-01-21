@@ -136,7 +136,7 @@ public class StudentUpload extends HttpServlet {
 	    	  
 	    	 Session session = new Session(db, request);
 	    	 
-	    	 if(session.restore(request) && !Database.dateReached(db.getDeadlineUpload())) {
+	    	 if(session.restore(request) /*&& !Database.dateReached(db.getDeadlineUpload())*/) {
 	    		  Database.Student s = db.getStudent(db.getUserID(session.getEmail()));
 					vorsitz = s.isVorsitz();
 	    		 

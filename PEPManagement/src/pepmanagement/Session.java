@@ -87,4 +87,8 @@ public class Session {
 	public String getEmail() {
 		return email;
 	}
+	
+	HttpSession getSession() {
+		return session;
+	}
 }
