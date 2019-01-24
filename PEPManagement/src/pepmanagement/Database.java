@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -152,7 +153,31 @@ public class Database {
 	private Date getDate(PreparedStatement statement) throws SQLException {
 		ResultSet result = statement.executeQuery();
 		return getDate(result);
-	}  
+	}
+	
+	private Timestamp getTimestamp(ResultSet result) throws SQLException {
+		Timestamp res = null;
+		while (result.next())  {
+			try {
+				res = result.getTimestamp(1);
+				if(res == null) res = new Timestamp(1234567890);
+			} catch(Exception e) {
+				res = new Timestamp(1234567890);
+			}
+			
+		}
+		return res;
+	}
+	
+	private Timestamp getTimestamp(String query) throws SQLException {
+		ResultSet result = executeQuery(query);
+		return getTimestamp(result);
+	}
+	
+	private Timestamp getTimestamp(PreparedStatement statement) throws SQLException {
+		ResultSet result = statement.executeQuery();
+		return getTimestamp(result);
+	}
 	
 	
 	
@@ -190,28 +215,31 @@ public class Database {
 		PreparedStatement statement = connection.prepareStatement("SELECT nologinbefore FROM nutzer WHERE email = ?");
 		statement.setString(1, email);
 		
-		java.sql.Date systemDate = new java.sql.Date(System.currentTimeMillis());
-		long diff = (getDate(statement).getTime() - systemDate.getTime());
+		Timestamp t = getTimestamp(statement);
+		System.out.println("TIMESTAMP " + t);
+		long diff = (t.getTime() - System.currentTimeMillis());
 		return (int) (diff < 0 ? 0 : (diff / ONE_MINUTE_IN_MILLIS));
 	}
 	
 	public void failedLoginAttempt(String email) throws SQLException {
 		PreparedStatement statement1 = connection.prepareStatement("UPDATE nutzer SET failedlogincount=failedlogincount+1 WHERE email = ?");
-		PreparedStatement statement2 = connection.prepareStatement("UPDATE nutzer SET failedlogincount=0 WHERE email = ?");
+		PreparedStatement statement2 = connection.prepareStatement("UPDATE nutzer SET failedlogincount=0, nologinbefore=? WHERE email = ?");
 		PreparedStatement statement3 = connection.prepareStatement("SELECT failedlogincount FROM nutzer WHERE email = ?");
 		
 		statement1.setString(1, email);
 		statement2.setString(1, email);
 		statement3.setString(1, email);
 		
+		
+		
 		statement1.executeUpdate();
 		
 		int failedAttempts = getInt(statement3);
 		
 		if(failedAttempts > 10) {
-			java.sql.Date systemDate = new java.sql.Date(System.currentTimeMillis());
 			//date.setTime(date.getTime() + 24*60*60*1000);
-			systemDate.setTime(systemDate.getTime() + 10 * ONE_MINUTE_IN_MILLIS);
+			statement2.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+			//systemDate.setTime(systemDate.getTime() + 10 * ONE_MINUTE_IN_MILLIS);
 			statement2.executeUpdate();
 		}
 	}
