@@ -31,7 +31,7 @@ public class Index extends HttpServlet {
 
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//MailConnection.sendMail("ntpott@gmail.com", "system@pep.uni-siegen.de", "Test", "Test für das Mailsystem");
+		//MailConnection.sendMail("ntpott@gmail.com", "pep@pottproductions.de", "Test", "Test für das Mailsystem");
 		System.out.println("Can you hear me?");
 		try {
 			
@@ -40,6 +40,7 @@ public class Index extends HttpServlet {
 			Session session = new Session(database, request);
 			
 			String message = "";
+			String page = "/index.jsp";
 			if(session.restore(request)) {
 				message = "You're logged in as\n" + session.getEmail();
 				int uID = database.getUserID(session.getEmail());
@@ -60,10 +61,11 @@ public class Index extends HttpServlet {
 			} else {
 				message += "You're not logged in!";
 				request.setAttribute("loggedin", new Boolean(false));
+				page = "/login.jsp";
 			}
 			
 			 request.setAttribute("message", message); // This will be available as ${message}
-		     request.getRequestDispatcher("/index.jsp").forward(request, response);
+		     request.getRequestDispatcher(page).forward(request, response);
         } catch (Exception e) {
         	e.printStackTrace();
         }

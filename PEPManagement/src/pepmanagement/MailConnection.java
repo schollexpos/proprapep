@@ -5,16 +5,19 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class MailConnection {
-	final static String host = "localhost";
-	final static String user = "system";
-	final static String pwd = "pMS19USi";
+	final static String host = "smtp.strato.de";
+	final static String user = "pep@pottproductions.de";
+	final static String pwd = "pMS19_USi!";
+	final static int port = 465;
 	
 	public static void sendMail(String to, String from, String subject, String message) {
 		System.out.println("Hellp");
 	      Properties properties = System.getProperties();
 	      properties.setProperty("mail.smtp.host", host);
 	      properties.put("mail.smtp.auth", "true");
+	      properties.put("mail.smtp.port", port);
 	      properties.put("mail.smtp.starttls.enable", "true");
+	      properties.put("mail.smtp.ssl.enable", "true");
 	      javax.mail.Session session = javax.mail.Session.getInstance(properties,  new javax.mail.Authenticator() {
 	            protected PasswordAuthentication getPasswordAuthentication() {
 	                return new PasswordAuthentication(user, pwd);

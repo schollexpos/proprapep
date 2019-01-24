@@ -2,132 +2,54 @@
 <%@ page import="pepmanagement.Database, pepmanagement.Pair, java.util.ArrayList, java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+    <%
+    boolean loggedIn = false;
+    if(request.getAttribute("loggedin") != null) {
+		loggedIn = ((Boolean) request.getAttribute("loggedin")).booleanValue();
+    }
+    
+    %>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="ISO-8859-1">  
 <title>PEP Management </title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="theme.css" type="text/css">
 </head>
-<body style="background-color: #5580ae;">
-	<div class="container" style="background-color: white;">
-		<header>
-			<div class="row">
-				<div class="col">
-					<nav class="navbar navbar-expand-lg navbar-light bg-light">
-					  <a class="navbar-brand" href="#">PEP</a>
-					  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					    <span class="navbar-toggler-icon"></span>
-					  </button>
-					
-					  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-					    <ul class="navbar-nav mr-auto">
-					      <li class="nav-item active">
-					        <a class="nav-link" href="#">Index <span class="sr-only">(current)</span></a>
-					      </li>
-					      
-					      
-					      <%	
-					      boolean loggedIn = false;
-							if(request.getAttribute("loggedin") != null) {
-								loggedIn = ((Boolean) request.getAttribute("loggedin")).booleanValue();
-								if(loggedIn) {
-									out.println("<li class=\"nav-item dropdown\">");
-									out.println("<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownAdmin\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Admin</a>");
-									out.println("<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownAdmin\">");
-									out.println("<a class=\"dropdown-item\" href=\"AdminLehrstuhlStudiengang\">Admin: Lehrstuhl/Studiengangliste</a>");
-									out.println("<a class=\"dropdown-item\" href=\"AdminTeamUebersicht\">Admin: Teamübersicht</a>");
-									out.println("<a class=\"dropdown-item\" href=\"AdminBewertungskriterien\">Admin: Bewertungskriterien</a>");
-									out.println("<a class=\"dropdown-item\" href=\"AdminSiegerehrung\">Admin: Siegerehrung</a>");
-									out.println("<a class=\"dropdown-item\" href=\"AdminConfig\">Fristen/Zugangscodes</a>");
-									out.println("</li>");
-							        
-							        out.println("<li class=\"nav-item dropdown\">");
-									out.println("<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownJuror\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Juror</a>");
-									out.println("<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownJuror\">");
-									out.println("<a class=\"dropdown-item\" href=\"JurorBewertung\">Juror: Bewertung</a>");
-									out.println("</li>");
-							        
-							        out.println("<li class=\"nav-item dropdown\">");
-									out.println("<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownStudent\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Student</a>");
-									out.println("<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownStudent\">");
-									out.println("<a class=\"dropdown-item\" href=\"StudentUpload\">Student: Upload</a>");
-									out.println("<a class=\"dropdown-item\" href=\"StudentSelectTeam\">Student: Select Team</a>");
-							        out.println("</li>");
-									
-									out.println("<li class=\"nav-item\"> <a class=\"nav-link\" href=\"Logout\">Logout</a></li>");
-								} else {
-									out.println("<li class=\"nav-item\"> <a class=\"nav-link\" href=\"login.jsp\">Login</a></li>");
-									out.println("<li class=\"nav-item\"> <a class=\"nav-link\" href=\"student_register.jsp\">Registrieren (Student)</a></li>");
-									out.println("<li class=\"nav-item\"> <a class=\"nav-link\" href=\"admin_register.jsp\">Registrieren (Admin/Juror)</a></li>");
-								}
-							}
-						%>
-					    </ul>
-					    <span class="navbar-text">
-     						<c:out value='${requestScope.message}'/>
-    					</span>
-					  
-					  </div>
-					</nav>
-				
-				</div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<div class="text-center">
-						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Logo_Uni_Siegen.svg/2000px-Logo_Uni_Siegen.svg.png" style="width: 60%;"/>
+
+<body>
+	<header>
+
+			<div class="py-2 px-2 mb-0">
+					<div class="container-fluid logo border border-dark">
+						<nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
+							<a class="navbar-brand mr-auto" href="https://www.uni-siegen.de/start/">
+								<img class="log" src="logo_u_s.png" width="180">
+							</a>
+							<h1 class="nav-item m-auto"><b>Planungs- und Entwicklungsprojekt</b></h1>
+			
+								<%
+								String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.STUDENT);
+								out.println(str);
+							%>
+						</nav>
 					</div>
-				</div>
-			</div>
-		</header>
-		<main>
-			<div class="row">
-				<div class="col">
-					<h1>Debug-Übersicht:</h1>
-					
-					<p>Kleinere Infos zum Gebrauch der Seiten:</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-md-6">
-					<h2>Zugangscodes</h2>
-				</div>
-				<div class="col-12 col-md-6">
-					<table class="table table-dark">
-					  <thead>
-					    <tr>
-					      <th scope="col">Typ</th>
-					      <th scope="col">Code</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <th scope="row">Student</th>
-					      <td>pep2018</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Juror</th>
-					      <td>jp18_usi</td>
-					    </tr>
-					
-					 
-					    <tr>
-					      <th scope="row">Admin</th>
-					      <td>acpepmb</td>
-					    </tr>
-					  </tbody>
-					</table>
-				</div>
-			</div>
-			<% if(loggedIn) {%>
+				</div>			
+
+			<% 
+			
+				if(loggedIn != false) {%>
 			
 				<% if(request.getAttribute("adminflag") != null) { %>
 	
 				<div class="row">
-					<div class="col">
-						<h2>Neue Nachricht verfassen</h2>
+					<div class="col-xl-4 col-sm-4 col-0"></div>
+					<div class=" text-center col-xl-4 col-sm-4 col-12">
+						<h2>Willkommen Administrator dies ist ihre Startseite</h2>
+						<h3 class=" mt-3">Neue Nachricht verfassen</h3>
 						<form method="post" action="index">
 						<fieldset>
 						<legend>Informationen</legend>
@@ -142,24 +64,23 @@
 									<option value="-1">Alle</option>
 								</select>
 						</fieldset>
-						Text (deutsch):<br/>
+						Text:<br/>
 						<textarea name="textde"></textarea><br/>
-							Text (englisch):<br/>
-						<textarea name="texten"></textarea>	<br/>
-						<input type="submit" value="Posten" />
-						
+						<input type="button" class="wichtigUp w-25 mt-2 uploadbtn border border-dark" value="Posten">
 						</form>
 					</div>
+					<div class="col-lg-4 col-sm-4 col-0"></div>
 				</div>
 				
 				<% } %>			
 			<div class="row">
-				<div class="col">
+				<div class="col-lg-4 col-sm-4 col-0"></div>
+				<div class="col-lg-4 col-sm-4 col-12">
 					<%
 						if(request.getAttribute("messages") != null) {
 							ArrayList<Database.Message> messages = (ArrayList<Database.Message>) request.getAttribute("messages");
 							
-							SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+							SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 							
 							for(Database.Message m  : messages) {
 								out.print("<fieldset><legend>");
@@ -173,16 +94,12 @@
 								out.print("</fieldset>");
 							}
 						}
-						
-						
-					
 					%>
 				</div>
+				<div class="col-lg-4 col-sm-4 col-0"></div>
 			</div>
 			<% } %>
 		</main>
-	
-	</div>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -190,3 +107,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>
+
