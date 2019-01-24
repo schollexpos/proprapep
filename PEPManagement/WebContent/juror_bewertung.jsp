@@ -124,41 +124,52 @@
             	} else {
             		Team t = db.getTeam(team);
             		out.println("<h1>Ausgewähltes Team: " + t.getKennnummer() + " - " + t.getTitel() + " </h1>");  
+            		
             	}
-            	
+            	ArrayList<String> hauptkriterien = (ArrayList<String>) request.getAttribute("hauptkriterien");
             	%>
 				
                 <table class="table table-hover " id="myTable">
-                    <thead>
-                        <tr>
-                            <th class="sortable" scope="col">Hauptkriterium</th>
-                            <th class="sortable" scope="col">Teilkriterium</th>
-                            <th class="sortable" scope="col">Bewerten</th>
-                            <th class="sortable" scope="col">Maximale Punktzahl</th>
-                            <th class="sortable" scope="col">Aktuelle Punktzahl</th>
-                            
-                        </tr>
-                            
-                    <tbody>
-							<%
-                    		
-                    		ArrayList<Bewertungskriterium> kriterien = db.getKriterien();
-                    		
-                			for (int i = 0; i<kriterien.size(); i++){
-	       						out.println("<tr>");
-	       						out.println("<th scope=\"row\">"+ kriterien.get(i).getHauptkriterium() +"</th>");	
+                    
+					<%
+					for(int j = 0; j<hauptkriterien.size(); j++) {
+                  			int summeAktuell = 0;
+                  			int summeGesamt = 0;
+                  			
+                   		ArrayList<Bewertungskriterium> kriterien = db.getKriterien();
+                   		out.println("<thead>");
+                   		out.println("<th class=\"sortable\" scope=\"col\">" + hauptkriterien.get(j) + "</th>");
+                   		out.println("<th class=\"sortable\" scope=\"col\">" + "Bewerten" + "</th>");
+                   		out.println("<th class=\"sortable\" scope=\"col\">" + "Skala" + "</th>");
+                   		out.println("<th class=\"sortable\" scope=\"col\">" + "Aktuelle Punktzahl" + "</th>");
+                   		out.println("<tbody>");
+               			for (int i = 0; i<kriterien.size(); i++){
+               				if (!kriterien.get(i).getHauptkriterium().equals(hauptkriterien.get(j))){
+               					continue;
+               				}else{
+               					
+	       						out.println("<tr>");			       					
 	       						out.println("<td>" + kriterien.get(i).getTeilkriterium() + "</td>");
-	       						out.println("<td><input type=\"number\" name=\"punktzahl" + i  + "\"" +  " min=\"0\" max=" + kriterien.get(i).getMaxpunkte() + "></td>");
-	       						out.println("<td>" + kriterien.get(i).getMaxpunkte() + "</td>");
+	       						out.println("<td><input type=\"number\" name=\"punktzahl" + i  + "\"" +  " min= " + kriterien.get(i).getMinpunkte() + "\" max=" + kriterien.get(i).getMaxpunkte() + "></td>");
+	       						out.println("<td>" + kriterien.get(i).getMinpunkte() + "-" + kriterien.get(i).getMaxpunkte() + "</td>");
 	       						out.println("<td>" + db.getBewertung(team, kriterien.get(i).getBewertungID()));
 	       						out.println("<tr>");
 
 	       						out.println("<input type=\"hidden\" name=\"bewertungid" + i  + "\" value=\""  + kriterien.get(i).getBewertungID() + "\"" + ">");
 	       						out.println("<input type=\"hidden\" name=\"tt\" value=\""  + team + "\">");
-
-                			}
+								summeAktuell += kriterien.get(i).getMaxpunkte();
+								summeGesamt += db.getBewertung(team, kriterien.get(i).getBewertungID());
+               				}
+               			}
+               			out.println();
+               			out.println("<th>" + "Maximale Punktzahl: " + summeAktuell + "  Erreichte Punktzahl: " + summeGesamt + "</th>");
+               			
+                  		}
+                  		                    		
+                  		%>                    		
+                  		
                     		                    		
-                    		%>  
+                    		
 
 
    						 

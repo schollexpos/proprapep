@@ -45,6 +45,8 @@ public class JurorBewertung extends HttpServlet {
 			try {
 				Session session = new Session(db, request);
 				session.restore(request);
+				ArrayList<String> hauptkriterien = getHauptkriterien(db);
+	            request.setAttribute("hauptkriterien", hauptkriterien);// Will be available as ${hauptkriterien} in JSP
 				request.setAttribute("teamtitel",(request.getParameter("projekttitel")));
 				request.setAttribute("jurorID", db.getUserID(session.getEmail()));
 				request.setAttribute("kriterien", db.getKriterien());
@@ -121,9 +123,24 @@ public class JurorBewertung extends HttpServlet {
 			
 		}
 		return page;
+	
 		
 	}
 	
+	protected ArrayList<String> getHauptkriterien(Database db) throws SQLException {
+		ArrayList<Bewertungskriterium> kriterien = db.getKriterien();
+		ArrayList<String> list = new ArrayList<String>();
+		for(Bewertungskriterium krit: kriterien) {
+			String haupt = krit.getHauptkriterium();
+			if(!list.contains(haupt)) {
+				list.add(haupt);
+			} else {
+				continue;
+			}
+
+		}
+		return list;
+	}
 
 	
 	

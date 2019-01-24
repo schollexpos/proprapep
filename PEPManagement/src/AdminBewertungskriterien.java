@@ -102,15 +102,15 @@ public class AdminBewertungskriterien extends HttpServlet {
 	protected void addKriterium(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		String hauptkriterium = request.getParameter("hauptkriterium");
 		String teilkriterium = request.getParameter("teilkriterium");
+		String minpunkte = request.getParameter("minpunkte");
 		String maxpunkte =request.getParameter("maxpunkte");
-		System.out.println("");
 		
-		if(hauptkriterium.equals("") || teilkriterium.equals("") || maxpunkte.equals("")) {
+		if(hauptkriterium.equals("") || teilkriterium.equals("") || maxpunkte.equals("") || minpunkte.equals("")) {
 			request.setAttribute("error", "1");
 			System.out.println("Keine Angaben!");
 		} else {
 			try {
-				db.setKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte));
+				db.setKriterium(hauptkriterium, teilkriterium, Integer.parseInt(maxpunkte), Integer.parseInt(minpunkte));
 			} catch(NumberFormatException e) {
 				request.setAttribute("error", "2");
 			}
