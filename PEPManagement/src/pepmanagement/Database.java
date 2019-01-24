@@ -779,6 +779,7 @@ public class Database {
         	bewertungskriterium.setHauptkriterium(result.getString("hauptkriterium"));
         	bewertungskriterium.setTeilkriterium(result.getString("teilkriterium"));
         	bewertungskriterium.setMaxpunkte(result.getInt("maxpunkte"));
+        	bewertungskriterium.setMinpunkte(result.getInt("minpunkte"));
         	bewertungskriterium.setBewertungID(result.getInt("id"));
         	kriterien.add(bewertungskriterium);
         }
