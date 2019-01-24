@@ -41,23 +41,30 @@ public class Index extends HttpServlet {
 			
 			String message = "";
 			String page = "/index.jsp";
+			int rank = 0;
 			if(session.restore(request)) {
 				message = "You're logged in as\n" + session.getEmail();
 				int uID = database.getUserID(session.getEmail());
 				if(database.userIsAdmin(uID)) {
 					message += " [A]";
-					request.setAttribute("adminflag", new Boolean(true));
 					messages = database.getAllMessages();
+					rank = 2;
 				} else if(database.userIsJuror(uID)) {
 					message += " [J]";
 					messages = database.getJurorMessages();
+					rank = 1;
 				} else {
 					Database.Student student = database.getStudent(uID);
-					messages = database.getStudentMessage(student.getTeamID());
+					int teamID = student.getTeamID();
+					messages = database.getStudentMessage(teamID);
+					request.setAttribute("teamID", new Integer(teamID));
+					
+					rank = 0;
 				}
 				
 				request.setAttribute("loggedin", new Boolean(true));
 				request.setAttribute("messages", messages);
+				request.setAttribute("rank", new Integer(rank));
 			} else {
 				message += "You're not logged in!";
 				request.setAttribute("loggedin", new Boolean(false));

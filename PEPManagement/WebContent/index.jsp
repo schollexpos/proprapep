@@ -8,6 +8,14 @@
     if(request.getAttribute("loggedin") != null) {
 		loggedIn = ((Boolean) request.getAttribute("loggedin")).booleanValue();
     }
+    int rank = 0;
+    if(request.getAttribute("rank") != null) {
+    	rank = ((Integer) request.getAttribute("rank")).intValue();
+    }
+    int teamID = -1;
+    if(request.getAttribute("teamID") != null) {
+    	teamID = ((Integer) request.getAttribute("teamID")).intValue();
+    }
     
     %>
 <!DOCTYPE html>
@@ -32,8 +40,13 @@
 							<h1 class="nav-item m-auto"><b>Planungs- und Entwicklungsprojekt</b></h1>
 			
 								<%
-								String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.STUDENT);
+								{
+								pepmanagement.AccountControl.UserRank r = pepmanagement.AccountControl.UserRank.STUDENT;
+								if(rank == 1) r = pepmanagement.AccountControl.UserRank.JUROR;
+								if(rank == 2) r = pepmanagement.AccountControl.UserRank.ADMIN;
+								String str = pepmanagement.Menu.getMenu(r);
 								out.println(str);
+								}
 							%>
 						</nav>
 					</div>
@@ -42,8 +55,29 @@
 			<% 
 			
 				if(loggedIn != false) {%>
+				
+				
+				
+			<% 
+				if(rank == 0) {
+			%>
 			
-				<% if(request.getAttribute("adminflag") != null) { %>
+				<div class="row">
+				<div class="col-lg-4 col-sm-4 col-0"></div>
+				<div class="col-lg-4 col-sm-4 col-12">
+					<% if(teamID == -1) { %>
+					<h2><a href="StudentSelectTeam">Team auswählen</a></h2>
+					<% } else { %>
+					<h2><a href="StudentUpload">Dateien hochladen</a></h2>
+					<% } %>
+				</div>
+				<div class="col-lg-4 col-sm-4 col-0"></div>
+			</div>
+			
+			<%
+				}
+			%>
+				<% if(rank == 2) { %>
 	
 				<div class="row">
 					<div class="col-xl-4 col-sm-4 col-0"></div>
