@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import pepmanagement.Database;
+import pepmanagement.MailConnection;
 import pepmanagement.Session;
 
 //Hello
@@ -84,6 +85,9 @@ public class StudentRegister extends HttpServlet {
 					int userID = db.getUserID(email);
 					db.registerStudent(matNo, userID, vorname, nachname, studiengang, -1, vorsitzender == 1);
 					session.create(email); 
+					
+					MailConnection.sendMail(email, "pep@pottproductions.de", "Registrierung", "Sie haben sich für das PEP registriert!");
+					
 					
 					if(vorsitzender == 1) {
 						page = "student_register_team.jsp";

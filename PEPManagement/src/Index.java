@@ -31,8 +31,7 @@ public class Index extends HttpServlet {
 
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//MailConnection.sendMail("ntpott@gmail.com", "pep@pottproductions.de", "Test", "Test für das Mailsystem");
-		System.out.println("Can you hear me?");
+		//System.out.println("Can you hear me?");
 		try {
 			
 			ArrayList<Database.Message> messages;
