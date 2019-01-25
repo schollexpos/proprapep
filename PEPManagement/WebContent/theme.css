@@ -378,7 +378,7 @@ img.log {
     border-right: 1px solid #000;
 }
 
-.blank {
+.blank, blank a {
     margin: 0;
     padding: 0;
     text-decoration: none;
@@ -398,9 +398,7 @@ img.log {
 }
 
 .suchen {
-    width: 55%;
-    max-width: 302px;
-    border-radius: 3px;
+        border-radius: 3px;
 }
 
 .suchen:focus {
@@ -409,6 +407,7 @@ img.log {
 
 .wichtig,
 .wichtig a {
+	
     color: white;
     font-family: inherit;
     font-size: 16pt;
@@ -427,6 +426,7 @@ img.log {
 
 .wichtigUp,
 .wichtigUp a {
+	
     color: white;
     font-family: inherit;
     font-size: 10pt;
@@ -546,6 +546,7 @@ background-color: #040385; }
 }
 
 .sub1 {
+	border-radius: 2px;
     border: none;
     color: black;
     position: inherit;
@@ -560,7 +561,12 @@ background-color: #040385; }
     text-decoration: none
 }
 
-.dele:hover {
+a.dele{
+	color: black;
+	background-color: white;
+	text-decoration: none;
+}
+.dele:hover, .dele a:hover {
     background-color: #D54043;
     box-shadow: 0 0 10px #D54043;
     cursor: pointer;
@@ -614,6 +620,21 @@ background-color: #040385; }
     -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+.table-fixed thead {
+  width: 97%;
+}
+.table-fixed tbody {
+  height: 230px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
 
 /*Custom Ende*/
 

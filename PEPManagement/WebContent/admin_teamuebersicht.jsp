@@ -75,34 +75,35 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 			int max = db.getMaxTeamSize();
 		%>
 
-    <div class="container-fluid myrow mt-2 p-2">
-        <div class="col-sm m-auto">
+    <div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-lg-3 col-md-5 col-12 pl-2">
         	<form action="AdminTeamUebersicht" method="post">
-	            <div class="myrow">
-	                <div class="col-sm m-auto">
+	            <div class="row">
+	                <div class="col-12">
 	                    <h4 class="inlabel text-left">Teilnehmeranzahl</h4>
 	                </div>
 	            </div>
 	
-	            <div class="myrow p-1">
-	                <div class="col-sm m-auto">
+	            <div class="row mt-1">
+	                <div class="col-md-6 col-12">
 	                    <h5 class="inlabel text-left">Minimum</h5>
 	                </div>
-	                <div class="col-sm">
-	                    <input type="text" name="min" value="<%=min %>" class ="iputl p-1 w-100">
+	                <div class="col-md-6 col-12">
+	                    <input type="text" name="min" value="<%=min %>" class ="p-1 w-100">
 	                </div>
 	            </div>
 	
-	            <div class="myrow p-1">
-	                <div class="col-sm m-auto">
+	            <div class="row mt-1">
+	                <div class="col-md-6 col-12">
 	                    <h5 class="inlabel text-left">Maximum</h5>
 	                </div>
-	                <div class="col-sm">
-	                    <input type ="text" name="max" value="<%=max %>" class ="iputl p-1 w-100">
+	                <div class="col-md-6 col-12">
+	                    <input type ="text" name="max" value="<%=max %>" class ="p-1 w-100">
 	                </div>
 	            </div>
-	            <div class="myrow p-1">
-	                <div class="col-sm">
+	            <div class="row my-1">
+	                <div class="col-12">
 	                    <input type ="submit" class="fstil wichtigUp w-100 mr-auto ml-0 uploadbtn border border-dark" value ="Ändern" >
 	                </div>
 	            </div>
@@ -110,52 +111,62 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
         </div>
         
 
-        <div class="col-sm">
-            <div class="myrow ">
-                <h1 class="m-auto">Team Übersicht</h1>
+        <div class="col-lg-6 col-md-7 col-12">
+            <div class="row">
+                  <h1 class="m-auto text-center">Team Übersicht</h1>
             </div>
-            <div class="myrow mt-3">
-                <select class="custom-select inputl w-50 m-auto p-1 border border-dark" id="groupselect" onchange="updateTable();">
+            <div class="row mt-3">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <select class="custom-select w-100 m-auto p-1 border border-dark" id="groupselect" onchange="updateTable();">
                 	<%
              			out.print("<option value=\"1\" " + (group == 1 ? "selected" : "") + ">Gruppe 1</option>");
              			out.print("<option value=\"2\" " + (group == 2 ? "selected" : "") + ">Gruppe 2</option>");
              		%>
 
                 </select>
+                </div>
             </div>
-            <div class="myrow mt-2">
-                <input type="text" id="searchinput" onkeyup="searchtable()" placeholder="Projekttitel suchen..." class=" p-1 mw-200 suchen m-auto w-50 border border-dark">
-
+            <div class="row mt-2">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <input type="text" id="searchinput" onkeyup="searchtable()" placeholder="Projekttitel suchen..." class="suchen p-1 w-100 border border-dark">
+</div>
             </div>
         </div>
 
-        <div class="col-sm m-auto">
-            <div class="myrow mt-2">
-                <div class="relem2 w-100">
-                    <h2><input type="submit" onclick="window.print();" class="sub1 addi ml-auto mr-2 p-1 border border-dark"
-                            style="height:150px; max-width: 300px;" value="Drucken">
+        <div class="col-lg-3 col-md-12">
+            <div class="row mt-2">
+            <div class="col-xl-3 col-lg-0"></div>
+                <div class="col-xl-9 col-lg-12">
+                    <h2><input type="submit" onclick="window.print();" class="sub1 addi mr-1 border border-dark"
+                            style="height:150px;" value="Drucken">
                     </h2>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="p-5 container-fluid h-50 m-auto">
-        <div class="row mb-4">
-            <div class="table-wrapper-scroll-y m-auto" style="max-height:500px; width:95% ">
+    <div class="container-fluid m-auto">
+        <div class="row my-4">
+        <div class="col-xl-1 col-lg-0"></div>
+        <div class="col-xl-10 mt-4">
+            <div class="table-wrapper-scroll-y m-auto" style="max-height:500px;">
 
                 <table class="table table-hover " id="teamtable">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                             <th class="sortable" scope="col">Projekttitel</th>
                             <th class="sortable" scope="col">Vorsitzender</th>
                             <th class="sortable" scope="col">Dokumentation Vorhanden</th>
                             <th class="sortable" scope="col">Details</th>
                             <th class="sortable" scope="col">Kennummer</th>
-                            <th class="sortable" scope="col">Bestätigt</th>
+                            <th class="sortable" scope="col">Bestätigung</th>
                         </tr>
                     </thead>
                     <tbody>
+                    <tr>
+      	
                        
                        <%
                        ArrayList<Database.Team> teamListe = db.getTeams(group);
@@ -169,7 +180,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 	               			out.print("<td>Ja</td>");
 	               		
 
-	               			out.print("<td><a href=\"AdminTeamDetails?teamid=" + team.getID() + "\">Details</a></td>");
+	               			out.print("<td><a class=\"standard border border-dark\" href=\"AdminTeamDetails?teamid=" + team.getID() + "\">Details</a></td>");
 	               			if(!team.getKennnummer().equals("-1")) {
 		               			out.print("<td>" + team.getKennnummer() + "</td>");
 		               			out.print("<td>Best&auml;tigt</td>");
@@ -193,9 +204,10 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 
                     </tbody>
                 </table>
-
+</div>
             </div>
         </div>
+    </div>
     </div>
     <script>
 		function searchtable() {
