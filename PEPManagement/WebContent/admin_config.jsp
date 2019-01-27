@@ -3,24 +3,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<% if(request.getAttribute("hasAccess") == null) {
-	response.sendRedirect("AdminConfig");
-}
+<%
+	if (request.getAttribute("hasAccess") == null) {
+		response.sendRedirect("AdminConfig");
+	}
 
-Database db = new Database();
-db.connect();
+	Database db = new Database();
+	db.connect();
 
-Date deadlineReg = db.getDeadlineRegistrierung();
-Date deadlinePoster= db.getDeadlinePoster();
-Date deadlineDokumentation = db.getDeadlineDokumentation();
-Date deadlineKurzbeschreibung = db.getDeadlineKurzbeschreibung();
-Date deadlinePraesentation = db.getDeadlinePraesentation();
-String zcS = db.getStudentZugangscode();
-String zcJ = db.getJurorZugangscode();
-String zcA = db.getAdminZugangscode();
-int maxfilesize = db.getMaxfilesize();
-boolean frei = db.bewertungOpen();
-    %>
+	Date deadlineReg = db.getDeadlineRegistrierung();
+	Date deadlinePoster = db.getDeadlinePoster();
+	Date deadlineDokumentation = db.getDeadlineDokumentation();
+	Date deadlineKurzbeschreibung = db.getDeadlineKurzbeschreibung();
+	Date deadlinePraesentation = db.getDeadlinePraesentation();
+	String zcS = db.getStudentZugangscode();
+	String zcJ = db.getJurorZugangscode();
+	String zcA = db.getAdminZugangscode();
+	int maxfilesize = db.getMaxfilesize();
+	boolean frei = db.bewertungOpen();
+%>
 <!DOCTYPE html>
 <html>
 
@@ -33,21 +34,22 @@ boolean frei = db.bewertungOpen();
 
 <body class="flex-grow-1">
 
-	<% 
-if(request.getParameter("error") != null || request.getAttribute("error") != null) {
-	String str = (request.getParameter("error") != null ? request.getParameter("error") : (String) request.getAttribute("error"));
-		String errorMessage = "???";
-		if(str.equals("1")) {
-			errorMessage = "Datenbankfehler";
-		} else if(str.equals("2")) {
-			errorMessage = "Es gab einen Fehler!";
-		} else {
-			errorMessage = "Unbekannter Fehler!";
+	<%
+		if (request.getParameter("error") != null || request.getAttribute("error") != null) {
+			String str = (request.getParameter("error") != null ? request.getParameter("error")
+					: (String) request.getAttribute("error"));
+			String errorMessage = "???";
+			if (str.equals("1")) {
+				errorMessage = "Datenbankfehler";
+			} else if (str.equals("2")) {
+				errorMessage = "Es gab einen Fehler!";
+			} else {
+				errorMessage = "Unbekannter Fehler!";
+			}
+
+			out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
 		}
-		
-		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
-	}
-%>
+	%>
 
 	<div class="py-2 px-2 mb-0">
 		<div class="container-fluid logo border border-dark">
@@ -78,7 +80,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 					<h4 class="inlabel text-center pt-2">Registrierungsfrist</h4>
 				</div>
 				<div class="col-sm-4">
-					<input type="date" value="<%=deadlineReg %>" name="register-frist"
+					<input type="date" value="<%=deadlineReg%>" name="register-frist"
 						class="p-1 w-100 mt-1">
 				</div>
 				<div class="col-sm-2 col-12">
@@ -97,7 +99,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 					<h4 class="inlabel text-center pt-2">Abgabefrist Dokumentation</h4>
 				</div>
 				<div class="col-sm-4">
-					<input type="date" value="<%=deadlineDokumentation %>"
+					<input type="date" value="<%=deadlineDokumentation%>"
 						name="dokumentation-frist" class="mt-1 p-1 w-100">
 				</div>
 				<div class="col-sm-2 col-12">
@@ -114,10 +116,11 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 			<div class="row">
 
 				<div class="col-sm-4">
-					<h4 class="inlabel text-center pt-2">Abgabefrist Kurzbeschreibung</h4>
+					<h4 class="inlabel text-center pt-2">Abgabefrist
+						Kurzbeschreibung</h4>
 				</div>
 				<div class="col-sm-4">
-					<input type="date" value="<%=deadlineKurzbeschreibung %>"
+					<input type="date" value="<%=deadlineKurzbeschreibung%>"
 						name="kurzbeschreibung-frist" class="mt-1 p-1 w-100">
 				</div>
 				<div class="col-sm-2 col-12">
@@ -137,7 +140,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 					<h4 class="inlabel text-center pt-2">Abgabefrist Poster</h4>
 				</div>
 				<div class="col-sm-4">
-					<input type="date" value="<%=deadlinePoster %>" name="poster-frist"
+					<input type="date" value="<%=deadlinePoster%>" name="poster-frist"
 						class="mt-1 p-1 w-100">
 				</div>
 				<div class="col-sm-2 col-12">
@@ -158,7 +161,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 					<h4 class="inlabel text-center pt-2">Abgabefrist Präsentation</h4>
 				</div>
 				<div class="col-sm-4">
-					<input type="date" value="<%=deadlinePraesentation %>"
+					<input type="date" value="<%=deadlinePraesentation%>"
 						name="praesentation-frist" class="mt-1 p-1 w-100">
 				</div>
 				<div class="col-sm-2 col-12">
@@ -178,7 +181,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 					<h4 class="inlabel text-center pt-2">Zugangscode Studenten</h4>
 				</div>
 				<div class="col-sm-4">
-					<input type="text" name="zc-student" value="<%=zcS %>"
+					<input type="text" name="zc-student" value="<%=zcS%>"
 						class="mt-1 p-1 w-100">
 				</div>
 				<div class="col-sm-2 col-12">
@@ -198,7 +201,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 					<h4 class="inlabel text-center pt-2">Zugangscode Juroren</h4>
 				</div>
 				<div class="col-sm-4">
-					<input type="text" name="zc-juror" value="<%=zcJ %>"
+					<input type="text" name="zc-juror" value="<%=zcJ%>"
 						class="mt-1 p-1 w-100">
 				</div>
 				<div class="col-sm-2 col-12">
@@ -215,10 +218,11 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 			<div class="row">
 
 				<div class="col-sm-4">
-					<h4 class="inlabel text-center pt-2">Zugangscode Administratoren</h4>
+					<h4 class="inlabel text-center pt-2">Zugangscode
+						Administratoren</h4>
 				</div>
 				<div class="col-sm-4">
-					<input type="text" name="zc-admin" value="<%=zcA %>"
+					<input type="text" name="zc-admin" value="<%=zcA%>"
 						class="mt-1 p-1 w-100">
 				</div>
 				<div class="col-sm-2 col-12">
@@ -229,19 +233,24 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 
 			</div>
 		</form>
-		
-		<div class="row">
-			<div class="col-sm">
-				<h4 class="inlabel text-center pt-2">Maximale Dateigröße in MB:</h4>
-			</div>
-			<form action="AdminConfig" method="post" class="col-sm">
-				<input type="text" name="filesize" value=<%=maxfilesize/1000%>> <input
-					type="submit"
+		<form action="AdminConfig" method="post">
+
+			<div class="row">
+				<div class="col-sm-4">
+					<h4 class="inlabel text-center pt-2">Maximale Dateigröße in
+						MB:</h4>
+				</div>
+			<div class="col-sm-4">
+				<input class="mt-1 p-1 w-100" type="text" name="filesize" value=<%=maxfilesize / 1000%>>
+				</div>
+				<div class="col-sm-2">
+				<input type="submit"
 					class="fstil wichtigUp w-100 mt-1 uploadbtn border border-dark"
 					value="Ändern">
-			</form>
-			<div class="col-sm"></div>
-		</div>
+
+				</div>
+			</div>
+		</form>
 
 		<div class="row">
 			<div class="col-sm">
@@ -251,11 +260,11 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 				<input type="hidden" name="freigabe" value="jabitte"> <input
 					type="submit"
 					class="fstil wichtigUp w-100 mt-1 uploadbtn border border-dark"
-					value="<% out.print((frei ? "Schliessen" : "Freigeben")); %>">
+					value="<%out.print((frei ? "Schliessen" : "Freigeben"));%>">
 			</form>
 			<div class="col-sm"></div>
 		</div>
-		
+
 		<div class="row mt-6">
 			<div class="col-sm"></div>
 			<div class="col-sm mt-3">
@@ -270,6 +279,7 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 		</div>
 	</div>
 	</div>
+	
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
