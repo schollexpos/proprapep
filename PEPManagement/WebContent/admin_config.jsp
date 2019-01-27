@@ -18,6 +18,7 @@ Date deadlinePraesentation = db.getDeadlinePraesentation();
 String zcS = db.getStudentZugangscode();
 String zcJ = db.getJurorZugangscode();
 String zcA = db.getAdminZugangscode();
+int maxfilesize = db.getMaxfilesize();
 boolean frei = db.bewertungOpen();
     %>
 <!DOCTYPE html>
@@ -228,7 +229,19 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
 
 			</div>
 		</form>
-
+		
+		<div class="row">
+			<div class="col-sm">
+				<h4 class="inlabel text-center pt-2">Maximale Dateigröße in MB:</h4>
+			</div>
+			<form action="AdminConfig" method="post" class="col-sm">
+				<input type="text" name="filesize" value=<%=maxfilesize/1000%>> <input
+					type="submit"
+					class="fstil wichtigUp w-100 mt-1 uploadbtn border border-dark"
+					value="Ändern">
+			</form>
+			<div class="col-sm"></div>
+		</div>
 
 		<div class="row">
 			<div class="col-sm">

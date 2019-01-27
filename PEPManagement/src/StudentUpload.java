@@ -106,8 +106,15 @@ public class StudentUpload extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		File file ;
-	   int maxFileSize = 5000 * 1024;
-	   int maxMemSize = 5000 * 1024;
+	   int fsize = 5000;
+		try {
+			fsize = db.getMaxfilesize();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	   int maxFileSize = fsize * 1024;
+	   int maxMemSize = fsize * 1024;
 	   
 	   // Verify the content type
 	   String contentType = request.getContentType();

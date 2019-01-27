@@ -1108,6 +1108,15 @@ public class Database {
 		executeUpdate("UPDATE config SET bewertung = " + (should ? "TRUE" : "FALSE") + " WHERE id = 1");
 	}
 	
+	public void setMaxfilesize(int fileSize) throws SQLException {
+		executeUpdate("UPDATE config SET maxfilesize = " + fileSize);
+	}
+	
+	public int getMaxfilesize() throws SQLException {
+		return getInt("SELECT `maxfilesize` FROM config");
+	}
+	
+	
 	/* DEPRECATED */
 	
 	

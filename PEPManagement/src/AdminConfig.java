@@ -49,7 +49,7 @@ public class AdminConfig extends HttpServlet {
 		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
 		
 		//TODO: Semester abschlieﬂen
-		
+		String maxfilesize = request.getParameter("filesize");
 		String deadlinereg = request.getParameter("register-frist");
 		
 		String deadlinedok  = request.getParameter("dokumentation-frist");
@@ -107,8 +107,10 @@ public class AdminConfig extends HttpServlet {
 			} else if(zcJuror != null) {
 				db.setJurorZugangscode(zcJuror);
 			} else if(changeFreigabe != null) {
-				db.setBewertungOpen(!db.bewertungOpen());
-			}else if (ende != null) {
+				db.setBewertungOpen(!db.bewertungOpen());				
+			} else if(maxfilesize != null) {
+				db.setMaxfilesize(Integer.parseInt(maxfilesize));
+			} else if (ende != null) {
 				if(FileManager.zipAllTeams()){
 				System.out.println("Packen abgeschlossen!");
 				}
