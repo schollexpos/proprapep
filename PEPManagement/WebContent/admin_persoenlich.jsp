@@ -54,59 +54,66 @@ if(request.getParameter("error") != null || request.getAttribute("error") != nul
       </nav>
     </div>
   </div>
-    <div class="m-5">
-        <div class="container-fluid">
-          <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h4 class="inlabel">E-Mail</h4>
-              </div>
-              <div class="relem2">
-                <input id="mailh" value="<%=u.getEmail() %>" type="email" class="inputl border border-dark p-1 mt-1">
+  <div class="container-fluid p-1">
+    	<div class="row mt-5">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h4 class="inlabel pt-1">E-Mail</h4>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                <input id="mailh" value="<%=u.getEmail() %>" type="email" class="w-100 border border-dark p-1 mt-1">
               </div>
             </div>
-          </div>
-          </div>
+          
+      
+     <div class="row mt-4">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
+        <h4 class="inlabel text-left">Passwort ändern</h4>
       </div>
-      <div class="col-sm m-1">
-        <h4 class="inlabel text-center">Passwort ändern</h4>
       </div>
+      	
+      	
       	<form action="AdminPersoenlich" method="post">
-            <div class="myrow">
-                <div class="srow">
-                <div class="relem1">
-                    <h5 class="inlabel">Altes Passwort</h5>
+            
+            <div class="row mt-2">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-2">ALtes Passwort</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                    <input id="passworth" name="oldpw" type="password" class="w-100 border border-dark p-1 mt-1">
                 </div>
-                <div class="relem2">
-                    <input id="passworth" name="oldpw" type="password" class="inputl border border-dark p-1 mt-1">
-                </div>
-                </div>
+                
             </div>
-            <div class="myrow">
-            <div class="srow">
-              <div class="relem1">
-                <h5 class="inlabel">Neues Passwort</h5>
-              </div>
-              <div class="relem2">
-                <input id="passworth" name="newpw1" type="password" class="inputl border border-dark p-1 mt-1">
-              </div>
-            </div>
-            </div>
-            <div class="myrow">
-              <div class="srow">
-                <div class="relem1">
-                  <h5 class="inlabel">Neues Passwort Wdh.</h5>
-                </div>
-                <div class="relem2">
-                  <input id="passworthw" name="newpw2" type="password" class="inputl border border-dark p-1 mt-1">
-                </div>
+            <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-2">Neues Passwort</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                <input id="passworth" name="newpw1" type="password" class="w-100 border border-dark p-1 mt-1">
               </div>
             </div>
-        <div class="col-sm">
-          <input type ="submit" class="fstil wichtigUp w-25 m-auto uploadbtn border border-dark" value ="Passwort ändern" >
+           
+            <div class="row">
+		        <div class="col-xl-4 col-sm-2 col-0"></div>
+		          <div  class="col-xl-1 col-sm-3 col-12 mr-2">
+		            <h5 class="inlabel pt-1">Neues Passwort Wdh.</h5>
+		          </div>
+		          <div class="col-xl-3 col-sm-5 col-12">
+                  <input id="passworthw" name="newpw2" type="password" class="w-100 border border-dark p-1 mt-1">
+                </div>
+              </div>
+              
+         <div class="row mt-1">
+		        <div class="col-xl-4 col-sm-2 col-0 mr-1"></div>
+		          <div  class="col-xl-4 col-sm-8 col-12 ">
+          <input type ="submit" class="fstil wichtigUp w-100 m-auto uploadbtn border border-dark" value ="Passwort ändern" >
+        </div>
         </div>
         </form>
-
+</div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
