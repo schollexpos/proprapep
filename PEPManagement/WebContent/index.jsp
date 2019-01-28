@@ -16,6 +16,10 @@
     if(request.getAttribute("teamID") != null) {
     	teamID = ((Integer) request.getAttribute("teamID")).intValue();
     }
+    boolean isVorsitz = false;
+    if(request.getAttribute("vorsitz") != null) {
+    	isVorsitz = ((Boolean) request.getAttribute("vorsitz")).booleanValue();
+    }
     
     %>
 <!DOCTYPE html>
@@ -65,11 +69,20 @@
 				<div class="row">
 				<div class="col-lg-4 col-sm-4 col-0"></div>
 				<div class="col-lg-4 col-sm-4 col-12">
-					<% if(teamID == -1) { %>
-					<h2><a href="StudentSelectTeam">Team auswählen</a></h2>
-					<% } else { %>
-					<h2><a href="StudentUpload">Dateien hochladen</a></h2>
-					<% } %>
+					<%
+					if(teamID == -1) {
+						if(!isVorsitz) {
+							out.print("<h2><a href=\"StudentSelectTeam\">Team auswählen</a></h2>");
+						} else {
+							out.print("<h2><a href=\"student_register_team.jsp\">Team erstellen</a></h2>");
+						}
+					} else {
+							out.print("<h2><a href=\"StudentUpload\">Dateien hochladen</a></h2>");
+					}
+						
+						
+					%>
+				
 				</div>
 				<div class="col-lg-4 col-sm-4 col-0"></div>
 			</div>

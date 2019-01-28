@@ -19,6 +19,8 @@
 			errorMessage = "Datenbankfehler!";
 		} else if(str.equals("3")) {
 			errorMessage = "E-Mail/Passwort falsch!";
+		} else if(str.equals("543")) {
+			errorMessage = "Bitte best&auml;tigen Sie Ihre E-Mail Adresse mit dem Ihnen zugesandten Link!";
 		} else if(str.equals("9")) {
 			String minutes = "???";
 			if(request.getParameter("minutes") != null) minutes = request.getParameter("minutes");
@@ -26,6 +28,19 @@
 			errorMessage = "Zu viele fehlgeschlagene Anmeldeversuche! Versuchen Sie es in " + minutes + " Minuten erneut!";
 		}
 		out.println(pepmanagement.Menu.getErrorMessage(errorMessage));
+	}
+
+	String sonderMessage = "";
+	if(request.getParameter("plzactivate") != null || request.getAttribute("plzactivate") != null) {
+		String str = (request.getParameter("plzactivate") != null ? request.getParameter("plzactivate") : (String) request.getAttribute("plzactivate"));
+		if(str.equals("1")) {
+			sonderMessage = "Sie haben einen Bestätigungslink per E-Mail erhalten!";
+		} else if(str.equals("yay")) {
+			sonderMessage = "Bestätigung erfolgreich!";
+		} else if(str.equals("no")) {
+			sonderMessage = "Bestätigungskey ist falsch!";
+		}
+	
 	}
 %>
 
@@ -50,6 +65,16 @@
       </div>
     </div>
   </div>
+  
+  <% if(!sonderMessage.equals("")) { %>
+  <div class="w-100" >
+    <div class="container-fluid text-center">
+      <div class="row">
+        <h4 class="m-auto col-12"><% out.print(sonderMessage);  %><br /></h4>
+      </div>
+    </div>
+  </div>
+  <% } %>
   
   
 

@@ -197,7 +197,36 @@ public class Database {
 	}
 	
 	public void  registerUser(String email, String password) throws SQLException {
-		registerUser(email, password, 0);
+		registerUser(email, password, 10);
+	}
+	
+	public boolean emailIsValidated(String email) throws SQLException {
+		PreparedStatement p = connection.prepareStatement("SELECT berechtigungen FROM nutzer WHERE email = ?");
+		p.setString(1,  email);
+		int rights = getInt(p);
+		return rights < 10;
+	}
+	
+	
+	final static String xorKey = "unkn4ckb4r35-731l";
+	
+	public String getValidationKey(String email) {
+		return StringXORer.encode(email, xorKey);
+	}
+	
+	public boolean validateEmail(String email64, String validationKey) throws SQLException {
+		String email = StringXORer.base64DecodeS(email64);
+		if(emailIsValidated(email)) return true;
+		
+		boolean valid = StringXORer.decode(validationKey, xorKey).equals(email);
+		
+		if(valid) {
+			PreparedStatement p = connection.prepareStatement("UPDATE nutzer SET berechtigungen=berechtigungen-10 WHERE email = ?");
+			p.setString(1, email);
+			p.executeUpdate();
+		}
+		
+		return valid;
 	}
 	
 	public boolean loginUser(String email, String password) throws SQLException {

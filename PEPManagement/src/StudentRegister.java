@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import pepmanagement.Database;
 import pepmanagement.MailConnection;
 import pepmanagement.Session;
+import pepmanagement.StringXORer;
 
 //Hello
 
@@ -61,7 +62,7 @@ public class StudentRegister extends HttpServlet {
 			page = "student_register.jsp?error=1";
 		} else if(password.length() < 8) {
 			page = "student_register.jsp?error=5";
-		} else if(!email.endsWith("@student.uni-siegen.de")) {
+		} else if(!email.endsWith("uni-siegen.de")) {
 			System.out.println("EAIL: >>" + email + "<<");
 			page = "student_register.jsp?error=3";
 		} else if(!password.equals(passwordWdh)) {
@@ -71,7 +72,6 @@ public class StudentRegister extends HttpServlet {
 		} else if(!zugangscode.equals("") && !zugangscode.equals(db.getStudentZugangscode())) {
 			page = "student_register.jsp?error=8";
 		} else {
-			//TODO: email verification
 			try {
 				int matNo = Integer.parseInt(matrikelNo);
 				int vorsitzender = Integer.parseInt(vorsitz);
@@ -84,16 +84,16 @@ public class StudentRegister extends HttpServlet {
 					db.registerUser(email, password);
 					int userID = db.getUserID(email);
 					db.registerStudent(matNo, userID, vorname, nachname, studiengang, -1, vorsitzender == 1);
-					session.create(email); 
 					
-					MailConnection.sendMail(email, "pep@pottproductions.de", "Registrierung", "Sie haben sich für das PEP registriert!");
+					String email64 = StringXORer.base64Encode(email);
+					String key = db.getValidationKey(email);
+					
+					MailConnection.sendMail(email, "pep@pottproductions.de", "Registrierung beim PEP", "Diese E-Mail Adresse wurde für das Planungs- und Entwicklungsprojekt registriert.\n\n Um die Registrierung abzuschliessen, öffnen Sie bitte folgenden Link in ihrem Internetbrowser: \n"
+								+ "http://localhost:8080/PEPManagement/Aktivierung?email=" + email64 + "&key=" + key + "\n\nWenn Sie sich nicht registriert haben, machen Sie einfach gar nichts.");
 					
 					
-					if(vorsitzender == 1) {
-						page = "student_register_team.jsp";
-					} else {
-						page = "index";
-					}
+				
+					page = "index?plzactivate=1";
 					
 				}
 			} catch (SQLException e) {

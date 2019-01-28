@@ -7,9 +7,18 @@ import javax.mail.internet.*;
 public class MailConnection {
 	final static String host = "smtp.strato.de";
 	final static String user = "pep@pottproductions.de";
-	final static String pwd = "pMS19_USi!";
+	final static String pwd = "pMS19_USi?!?";
 	final static int port = 465;
 	
+	public static void sendMail(String to, String from, String subject, String message) 
+		System.out.println("\n\n\n===== E-MAIL BEGINN ==== \n");
+		System.out.println("VON: " + from + " AN: " + to + "\n");
+		System.out.println(message);
+		System.out.println("\n===== E-MAIL ENDE ==== \n\n\n");
+	}
+	
+	
+	/* Richtige Mail-Methode: 
 	public static void sendMail(String to, String from, String subject, String message) {
 		System.out.println("Hellp");
 	      Properties properties = System.getProperties();
@@ -39,7 +48,7 @@ public class MailConnection {
 	    	 System.out.println(message);
 	         mex.printStackTrace();
 	      }
-	}
+	}*/
 	
 	
 }

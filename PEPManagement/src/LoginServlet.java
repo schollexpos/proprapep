@@ -63,7 +63,9 @@ public class LoginServlet extends HttpServlet {
 		} else {
 			try {
 				System.out.println("LALELU");
-				if(db.minutesTillLogin(email) == 0) {
+				if(!db.emailIsValidated(email)) {
+					page = "login.jsp?error=543";
+				} else if(db.minutesTillLogin(email) == 0) {
 					System.out.println("LALELU2");
 					if(db.loginUser(email, password)) {
 						System.out.println("LALELU3");

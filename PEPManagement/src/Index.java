@@ -57,6 +57,7 @@ public class Index extends HttpServlet {
 					int teamID = student.getTeamID();
 					messages = database.getStudentMessage(teamID);
 					request.setAttribute("teamID", new Integer(teamID));
+					request.setAttribute("vorsitz", new Boolean(student.isVorsitz()));
 					
 					rank = 0;
 				}

@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import pepmanagement.Database;
+import pepmanagement.MailConnection;
 import pepmanagement.Session;
+import pepmanagement.StringXORer;
 
 @WebServlet("/AdminRegister")
 public class AdminRegister extends HttpServlet {
@@ -59,7 +61,6 @@ public class AdminRegister extends HttpServlet {
 		} else if(session.restore(request)) {
 			page = "index";
 		} else {
-			//TODO: email verification
 			try {
 				String adminCode = db.getAdminZugangscode();
 				String jurorCode = db.getJurorZugangscode();
@@ -69,15 +70,20 @@ public class AdminRegister extends HttpServlet {
 				} else if(!zugangscode.equals(adminCode) && !zugangscode.equals(jurorCode)){
 					page = "admin_register.jsp?error=6";
 				} else {		
-					db.registerUser(email, password, (zugangscode.equals(adminCode) ? 2 : 1));
-					
-					session.create(email); 
+					db.registerUser(email, password, (zugangscode.equals(adminCode) ? 12 : 11));
 					
 					if(zugangscode.equals(jurorCode)) {
 						db.setJurorGruppe(db.getUserID(email), 1);
 					}
-		
-					page = "index";
+					
+					String email64 = StringXORer.base64Encode(email);
+					String key = db.getValidationKey(email);
+					
+					MailConnection.sendMail(email, "pep@pottproductions.de", "Registrierung beim PEP", "Diese E-Mail Adresse wurde für das Planungs- und Entwicklungsprojekt registriert.\n\n Um die Registrierung abzuschliessen, öffnen Sie bitte folgenden Link in ihrem Internetbrowser: \n"
+								+ "http://localhost:8080/PEPManagement/Aktivierung?email=" + email64 + "&key=" + key + "\n\nWenn Sie sich nicht registriert haben, machen Sie einfach gar nichts.");
+					
+					
+					page = "index?plzactivate=1";
 				}
 			} catch (SQLException e) {
 				System.out.println("SQLError in RegisterServlet.java: " + e.getMessage());
