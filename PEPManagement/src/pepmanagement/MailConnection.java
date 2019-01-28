@@ -10,7 +10,7 @@ public class MailConnection {
 	final static String pwd = "pMS19_USi?!?";
 	final static int port = 465;
 	
-	public static void sendMail(String to, String from, String subject, String message) 
+	public static void sendMail(String to, String from, String subject, String message) {
 		System.out.println("\n\n\n===== E-MAIL BEGINN ==== \n");
 		System.out.println("VON: " + from + " AN: " + to + "\n");
 		System.out.println(message);
