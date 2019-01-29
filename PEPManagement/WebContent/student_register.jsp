@@ -35,7 +35,8 @@
       <div class="contaier-fluid row">
 		        <div class="col-lg-4 col-sm-3 col-0"></div>
 		          <div  class="col-lg-8 col-sm-2 col-12">
-            <h3 class="inlabel w-100 p-1">Registrierung</h3>
+            <h3 class="inlabel w-100 p-1">Studentenregistrierung</h3>
+            <a href="AdminRegister" title="Admin/Jurorenregistrierung">Kein Student?</a>
           </div>
         </div>
       </div>

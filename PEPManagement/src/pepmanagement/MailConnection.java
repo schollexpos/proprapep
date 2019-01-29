@@ -41,7 +41,7 @@ public class MailConnection {
 	         mail.setFrom(new InternetAddress(from));
 	         mail.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 	         mail.setSubject(subject);
-	         mail.setText(message);
+	         mail.setContent(message, "text/html");
 	         Transport.send(mail);
 	      } catch (MessagingException mex) {
 	    	 System.out.println("Failed to send mail \"" + subject + "\" from " + from + " to " + to);
