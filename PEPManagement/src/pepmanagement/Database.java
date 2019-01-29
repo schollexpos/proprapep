@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Vector;
 import java.sql.Date;
 
@@ -1100,6 +1102,17 @@ public class Database {
 		return getDate("SELECT `deadline-praesentation` FROM config WHERE id = 1");
 	}
 	
+	public HashMap<String, Date> getStudentDeadlines() throws SQLException {
+		HashMap<String, Date> result = new HashMap<>();
+		
+		result.put("Dokumentation", this.getDeadlineDokumentation());
+		result.put("Kurzbeschreibung", this.getDeadlineKurzbeschreibung());
+		result.put("Praesentation", this.getDeadlinePraesentation());
+		result.put("Poster", this.getDeadlinePoster());
+		
+		return result;
+	}
+	
 	public void setDeadlineDokumentation(Date date) throws SQLException {
 		setDeadline("dokumentation", date);
 	}
@@ -1112,6 +1125,8 @@ public class Database {
 	public void setDeadlinePraesentation(Date date) throws SQLException {
 		setDeadline("praesentation", date);
 	}
+	
+	
 	
 	private void setDeadline(String field, Date date) throws SQLException {
 		date.setTime(date.getTime() + 24*60*60*1000);

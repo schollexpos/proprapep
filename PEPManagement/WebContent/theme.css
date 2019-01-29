@@ -348,6 +348,12 @@ img.log {
     border-radius: 2px;
 }
 
+.outmsg{
+	border-radius: 2px;
+	background-color: #f6f6f6;
+   	display: block;
+}
+
 .uplout {
     background-color: #f6f6f6;
     display: block;
