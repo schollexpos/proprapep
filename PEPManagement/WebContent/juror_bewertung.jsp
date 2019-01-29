@@ -148,7 +148,7 @@
                					
 	       						out.println("<tr>");			       					
 	       						out.println("<td>" + kriterien.get(i).getTeilkriterium() + "</td>");
-	       						out.println("<td><input type=\"number\" name=\"punktzahl" + i  + "\"" +  " min= " + kriterien.get(i).getMinpunkte() + "\" max=" + kriterien.get(i).getMaxpunkte() + "></td>");
+	       						out.println("<td><input type=\"number\" name=\"punktzahl" + i  + "\"" +  " min=\"" + kriterien.get(i).getMinpunkte() + "\" max=\"" + kriterien.get(i).getMaxpunkte() + "\"></td>");
 	       						out.println("<td>" + kriterien.get(i).getMinpunkte() + "-" + kriterien.get(i).getMaxpunkte() + "</td>");
 	       						out.println("<td>" + db.getBewertung(team, kriterien.get(i).getBewertungID()));
 	       						out.println("<tr>");
