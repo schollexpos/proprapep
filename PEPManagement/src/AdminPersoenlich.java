@@ -27,7 +27,10 @@ public class AdminPersoenlich extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.JUROR, db, request, response);
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
+		if(res !=  AccountControl.Result.SUCCESS) {
+			res = AccountControl.ensureRank(AccountControl.UserRank.JUROR, db, request, response);
+		}
 		
 		if(res == AccountControl.Result.SUCCESS) {
 			try {
@@ -52,13 +55,15 @@ public class AdminPersoenlich extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.JUROR, db, request, response);
-		AccountControl.Result res2 = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
+		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, db, request, response);
+		if(res !=  AccountControl.Result.SUCCESS) {
+			res = AccountControl.ensureRank(AccountControl.UserRank.JUROR, db, request, response);
+		}
 		String oldPW = request.getParameter("oldpw");
 		String newPW1 = request.getParameter("newpw1");
 		String newPW2 = request.getParameter("newpw2");
 		
-		if(res == AccountControl.Result.SUCCESS || res2 == AccountControl.Result.SUCCESS) {
+		if(res == AccountControl.Result.SUCCESS) {
 			try {
 				Session session = new Session(db, request);
 				session.restore(request);
