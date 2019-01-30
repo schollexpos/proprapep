@@ -113,8 +113,8 @@ public class StudentUpload extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	   int maxFileSize = fsize * 1024;
-	   int maxMemSize = fsize * 1024;
+	   int maxFileSize = fsize * 1000 * 1024;
+	   int maxMemSize = fsize * 1000 * 1024;
 	   
 	   // Verify the content type
 	   String contentType = request.getContentType();

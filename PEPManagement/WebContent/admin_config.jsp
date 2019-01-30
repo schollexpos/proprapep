@@ -241,7 +241,8 @@
 						MB:</h4>
 				</div>
 			<div class="col-sm-4">
-				<input class="mt-1 p-1 w-100" type="text" name="filesize" value=<%=maxfilesize / 1000%>>
+				<input class="mt-1 p-1 w-100" type="text" name="filesize" value=<%=maxfilesize%>>
+				
 				</div>
 				<div class="col-sm-2">
 				<input type="submit"

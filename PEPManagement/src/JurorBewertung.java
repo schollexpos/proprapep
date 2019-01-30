@@ -118,6 +118,16 @@ public class JurorBewertung extends HttpServlet {
 			int bewertungid = Integer.parseInt(request.getParameter("bewertungid" + i));
 			int jurorid = db.getUserID(session.getEmail());
 			int teamid = team;
+			ArrayList<Bewertungskriterium> krit = db.getKriterien();
+			
+			for (Bewertungskriterium kriterium: krit) {
+				if (kriterium.getBewertungID() == bewertungid) {
+					if(kriterium.getMaxpunkte() < punktzahl || kriterium.getMinpunkte() > punktzahl) {						
+						return "NO";
+					}
+				}
+			}
+			
 			
 			db.setBewertung(teamid, bewertungid, punktzahl, jurorid);
 			
