@@ -91,7 +91,7 @@ public class StudentRegister extends HttpServlet {
 					String link = "http://localhost:8080/PEPManagement/Aktivierung?email=" + email64 + "&key=" + key;
 					
 					MailConnection.sendMail(email, "pep@pottproductions.de", "Registrierung beim PEP", "Diese E-Mail Adresse wurde für das Planungs- und Entwicklungsprojekt registriert.\n\n Um die Registrierung abzuschliessen, öffnen Sie bitte folgenden Link in ihrem Internetbrowser: \n"
-								+ "<a href=\"" + link + "\" title=\"Bestätigungslink\">" + link + "</a>\n\nWenn Sie sich nicht registriert haben, machen Sie einfach gar nichts.");
+								+ "<a href=\"" + link + "\" title=\"Bestätigungslink\">\n" + link + "\n</a>\n\nWenn Sie sich nicht registriert haben, machen Sie einfach gar nichts.");
 					
 					
 				
