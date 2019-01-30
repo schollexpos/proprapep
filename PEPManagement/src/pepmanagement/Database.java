@@ -247,6 +247,7 @@ public class Database {
 		statement.setString(1, email);
 		
 		Timestamp t = getTimestamp(statement);
+		if(t == null) t = new Timestamp(3);
 		System.out.println("TIMESTAMP " + t);
 		long diff = (t.getTime() - System.currentTimeMillis());
 		return (int) (diff < 0 ? 0 : (diff / ONE_MINUTE_IN_MILLIS));

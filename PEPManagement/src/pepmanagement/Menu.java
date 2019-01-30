@@ -33,7 +33,7 @@ public class Menu {
 			break;
 		case JUROR:
 			
-
+			menu += "<a class=\"dropdown-item\" href=\"JurorBewertung\">Bewerten</a>";
 			menu += "<a class=\"dropdown-item\" href=\"AdminPersoenlich\">Accountinfos</a>";
 			break;
 		case VORSITZ:

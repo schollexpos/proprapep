@@ -195,9 +195,17 @@
 
 
 			<%
+				
+				}
+				if(rank == 1) {
+					out.print("<div class=\"col-sm-4 offset-sm-4\">");	
+					out.print("<h2><a class=\"standard  mt-1\" href=\"JurorBewertung\">Zur Bewertung</a></h2></div>");
+					out.print("<div class=\"col-sm-6 offset-sm-3 mt-4\">");	
+				} else {
+					out.print("<div class=\" col-sm-6\">");
 				}
 			%>
-			<div class="col-sm-6">
+			
 				<h3>Nachrichten-Log</h3>
 				<div class="row">
 
