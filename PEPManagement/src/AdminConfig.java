@@ -114,6 +114,7 @@ public class AdminConfig extends HttpServlet {
 				if(FileManager.zipAllTeams()){
 				System.out.println("Packen abgeschlossen!");
 				}
+				else {System.out.println("Fehler beim Zippen");}
 				
 				//Abschluss muss noch
 				

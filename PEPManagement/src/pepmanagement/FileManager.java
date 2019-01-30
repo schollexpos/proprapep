@@ -134,6 +134,7 @@ public class FileManager {
 	public static boolean zipAllTeams() throws SQLException {
 		Database db = new Database();
 		db.connect();
+		System.out.println("Packe...");
 		ArrayList <Team> teams = new ArrayList<>();
 		teams = db.getTeams();
 		File f = new File(getBasePath()+"Abschluss");
