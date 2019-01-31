@@ -14,12 +14,12 @@ public class Menu {
 	}
 	
 	public static String getMenu(AccountControl.UserRank rank) {
-		String menu = "   <div class=\"dropdown show ml-auto mr-3\">\r\n" + 
+		String menu = "   <div class=\"dropdown show nav-item col-sm-1 col-12\">\r\n" + 
 				"                    <a style=\"text-decoration:none;\" class=\"menu-dt\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\"" + 
 				"                        data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">" + 
 				"                        <img class=\"menu-pic\" src=\"Bilder/menu.png\" width=\"60\">\r\n" + 
 				"                    </a>"+
-				"                    <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"dropdownMenuLink\">" + 
+				"                    <div class=\"dropdown-menu dropdown-menu-right ml-auto mr-0\" aria-labelledby=\"dropdownMenuLink\">" + 
 				"                        <a class=\"dropdown-item\" href=\"index\">Startseite</a>";
 		
 		switch(rank) {

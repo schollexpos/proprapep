@@ -11,18 +11,32 @@
 </head>
 
 <body class="flex-grow-1">
-  <div class="py-2 px-2 mt-0" >
-    <div class="container-fluid logo my-0 border border-dark" >
-      <div class="row text-center pl-2  w-100">
-          <a class="navbar-brand" href="https://www.uni-siegen.de/start/">
-              <img src="logo_u_s.svg" width="180">
-          </a>
-          <div class="relem2 pt-1" style="">
-          <h1 class="w-100 ml-4" style:="margin:auto; position: fixed;" ><b>Planungs- und Entwicklungsprojekt</b></h1>
+  <div class="py-2 px-2 mb-0">
+			<div class="container-fluid logo border border-dark">
+				<nav class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
+
+					<div class="col-sm-3 navbar-brand mr-0">
+						<a class="mr-auto" href="https://www.uni-siegen.de/start/"> <img
+							class="log" src="logo_u_s.png" width="180">
+						</a>
+					</div>
+					<div class="col-sm-6 col-12 nav-item pt-1">
+						<div class="row">
+							<h1 class="col-12 text-center mb-0">
+								<b>PEP</b>
+							</h1>
+						</div>
+						<div class="row">
+							<h5 class="text-center col-12 mt-0">
+								<b>Planungs- und Entwicklungsprojekt</b>
+							</h5>
+						</div>
+					</div>
+					<div class="col-sm-3 col-0"></div>
+					</nav>
         </div>
         </div>
-      </div>
-  </div>
+      
   
   <div class="pt-3">
     

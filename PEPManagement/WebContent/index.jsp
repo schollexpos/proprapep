@@ -22,8 +22,8 @@
 		isVorsitz = ((Boolean) request.getAttribute("vorsitz")).booleanValue();
 	}
 	ArrayList<Database.Team> teams = null;
-	if(request.getAttribute("teamlist") != null) {
-		teams = (ArrayList<Database.Team> ) request.getAttribute("teamlist");
+	if (request.getAttribute("teamlist") != null) {
+		teams = (ArrayList<Database.Team>) request.getAttribute("teamlist");
 	}
 %>
 <!DOCTYPE html>
@@ -43,13 +43,26 @@
 			<div class="container-fluid logo border border-dark">
 				<nav
 					class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
-					<a class="navbar-brand mr-auto"
-						href="https://www.uni-siegen.de/start/"> <img class="log"
-						src="logo_u_s.png" width="180">
-					</a>
-					<h1 class="nav-item m-auto">
-						<b>Planungs- und Entwicklungsprojekt</b>
-					</h1>
+
+					<div class="col-sm-3 navbar-brand mr-0">
+						<a class="mr-auto" href="https://www.uni-siegen.de/start/"> <img
+							class="log" src="logo_u_s.png" width="180">
+						</a>
+					</div>
+					<div class="col-sm-6 col-12 nav-item pt-1">
+						<div class="row">
+							<h1 class="col-12 text-center mb-0">
+								<b>PEP</b>
+							</h1>
+						</div>
+						<div class="row">
+							<h5 class="text-center col-12 mt-0">
+								<b>Planungs- und Entwicklungsprojekt</b>
+							</h5>
+						</div>
+					</div>
+					<div class="col-sm-2 col-0"></div>
+
 
 					<%
 						{
@@ -71,27 +84,32 @@
 	%>
 
 	<div class="conatiner-fluid px-2">
-		<div class="row mt-5">
+		<div class="row mt-4">
 
 			<%
-		if (rank == 0) {
-	%>
+				if (rank == 0) {
+			%>
 
 
 
-			<div class="col-xl-4 col-lg-6 col-md-8 col-sm-8 border-right border-dark"
+			<div
+				class="col-xl-4 col-lg-6 col-md-8 col-sm-8 border-right border-dark"
 				style="box-shadow: 15px 0 8px -10px rgb(82, 82, 82);">
 				<h4 class="inlabel">Anstehende Aufgaben</h4>
-				<%	if (teamID == -1) {
-							if (!isVorsitz) {
-								out.print("<h2><a class=\"standard mt-1\" href=\"StudentSelectTeam\">Team auswählen</a></h2>");
+				<%
+					if (teamID == -1) {
+								if (!isVorsitz) {
+									out.print(
+											"<h2><a class=\"standard mt-1\" href=\"StudentSelectTeam\">Team auswählen</a></h2>");
+								} else {
+									out.print(
+											"<h2><a class=\"standard  mt-1\" href=\"student_register_team.jsp\">Team erstellen</a></h2>");
+								}
 							} else {
-								out.print("<h2><a class=\"standard  mt-1\" href=\"student_register_team.jsp\">Team erstellen</a></h2>");
+								out.print(
+										"<h2><a class=\"standard border border-dark mt-1\" href=\"StudentUpload\">Dateien hochladen</a></h2>");
 							}
-						} else {
-							out.print("<h2><a class=\"standard border border-dark mt-1\" href=\"StudentUpload\">Dateien hochladen</a></h2>");
-						}
-			%>
+				%>
 				<h4 class="inlabel mt-5">Aktuelle Fristen</h4>
 
 				<div class="row"></div>
@@ -105,23 +123,21 @@
 						</thead>
 						<tbody>
 							<%
-									Database db = new Database();
-									db.connect();
-									HashMap<String, Date> deadlines = new HashMap<String, Date>();
-									deadlines = db.getStudentDeadlines();
-									int count=1;
-									for (String d : deadlines.keySet()){
-										
-										out.print("<th scope=\"row\">" + (count) + "</th>");
+								Database db = new Database();
+										db.connect();
+										HashMap<String, Date> deadlines = new HashMap<String, Date>();
+										deadlines = db.getStudentDeadlines();
+										int count = 1;
+										for (String d : deadlines.keySet()) {
 
-										out.print("<td>" + d + "</td>");
-										out.print("<td> <b>"+deadlines.get(d)+"</b></td>");
-										out.print("</tr>");
-										count++;
-									}
-									
-									
-									%>
+											out.print("<th scope=\"row\">" + (count) + "</th>");
+
+											out.print("<td>" + d + "</td>");
+											out.print("<td> <b>" + deadlines.get(d) + "</b></td>");
+											out.print("</tr>");
+											count++;
+										}
+							%>
 
 
 						</tbody>
@@ -132,19 +148,19 @@
 
 
 			<%
-		}
-	%>
+				}
+			%>
 			<%
-		if (rank == 2) {
-	%>
+				if (rank == 2) {
+			%>
 
 
-			<div class="text-center col-12">
+			<div class="text-center col-12 ">
 				<h2>Willkommen Administrator</h2>
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row mt-5">
 
 
 
@@ -178,11 +194,11 @@
 									name="userteam">
 									<option value="-1">Alle</option>
 									<%
-										if(teams != null) {
-											for(Database.Team t : teams) {
-												out.print("<option value=\"" + t.getID() + "\">" + t.getTitel() + "</option>");
-											}
-										}
+										if (teams != null) {
+													for (Database.Team t : teams) {
+														out.print("<option value=\"" + t.getID() + "\">" + t.getTitel() + "</option>");
+													}
+												}
 									%>
 								</select>
 							</div>
@@ -206,22 +222,21 @@
 
 
 			<%
-				
 				}
-				if(rank == 1) {
-					out.print("<div class=\"col-sm-4 offset-sm-4\">");	
-					out.print("<h2><a class=\"standard  mt-1\" href=\"JurorBewertung\">Zur Bewertung</a></h2></div>");
-					out.print("<div class=\"col-sm-6 offset-sm-3 mt-4\">");	
-				} else {
-					out.print("<div class=\" col-sm-6\">");
-				}
+					if (rank == 1) {
+						out.print("<div class=\"col-sm-4 offset-sm-4\">");
+						out.print("<h2><a class=\"standard  mt-1\" href=\"JurorBewertung\">Zur Bewertung</a></h2></div>");
+						out.print("<div class=\"col-sm-6 offset-sm-3 mt-4\">");
+					} else {
+						out.print("<div class=\" col-sm-6\">");
+					}
 			%>
-			
-				<h3>Nachrichten-Log</h3>
-				<div class="row">
 
-					<div class="col-12">
-						<%
+			<h3>Nachrichten-Log</h3>
+			<div class="row">
+
+				<div class="col-12">
+					<%
 						if (request.getAttribute("messages") != null) {
 								ArrayList<Database.Message> messages = (ArrayList<Database.Message>) request
 										.getAttribute("messages");
@@ -232,22 +247,23 @@
 									out.print("<fieldset><legend>");
 									if (m.getRank() == 0) {
 										Database.Team teamo = null;
-										if(m.getTeam() != -1) {
+										if (m.getTeam() != -1) {
 											Database db = new Database();
 											db.connect();
 											teamo = db.getTeam(m.getTeam());
 										}
-										
-										out.print("An " + (m.getTeam() == -1 ? " Alle Studierenden - " : " Team " + teamo.getTitel() + " - "));
+
+										out.print("An " + (m.getTeam() == -1 ? " Alle Studierenden - "
+												: " Team " + teamo.getTitel() + " - "));
 									}
-									
-									
+
 									if (m.getRank() == 1)
 										out.print("An alle Juroren - ");
-									out.print("<i>"+format.format(m.getDate())+"</i>");
+									out.print("<i>" + format.format(m.getDate()) + "</i>");
 									out.print("</legend>");
 
-									out.print("<p class=\"outmsg text-left mb-3 p-2 border border-dark\">" + m.getMessageDe() + "</p>");
+									out.print("<p class=\"outmsg text-left mb-3 p-2 border border-dark\">" + m.getMessageDe()
+											+ "</p>");
 
 									out.print("</fieldset>");
 								}
@@ -255,14 +271,14 @@
 					%>
 
 
-					</div>
-					<%
-				}
-			%>
-
 				</div>
+				<%
+					}
+				%>
+
 			</div>
 		</div>
+	</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

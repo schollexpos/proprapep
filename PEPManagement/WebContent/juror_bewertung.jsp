@@ -54,16 +54,28 @@
 
 <body class="flex-grow-1">
 	<div class="py-2 px-2 mb-0">
-		<div class="container-fluid logo border border-dark">
-			<nav
-				class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
-				<a class="navbar-brand mr-auto"
-					href="https://www.uni-siegen.de/start/"> <img class="log"
-					src="logo_u_s.png" width="180">
-				</a>
-				<h1 class="nav-item m-auto ">
-					<b>Planungs- und Entwicklungsprojekt</b>
-				</h1>
+			<div class="container-fluid logo border border-dark">
+				<nav
+					class="row pl-2 navbar navbar-expand-lg navbar-light bg-light w-100">
+
+					<div class="col-sm-3 navbar-brand mr-0">
+						<a class="mr-auto" href="https://www.uni-siegen.de/start/"> <img
+							class="log" src="logo_u_s.png" width="180">
+						</a>
+					</div>
+					<div class="col-sm-6 col-12 nav-item pt-1">
+						<div class="row">
+							<h1 class="col-12 text-center mb-0">
+								<b>PEP</b>
+							</h1>
+						</div>
+						<div class="row">
+							<h5 class="text-center col-12 mt-0">
+								<b>Planungs- und Entwicklungsprojekt</b>
+							</h5>
+						</div>
+					</div>
+					<div class="col-sm-2 col-0"></div>
 
 				<%
 					String str = pepmanagement.Menu.getMenu(pepmanagement.AccountControl.UserRank.JUROR);
