@@ -260,7 +260,7 @@
 
 							</div>
 
-						</div>
+						</div> 
 						
 						
 						<div class="col-xl-1 col-md-3 col-0"></div>
