@@ -88,7 +88,7 @@
 		            <h4 class="inlabel pt-1">E-Mail</h4>
 		          </div>
 		          <div class="col-xl-3 col-sm-5 col-12">
-	              <input id="emailfield" placeholder="mail@uni-siegen.de" name="email" type="email" class="w-100 border border-dark p-1 mt-1" >
+	              <input id="emailfield" <% if(request.getParameter("email") != null) out.print("value=\"" + request.getParameter("email") + "\""); %> placeholder="mail@uni-siegen.de" name="email" type="email" class="w-100 border border-dark p-1 mt-1" >
 	            </div>
 	            <div class="col-xl-4 col-sm-2 col-0"></div>
 	          

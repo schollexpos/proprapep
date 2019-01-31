@@ -69,8 +69,8 @@ public class StudentUpload extends HttpServlet {
 				teamID = s.getTeamID();
 				
 				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineDokumentation())));
-				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineKurzbeschreibung())));
 				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlinePoster())));
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineKurzbeschreibung())));
 				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlinePraesentation())));
 				
 				
@@ -105,7 +105,7 @@ public class StudentUpload extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		File file ;
+	   File file ;
 	   int fsize = 5000;
 		try {
 			fsize = db.getMaxfilesize();
@@ -114,7 +114,7 @@ public class StudentUpload extends HttpServlet {
 			e.printStackTrace();
 		}
 	   int maxFileSize = fsize * 1000 * 1024;
-	   int maxMemSize = fsize * 1000 * 1024;
+	   int maxMemSize = 5000 * 1024;
 	   
 	   // Verify the content type
 	   String contentType = request.getContentType();
@@ -128,7 +128,7 @@ public class StudentUpload extends HttpServlet {
 	      factory.setSizeThreshold(maxMemSize);
 	      
 	      // Location to save data that is larger than maxMemSize.
-	      factory.setRepository(new File("c:\\temp"));
+	      factory.setRepository(new File("C:\\Users\\lucat\\AppData\\Local\\Temp"));
 
 	      
 	      ServletFileUpload upload = new ServletFileUpload(factory);
@@ -136,8 +136,8 @@ public class StudentUpload extends HttpServlet {
 	      
 	      try { 
 	    		deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineDokumentation())));
-				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineKurzbeschreibung())));
 				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlinePoster())));
+				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlineKurzbeschreibung())));
 				deadlineReached.add(new Boolean(Database.dateReached(db.getDeadlinePraesentation())));
 	    	
 	    	  
@@ -175,12 +175,15 @@ public class StudentUpload extends HttpServlet {
 		               for(int n = 0;n < allowedExtensions.length;n++) {
 		            	   if(fileName.endsWith(allowedExtensions[n])) extensionOkay = true;
 		               }
+		               
+		               System.out.println(">" + fileName + "<\n");
 		
-		               if(extensionOkay && (!filename.equals("kurzbeschreibung") || filename.endsWith(".pdf") || filename.endsWith(".PDF")) ) {
+		               if(extensionOkay && (!fileName.equals("kurzbeschreibung") || fileName.endsWith(".pdf") || fileName.endsWith(".PDF")) ) {
+		            	   System.out.print(FileManager.getBasePath() + FileManager.getFilename(teamID, filename));
 		            	   file = new File(FileManager.getBasePath() + FileManager.getFilename(teamID, filename)) ;
 			               fi.write(file) ;
 		               } else {
-		            	   page = "team_upload.jsp?error=99";
+		            	   page = "student_upload.jsp?error=99";
 		               }
 		               
 		          
@@ -191,21 +194,21 @@ public class StudentUpload extends HttpServlet {
 		         
 		         if(page.equals("")) page = "student_upload.jsp";
 	    	 } else {
-	    		 page = "team_upload.jsp?error=3";
+	    		 page = "student_upload.jsp?error=3";
 	    	 }
 	      } catch(Exception ex) {
 	         System.out.println(ex);
-	         page = "team_upload.jsp?error=1";
+	         page = "student_upload.jsp?error=1";
 	      }
 	   } else {
-		   page = "team_upload.jsp?error=2";
+		   page = "student_upload.jsp?error=2";
 	     //No file selected
 	   }
 	   
 	   request.setAttribute("vorsitz", new Boolean(true));
 		request.setAttribute("deadlinereached", deadlineReached);
 		request.setAttribute("teamid", new Integer(teamID));
-	   
+	  
 
 		response.sendRedirect(page);
 	}

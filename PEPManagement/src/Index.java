@@ -48,6 +48,9 @@ public class Index extends HttpServlet {
 					message += " [A]";
 					messages = database.getAllMessages();
 					rank = 2;
+					
+					ArrayList<Database.Team> teams = database.getTeams();
+					request.setAttribute("teamlist", teams);
 				} else if(database.userIsJuror(uID)) {
 					message += " [J]";
 					messages = database.getJurorMessages();
@@ -82,19 +85,20 @@ public class Index extends HttpServlet {
 		AccountControl.Result res = AccountControl.ensureRank(AccountControl.UserRank.ADMIN, database, request, response);
 		   
 		try {
+			System.out.println("ola!");
 			int userCat = Integer.parseInt(request.getParameter("usercat"));
 			int userTeam = Integer.parseInt(request.getParameter("userteam"));
 			String textDe = request.getParameter("textde");
-			String textEn = request.getParameter("texten");
 			
-			if(textDe.length() > 0 && textEn.length() > 0 ) {
+			if(textDe.length() > 0) {
 				Database.Message m = database.getNewMessage();
 				m.setRank(userCat);
 				m.setTeam(userTeam);
-				m.setMessage(textDe, textEn);
+				m.setMessage(textDe, "");
 				m.setDate(new java.sql.Date(System.currentTimeMillis()));
 				database.publishMessage(m);
 			}
+			
 		} catch(SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
 		} catch(NumberFormatException e) {

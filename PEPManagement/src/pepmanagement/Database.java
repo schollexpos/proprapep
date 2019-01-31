@@ -209,6 +209,17 @@ public class Database {
 		return rights < 10;
 	}
 	
+	public void deleteSemester() throws SQLException {
+		executeUpdate("DELETE FROM nutzer WHERE berechtigung < 2");
+		executeUpdate("DELETE FROM student");
+		executeUpdate("DELETE FROM team");
+		executeUpdate("DELETE FROM sessions");
+		executeUpdate("DELETE FROM message");
+		executeUpdate("DELETE FROM juror");
+		executeUpdate("DELETE FROM bewertung");
+	}
+
+	
 	
 	final static String xorKey = "unkn4ckb4r35-731l";
 	

@@ -33,7 +33,7 @@ public class Aktivierung extends HttpServlet {
 		String page = "index";
 		try {
 			if(db.validateEmail(email, key)) {
-				page = "index?plzactivate=yay";
+				page = "index?plzactivate=yay&email=" + email;
 			} else {
 				page = "index?plzactivate=no";
 			}

@@ -17,13 +17,16 @@ import pepmanagement.Database.Team;
 public class FileManager {
 	
 	public static String getBasePath() {
-		return "C:\\Users\\lucah\\Desktop\\ProPra Projekt 1\\";
+		return "C:\\Users\\lucat\\git\\proprapepnew\\PEPManagement\\WebContent\\data\\";
 	}
 	
 	public static boolean fileExists(String path, int teamID, String filename) {
 		File tmpDir = new File(path + getFilename(teamID, filename));
 		return tmpDir.exists();
 	}
+	
+	
+	
 	
 	public static long fileDate(String path, int teamID, String filename) {
 		File tmpDir = new File(path + getFilename(teamID, filename));
@@ -80,54 +83,39 @@ public class FileManager {
 	public static String getPDFServe(int teamID, String filename) {
 		return "PDFServe?team=" + teamID + "&fileid=" + filename;
 	}
+	
 	public static boolean zipTeam(Team team) {
-		{
+		try {
 			String teamKenn = team.getID() + "_" + team.getKennnummer();
-			String zipFile = getBasePath() + "Abschluss\\"+ teamKenn + ".zip";
-			String inFileName= getBasePath() +"Teams\\"+ teamKenn;
-			
+			String zipFileName = getBasePath() + "Abschluss\\"+ teamKenn + ".zip";
 			ZipOutputStream zos = null;
-	        FileInputStream fis = null;
-	        
-	        File inFile = new File(inFileName);
-	        if (inFile.exists() && inFile.isDirectory()) {
-	        File [] fileArr = inFile.listFiles();
-	        try {
+			
+			zos = new ZipOutputStream(new FileOutputStream(zipFileName));
+			
+	        for(int i = 0;i < 4;i++) {
+	        	String id = getFileIdentifier(i);
+	        	String fileName = getFilename(team.id, id);
 	        	
-	        	for (File f : fileArr) {
-	        		 
-	        		zos = new ZipOutputStream(new FileOutputStream(zipFile)); 
-	                fis = new FileInputStream(f);
-	        
-	                String path = f.getCanonicalPath(); 
-	                String name = path.substring(inFileName.length(), path.length()); 
-	                System.out.println("Packe");
-	                zos.putNextEntry(new ZipEntry(name));
-	                int len;
-	                byte[] buffer = new byte[2048];
-	                while ((len = fis.read(buffer, 0, buffer.length)) > 0) {
-	                    zos.write(buffer, 0, len);
-	                }
-	            } 
-	        } catch (FileNotFoundException e) {
-	        	System.out.println("Team " + teamKenn + " besitzt keinen Ordner!");
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }finally{
-	            if(fis != null){
-	                try {
-	                    fis.close();
-	                } catch (IOException e) {}
+	        	File inFile = new File(getBasePath() + fileName);
+	        	FileInputStream fis = new FileInputStream(inFile);
+	        	
+	        	zos.putNextEntry(new ZipEntry(fileName));
+	        	
+	        	int len;
+	            byte[] buffer = new byte[2048];
+	            while ((len = fis.read(buffer, 0, buffer.length)) > 0) {
+	                zos.write(buffer, 0, len);
 	            }
-	            if(zos != null){
-	                try {
-	                    zos.closeEntry();
-	                    zos.close();
-	                } catch (IOException e) {}
-	            }
+	            
+	            fis.close();
 	        }
-	    } 
+	        zos.close();
+		} catch(FileNotFoundException e) {
+			System.out.println("Konnte Team PDF/ZIP nicht öffnen!");
+		} catch(IOException e) {
+			System.out.println("IOException beim schreiben der Team ZIP!");
 		}
+		
 		return true;
 	}
 	
@@ -142,12 +130,36 @@ public class FileManager {
 			for (Team t : teams) {
 				zipTeam(t);
 			}
-		}else {
+		} else {
 			f.mkdir();
 			for (Team t : teams) {
 				zipTeam(t);
 			}
 		}
+		
+		File [] fileArr = f.listFiles();
+		try {
+			ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(getBasePath() + "alles.zip")); 
+			for (File fily : fileArr) {
+                FileInputStream fis = new FileInputStream(fily);
+        
+                String name = fily.getName();
+                zos.putNextEntry(new ZipEntry(name));
+                int len;
+                byte[] buffer = new byte[2048];
+                while ((len = fis.read(buffer, 0, buffer.length)) > 0) {
+                    zos.write(buffer, 0, len);
+                }
+                fis.close();
+			}
+			zos.close();
+		} catch(FileNotFoundException e) {
+			System.out.println("Konnte Team/Gesamt ZIP nicht öffnen!");
+		} catch(IOException e) {
+			System.out.println("IOException beim schreiben der Gesamt ZIP!");
+		} 
+		
+		
 		return true;
 	}
 

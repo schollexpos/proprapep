@@ -21,6 +21,10 @@
 	if (request.getAttribute("vorsitz") != null) {
 		isVorsitz = ((Boolean) request.getAttribute("vorsitz")).booleanValue();
 	}
+	ArrayList<Database.Team> teams = null;
+	if(request.getAttribute("teamlist") != null) {
+		teams = (ArrayList<Database.Team> ) request.getAttribute("teamlist");
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -173,6 +177,13 @@
 								<select class="w-100 custom-select border border-dark"
 									name="userteam">
 									<option value="-1">Alle</option>
+									<%
+										if(teams != null) {
+											for(Database.Team t : teams) {
+												out.print("<option value=\"" + t.getID() + "\">" + t.getTitel() + "</option>");
+											}
+										}
+									%>
 								</select>
 							</div>
 						</div>
@@ -183,7 +194,7 @@
 					<textarea class="w-100" name="textde"></textarea>
 					<div class="row">
 						<div class="col-md-6">
-							<input type="button"
+							<input type="submit"
 								class="fstil wichtigUp mt-2 uploadbtn border border-dark"
 								value="Posten">
 						</div>
@@ -219,8 +230,18 @@
 
 								for (Database.Message m : messages) {
 									out.print("<fieldset><legend>");
-									if (m.getRank() == 0)
-										out.print("An " + (m.getTeam() == -1 ? " Alle Studierenden - " : " Ihr Team - "));
+									if (m.getRank() == 0) {
+										Database.Team teamo = null;
+										if(m.getTeam() != -1) {
+											Database db = new Database();
+											db.connect();
+											teamo = db.getTeam(m.getTeam());
+										}
+										
+										out.print("An " + (m.getTeam() == -1 ? " Alle Studierenden - " : " Team " + teamo.getTitel() + " - "));
+									}
+									
+									
 									if (m.getRank() == 1)
 										out.print("An alle Juroren - ");
 									out.print("<i>"+format.format(m.getDate())+"</i>");

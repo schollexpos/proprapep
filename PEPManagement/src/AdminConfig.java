@@ -2,7 +2,10 @@
 //Hello
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -63,6 +66,8 @@ public class AdminConfig extends HttpServlet {
 		String changeFreigabe = request.getParameter("freigabe");
 		String ende = request.getParameter("Ende");
 		
+		boolean download = false;
+		
 		try {
 			if(deadlinereg != null) {
 				System.out.println(deadlinereg);
@@ -112,12 +117,12 @@ public class AdminConfig extends HttpServlet {
 				db.setMaxfilesize(Integer.parseInt(maxfilesize));
 			} else if (ende != null) {
 				if(FileManager.zipAllTeams()){
-				System.out.println("Packen abgeschlossen!");
+					System.out.println("Packen abgeschlossen!");
+					download = true;
+					db.deleteSemester();
+				} else {
+					System.out.println("Fehler beim Zippen");
 				}
-				else {System.out.println("Fehler beim Zippen");}
-				
-				//Abschluss muss noch
-				
 			}
 		} catch (ParseException e) {
 			res = AccountControl.Result.ERROR;
@@ -132,7 +137,33 @@ public class AdminConfig extends HttpServlet {
 			System.out.println(e);
 		}
 		
-		AccountControl.processResult(res, request, response, "AdminConfig", "admin_config.jsp", true);
+		if(download == false) {
+			AccountControl.processResult(res, request, response, "AdminConfig", "admin_config.jsp", true);
+		} else {
+			performTask(FileManager.getBasePath(), "alles.zip", request, response);
+		}
+		
+		
+		
+		
+	}
+	
+	private void performTask(String path, String filename, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+	IOException {
+		String contextPath = getServletContext().getRealPath(File.separator);
+		File pdfFile = new File(path + filename);
+		
+		response.setContentType("application/zip");
+		response.addHeader("Content-Disposition", "attachment; filename=" + filename);
+		response.setContentLength((int) pdfFile.length());
+		
+		FileInputStream fileInputStream = new FileInputStream(pdfFile);
+		OutputStream responseOutputStream = response.getOutputStream();
+		int bytes;
+		while ((bytes = fileInputStream.read()) != -1) {
+			responseOutputStream.write(bytes);
+		}
+		
 	}
 
 }
