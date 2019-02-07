@@ -264,13 +264,19 @@ public class Database {
 		return (int) (diff < 0 ? 0 : (diff / ONE_MINUTE_IN_MILLIS));
 	}
 	
+	public void clearFailedLogin(String email) throws SQLException {
+		PreparedStatement statement2 = connection.prepareStatement("UPDATE nutzer SET failedlogincount=0 WHERE email = ?");
+		statement2.setString(1, email);
+		statement2.executeUpdate();
+	}
+	
 	public void failedLoginAttempt(String email) throws SQLException {
 		PreparedStatement statement1 = connection.prepareStatement("UPDATE nutzer SET failedlogincount=failedlogincount+1 WHERE email = ?");
 		PreparedStatement statement2 = connection.prepareStatement("UPDATE nutzer SET failedlogincount=0, nologinbefore=? WHERE email = ?");
 		PreparedStatement statement3 = connection.prepareStatement("SELECT failedlogincount FROM nutzer WHERE email = ?");
 		
 		statement1.setString(1, email);
-		statement2.setString(1, email);
+		statement2.setString(2, email);
 		statement3.setString(1, email);
 		
 		
@@ -279,9 +285,11 @@ public class Database {
 		
 		int failedAttempts = getInt(statement3);
 		
+		System.out.println("Att: " + failedAttempts);
+		
 		if(failedAttempts > 10) {
 			//date.setTime(date.getTime() + 24*60*60*1000);
-			statement2.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+			statement2.setTimestamp(1, new Timestamp(System.currentTimeMillis() + 72 * ONE_MINUTE_IN_MILLIS));
 			//systemDate.setTime(systemDate.getTime() + 10 * ONE_MINUTE_IN_MILLIS);
 			statement2.executeUpdate();
 		}

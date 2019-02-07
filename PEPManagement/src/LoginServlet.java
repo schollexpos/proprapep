@@ -68,6 +68,7 @@ public class LoginServlet extends HttpServlet {
 				} else if(db.minutesTillLogin(email) == 0) {
 					System.out.println("LALELU2");
 					if(db.loginUser(email, password)) {
+						db.clearFailedLogin(email);
 						System.out.println("LALELU3");
 						session.create(email);
 						page = "index";
